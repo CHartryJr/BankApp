@@ -1,0 +1,29 @@
+# Constants
+SOURCE_DIR="./src/"
+TARGET_DIR="./bin/"
+LIBRARY_DIR="./lib/"
+DEPENDENCIES="javafx.media,javafx.swing,javafx.fxml,javafx.controls,javafx.base,javafx.graphics"
+
+# Run command
+LAUNCH_COMMAND=java -cp $(TARGET_DIR) --module-path $(LIBRARY_DIR) --add-modules $(DEPENDENCIES)
+
+all: clean build
+	@echo "Build is complete"
+build:
+	javac $(SOURCE_DIR)*.java -d $(TARGET_DIR) --module-path $(LIBRARY_DIR) --add-modules $(DEPENDENCIES)
+	@echo "Build Successful!"
+
+clean:
+	@rm -rf $(TARGET_DIR)*
+	@echo "Clean Successful" 
+# Start the Online Bank app
+online_bank: 
+	$(LAUNCH_COMMAND) app.Bank.Client.OnlineBank
+	
+# Start the bank server
+bank_server:
+	$(LAUNCH_COMMAND) app.Bank.Server.BankServer
+	
+# Start the bank database interface
+bank_op:
+	$(LAUNCH_COMMAND) app.Bank.BankOperations.BankManager
