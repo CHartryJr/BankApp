@@ -25,5 +25,5 @@ bank_server:
 	$(LAUNCH_COMMAND) app.Bank.Server.BankServer
 	
 # Start the bank database interface
-bank_op:
+bank_manager:
 	$(LAUNCH_COMMAND) app.Bank.BankOperations.BankManager

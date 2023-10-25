@@ -1,18 +1,22 @@
+## Table of Contents
+- [Project Overview](#project-overview)
+- [Getting Started](#Getting-Started)
+- [Usage](#usage)
+- [Contributing](#contributing)
+## Project Overview
+    designed to provide users with a realistic banking experience while showcasing core software
+development concepts, including server-client architecture, SQLite database management, and
+concurrent operations. The application will be built using Java for the backend, JavaFX for the
+frontend GUI, and will feature visual CRUD (Create, Read, Update, Delete) operations.
 ## Getting Started
+ There are 3 stand alone files. BankServer.java, OnlineBank.java, and BankManager.java.
+ The Makefile will be used to run each file. First in the terminal run the "make" command to build the project. secondly, to run any of the files use make and any of the file names. Each word within the file name is separated with a under score. Ex. "make Bank_Manager "
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+## Usage
+you will activate the sever app and connect to it with the client app via ip and port. The server app will allow the user to observe,monitor,and manipulate the database as necessary. The while client app will allow for user to view their data and initiate transactions. 
+## Contributing
+Carl Hartry Jr.
+[link Text](https://github.com/CHartryJr)
 
-## Folder Structure
-
-The workspace contains two folders by default, where:
-
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+Brady BlackStone
+[link Text]()
