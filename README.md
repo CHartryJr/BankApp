@@ -16,7 +16,7 @@ frontend GUI, and will feature visual CRUD (Create, Read, Update, Delete) operat
 you will activate the sever app and connect to it with the client app via ip and port. The server app will allow the user to observe,monitor,and manipulate the database as necessary. The while client app will allow for user to view their data and initiate transactions. 
 ## Contributing
 Carl Hartry Jr.
-[link Text](https://github.com/CHartryJr)
+[GitHub](https://github.com/CHartryJr)
 
 Brady BlackStone
-[link Text]()
+[GitHub]()
