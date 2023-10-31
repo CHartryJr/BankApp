@@ -4,7 +4,7 @@
 - [Usage](#usage)
 - [Contributing](#contributing)
 ## Project Overview
-    designed to provide users with a realistic banking experience while showcasing core software
+designed to provide users with a realistic banking experience while showcasing core software
 development concepts, including server-client architecture, SQLite database management, and
 concurrent operations. The application will be built using Java for the backend, JavaFX for the
 frontend GUI, and will feature visual CRUD (Create, Read, Update, Delete) operations.
