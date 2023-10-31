@@ -1,5 +1,3 @@
-package app.Bank.BankOperations;
-
 import java.io.File;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
