@@ -1,4 +1,3 @@
-package app.Bank.BankOperations.assets;
 
 import java.net.URL;
 import java.util.HashMap;

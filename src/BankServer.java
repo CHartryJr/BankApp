@@ -1,3 +1,4 @@
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -53,7 +54,7 @@ public class BankServer extends Thread {
           e1.printStackTrace();
         }
       }
-    } else { // connections to get query
+    } else { // messageing thread
       try {
         threadName = String.format("%d from %s ", identifier, this.getName());
         writeTransaction("Key"); // can send encryption key
@@ -75,7 +76,7 @@ public class BankServer extends Thread {
       }
     }
   }
-
+   // method to get sql statement from db
   private synchronized String getResults(String query) {
     Connection con = getConnection();
     java.sql.Statement st;
@@ -92,7 +93,7 @@ public class BankServer extends Thread {
     }
     return result;
   }
-
+// method to read in messages
   private Object readTransaction() {
     try {
       ObjectInputStream input = new ObjectInputStream(
@@ -104,7 +105,7 @@ public class BankServer extends Thread {
     }
     return null;
   }
-
+// method to write out messages
   private void writeTransaction(Object o) {
     try {
       ObjectOutputStream output = new ObjectOutputStream(
@@ -115,13 +116,13 @@ public class BankServer extends Thread {
       e.printStackTrace();
     }
   }
-
+  // returns a db connection
   private Connection getConnection() {
     Connection con = null;
     try {
       con =
         DriverManager.getConnection(
-          "jdbc:" + getClass().getResource("../../../resources/Bank.db")
+          "jdbc:sqlite:" + getClass().getResource("../assets/Bank.db")
         );
     } catch (SQLException e) {
       e.printStackTrace();
