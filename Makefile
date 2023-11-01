@@ -18,12 +18,12 @@ clean:
 	@echo "Clean Successful" 
 # Start the Online Bank app
 online_bank: 
-	$(LAUNCH_COMMAND) app.Bank.Client.OnlineBank
+	$(LAUNCH_COMMAND) OnlineBank
 	
 # Start the bank server
 bank_server:
-	$(LAUNCH_COMMAND) app.Bank.Server.BankServer
+	$(LAUNCH_COMMAND) BankServer
 	
 # Start the bank database interface
 bank_manager:
-	$(LAUNCH_COMMAND) app.Bank.BankOperations.BankManager
+	$(LAUNCH_COMMAND) BankManager
