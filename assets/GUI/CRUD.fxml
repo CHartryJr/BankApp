@@ -39,16 +39,16 @@
                         <Font name="System Bold Italic" size="12.0" />
                      </font>
                   </Label>
-                  <TextField layoutX="20.0" layoutY="87.0" promptText="Search Name here" />
+                  <TextField id="textBox" layoutX="20.0" layoutY="87.0" promptText="Search Name here" />
                   <Label alignment="CENTER" layoutX="20.0" layoutY="67.0" prefHeight="18.0" prefWidth="40.0" text="Name" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
                      </font>
                   </Label>
-                  <TextField alignment="CENTER" layoutX="20.0" layoutY="150.0" promptText="Search Acc.Num Here" />
+                  <TextField id="textBox" alignment="CENTER" layoutX="20.0" layoutY="150.0" promptText="Search Acc.Num Here" />
                </children>
             </AnchorPane>
-            <Button id="searchbtn" fx:id="btnInsert" layoutX="87.0" layoutY="248.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Search" />
+            <Button id="btn" fx:id="btnInsert" layoutX="87.0" layoutY="248.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Search" />
          </children>
       </AnchorPane>
    </children>

@@ -32,7 +32,7 @@
     background-color: #24515f;
     -fx-background-color: #24515f;
 }
-#logbtn
+#btn
 {
     background-color:#8e91a2;
     -fx-background-color:#8e91a2;
@@ -50,6 +50,18 @@
 {
     background-color: #989cb0;
     -fx-background-color: #989cb0;
+    border-color: black;
+    -fx-border-color: black;
+}
+#textBox
+{
+    border-color: black;
+    -fx-border-color: black
+}
+.Title
+{
+    background-color: #8cbcb4;
+    -fx-background-color:#8cbcb4;
     border-color: black;
     -fx-border-color: black;
 }
