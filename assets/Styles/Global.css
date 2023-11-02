@@ -1,0 +1,23 @@
+:root
+{
+    --primary-color:#8cbcb4;
+    --seconday-color: #989cb0;
+    --third-color:#528479;
+    --complemtary-color:#24515f;
+}
+
+#main
+{
+    background-color: var(--complemtary-color);
+    -fx-background-color: var(--complemtary-color);
+}
+#secondLoc
+{
+    background-color: var(--seconday-color);
+    -fx-background-color: var(--seconday-color);
+}
+#primaryLoc
+{
+    background-color: var(--primary-color);
+    -fx-background-color: var(--primary-color);
+}
