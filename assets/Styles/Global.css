@@ -1,29 +1,29 @@
-:root
+/* :root
 {
     --primary-color:#8cbcb4;
     --secondary-color: #989cb0;
     --third-color:#528479;
     --complementary-color:#24515f;
-}
+} */
 
 #main
 {
-    background-color: var(--complementary-color);
-    -fx-background-color: var(--complementary-color);
+    background-color: #24515f;
+    -fx-background-color: #24515f;
 }
 #secondLoc
 {
-    background-color: var(--secondary-color);
-    -fx-background-color: var(--secondary-color);
+    background-color: #989cb0;
+    -fx-background-color: #989cb0;
 }
 #primaryLoc
 {
-    background-color: var(--primary-color);
-    -fx-background-color: var(--primary-color);
+    background-color: #8cbcb4;
+    -fx-background-color:#8cbcb4;
 }
 #bar
 {
-    background-color: var(--third-color);
-    -fx-background-color: var(--third-color);
+    background-color: #24515f;
+    -fx-background-color: #24515f;
 }
 

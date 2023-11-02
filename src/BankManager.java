@@ -12,8 +12,12 @@ public class BankManager extends Application {
     String currentDirectory = System.getProperty("user.dir");
     currentDirectory += "/assets/GUI/CRUD.fxml";
     Parent root = FXMLLoader.load(new File(currentDirectory).toURI().toURL());
+    String css = this.getClass().getResource("Global.css").toExternalForm();
     primaryStage.setTitle("GCSU CREDIT UNION OPERATIONS");
-    primaryStage.setScene(new Scene(root, 750, 400));
+    Scene sc = new Scene(root);
+    sc.getStylesheets().add(css);
+    primaryStage.setScene(sc);
+    
     primaryStage.show();
   }
 
