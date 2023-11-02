@@ -1,23 +1,29 @@
 :root
 {
     --primary-color:#8cbcb4;
-    --seconday-color: #989cb0;
+    --secondary-color: #989cb0;
     --third-color:#528479;
-    --complemtary-color:#24515f;
+    --complementary-color:#24515f;
 }
 
 #main
 {
-    background-color: var(--complemtary-color);
-    -fx-background-color: var(--complemtary-color);
+    background-color: var(--complementary-color);
+    -fx-background-color: var(--complementary-color);
 }
 #secondLoc
 {
-    background-color: var(--seconday-color);
-    -fx-background-color: var(--seconday-color);
+    background-color: var(--secondary-color);
+    -fx-background-color: var(--secondary-color);
 }
 #primaryLoc
 {
     background-color: var(--primary-color);
     -fx-background-color: var(--primary-color);
 }
+#bar
+{
+    background-color: var(--third-color);
+    -fx-background-color: var(--third-color);
+}
+
