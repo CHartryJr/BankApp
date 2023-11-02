@@ -122,7 +122,7 @@ public class BankServer extends Thread {
     try {
       con =
         DriverManager.getConnection(
-          "jdbc:sqlite:" + getClass().getResource("../assets/Bank.db")
+          "jdbc:sqlite:" + getClass().getResource("../assets/Data/Bank.db")
         );
     } catch (SQLException e) {
       e.printStackTrace();

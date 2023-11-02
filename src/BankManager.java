@@ -10,14 +10,14 @@ public class BankManager extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
     String currentDirectory = System.getProperty("user.dir");
-    currentDirectory += "/assets/GUI/CRUD.fxml";
+    currentDirectory += "/assets/GUI/TellerLogin.fxml";
     Parent root = FXMLLoader.load(new File(currentDirectory).toURI().toURL());
-    String css = this.getClass().getResource("Global.css").toExternalForm();
+    String css = System.getProperty("user.dir");
+    css += "/assets/Styles/Global.css";
     primaryStage.setTitle("GCSU CREDIT UNION OPERATIONS");
     Scene sc = new Scene(root);
-    sc.getStylesheets().add(css);
+    sc.getStylesheets().add(new File(css).toURI().toURL().toExternalForm());
     primaryStage.setScene(sc);
-    
     primaryStage.show();
   }
 

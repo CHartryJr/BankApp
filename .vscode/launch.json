@@ -9,7 +9,7 @@
             "name": "BankServer",
             "request": "launch",
             "mainClass": "BankServer",
-            "projectName": "MobileBank_f6ff746d",
+            "projectName": "BankApp_583e9d8",
             "vmArgs": "--module-path ./lib/ --add-modules javafx.media,javafx.swing,javafx.fxml,javafx.controls,javafx.base,javafx.graphics"
         },
         {
@@ -17,7 +17,7 @@
             "name": "BankManager",
             "request": "launch",
             "mainClass": "BankManager",
-            "projectName": "MobileBank_f6ff746d",
+            "projectName": "BankApp_583e9d8",
             "vmArgs": "--module-path ./lib/ --add-modules javafx.media,javafx.swing,javafx.fxml,javafx.controls,javafx.base,javafx.graphics"
         },
         {
@@ -25,7 +25,7 @@
             "name": "OnlineBank",
             "request": "launch",
             "mainClass": "OnlineBank",
-            "projectName": "MobileBank_f6ff746d",
+            "projectName": "BankApp_583e9d8",
             "vmArgs": "--module-path ./lib/ --add-modules javafx.media,javafx.swing,javafx.fxml,javafx.controls,javafx.base,javafx.graphics"
         }
     ]
