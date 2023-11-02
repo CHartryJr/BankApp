@@ -5,40 +5,51 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<Pane id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="720.0" stylesheets="@../Styles/Global.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TableView fx:id="TableVeiw" layoutX="268.0" layoutY="39.0" prefHeight="288.0" prefWidth="443.0">
-        <columns>
-          <TableColumn fx:id="colName" prefWidth="104.0" text="Name" />
-            <TableColumn fx:id="colAccount" prefWidth="108.0" text="Account #" />
-            <TableColumn fx:id="colDate" prefWidth="125.0" text=" Date" />
-            <TableColumn fx:id="colAmount" prefWidth="105.0" text="Amount" />
-        </columns>
-      </TableView>
-      <VBox layoutX="98.0" layoutY="39.0" prefHeight="114.0" prefWidth="161.0" spacing="15.0">
+      <AnchorPane layoutX="270.0" layoutY="9.0" prefHeight="342.0" prefWidth="444.0">
          <children>
-            <TextField />
-            <TextField />
-            <TextField alignment="CENTER" />
+            <TableView id="infotable" fx:id="TableVeiw" prefHeight="342.0" prefWidth="444.0">
+              <columns>
+                <TableColumn id="column" fx:id="colName" prefWidth="104.0" text="Name" />
+                  <TableColumn id="column" fx:id="colAccount" prefWidth="108.0" text="Account #" />
+                  <TableColumn id="column" fx:id="colDate" prefWidth="125.0" text=" Date" />
+                  <TableColumn id="column" fx:id="colAmount" prefWidth="105.0" text="Amount" />
+              </columns>
+            </TableView>
          </children>
-      </VBox>
-      <VBox layoutX="14.0" layoutY="39.0" prefHeight="107.0" prefWidth="100.0" spacing="25.0">
+      </AnchorPane>
+      <AnchorPane id="secondLoc" layoutX="7.0" layoutY="9.0" prefHeight="342.0" prefWidth="254.0">
          <children>
-            <Label alignment="CENTER" prefHeight="17.0" prefWidth="33.0" text="Name" textAlignment="CENTER" />
-            <Label text="Date" />
-            <Label text="Account #" />
+            <AnchorPane layoutX="27.0" layoutY="39.0" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <ImageView fitHeight="67.0" fitWidth="100.0" layoutX="61.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Images/GCSU.PNG" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="20.0" layoutY="133.0" text="Account #">
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField layoutX="20.0" layoutY="87.0" promptText="Search Name here" />
+                  <Label alignment="CENTER" layoutX="20.0" layoutY="67.0" prefHeight="18.0" prefWidth="40.0" text="Name" textAlignment="CENTER">
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField alignment="CENTER" layoutX="20.0" layoutY="150.0" promptText="Search Acc.Num Here" />
+               </children>
+            </AnchorPane>
+            <Button id="searchbtn" fx:id="btnInsert" layoutX="87.0" layoutY="248.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Search" />
          </children>
-      </VBox>
-      <HBox layoutX="3.0" layoutY="183.0" prefHeight="25.0" prefWidth="265.0" spacing="10.0">
-         <children>
-            <Button fx:id="btnInsert" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Insert" />
-            <Button fx:id="btndelete" mnemonicParsing="false" prefHeight="25.0" prefWidth="79.0" text="Delete" />
-            <Button fx:id="btnupdate" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Update" />
-         </children>
-      </HBox>
+      </AnchorPane>
    </children>
 </Pane>

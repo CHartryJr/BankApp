@@ -1,3 +1,4 @@
+package controllers;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -9,13 +10,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
-public class CRUDEventController implements Initializable {
+public class TellerEventController implements Initializable {
 
   @FXML
-  Button btnInsert, btnDelete, btnUpdate;
+  Button btnInsert, btnDelete, btnUpdate,btnInspect,Logon,Logout;
 
   @FXML
-  TextField tfName, tfDate, tfMember, tf, account;
+  TextField tfName, tfAccount,tfPassword,tfUsername;
 
   @FXML
   TableView<Account> data;
@@ -26,10 +27,7 @@ public class CRUDEventController implements Initializable {
   @FXML
   TableColumn<Account, Integer> colID, accAmount, colAccount;
 
-  /**
-   * This will be used to Memorize queries
-   */
-  HashMap<String, String> queryTable = new HashMap<String, String>();
+ 
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {

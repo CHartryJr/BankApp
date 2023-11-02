@@ -10,16 +10,22 @@
 {
     background-color: #24515f;
     -fx-background-color: #24515f;
+    border-color: black;
+    -fx-border-color: black;
 }
 #secondLoc
 {
     background-color: #989cb0;
     -fx-background-color: #989cb0;
+    border-color: black;
+    -fx-border-color: black;
 }
 #primaryLoc
 {
     background-color: #8cbcb4;
     -fx-background-color:#8cbcb4;
+    border-color: black;
+    -fx-border-color: black;
 }
 #bar
 {
@@ -30,5 +36,20 @@
 {
     background-color:#8e91a2;
     -fx-background-color:#8e91a2;
+    border-color: black;
+    -fx-border-color: black;
 }
-
+#column
+{
+    background-color:#8e91a2;
+    -fx-background-color:#8e91a2;
+    border-color: black;
+    -fx-border-color: black;
+}
+#infotable
+{
+    background-color: #989cb0;
+    -fx-background-color: #989cb0;
+    border-color: black;
+    -fx-border-color: black;
+}
