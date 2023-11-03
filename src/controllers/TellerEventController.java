@@ -1,8 +1,9 @@
 package controllers;
 
 import java.net.URL;
-import java.util.HashMap;
 import java.util.ResourceBundle;
+
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -13,7 +14,7 @@ import javafx.scene.control.TextField;
 public class TellerEventController implements Initializable {
 
   @FXML
-  Button btnInsert, btnDelete, btnUpdate,btnInspect,Logon,Logout;
+  Button btnInsert,btnDelete, btnUpdate,btnInspect,btnLogOn,btnLogOut;
 
   @FXML
   TextField tfName, tfAccount,tfPassword,tfUsername;
@@ -31,9 +32,8 @@ public class TellerEventController implements Initializable {
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    throw new UnsupportedOperationException(
-      "Unimplemented method 'initialize'"
-    );
+    btnLogOut.setOnAction(null);
+
   }
 
   /**
