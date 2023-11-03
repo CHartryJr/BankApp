@@ -17,6 +17,16 @@ public class BankServer
 {
   private static boolean running = true; //will be uses to shut down server.
   private static AtomicInteger index = new AtomicInteger(1);//used to keep a index on all threads
+  
+  /**
+   * This method will be used to listen can create new communications for server.
+   * @param s
+   * @param identifier
+   */
+  private void newCommunication(Socket s, int identifier)
+  {
+   new Communication(s,identifier).start();
+  }
   public static void main(String[] args) 
   {
     try
@@ -36,15 +46,7 @@ public class BankServer
       e.printStackTrace();
     }
   }
-  /**
-   * This method will be used to listen can create new communications for server.
-   * @param s
-   * @param identifier
-   */
-  private void newCommunication(Socket s, int identifier)
-  {
-   new Communication(s,identifier).start();
-  }
+
 /**
  * nested class that will host all communications. The communication data will be sql statements. 
  */
