@@ -1,11 +1,16 @@
 {
-    "java.project.sourcePaths": ["src"],
-    "java.project.outputPath": "bin",
-    "java.project.referencedLibraries": [
-      "lib/**/*.jar"
-    ],
-    "cSpell.words": [
-      "jdbc"
-    ],
-  }
-  
+  "java.project.sourcePaths": [
+    "src"
+  ],
+  "java.project.outputPath": "bin",
+  "java.project.referencedLibraries": [
+    "lib/**/*.jar"
+  ],
+  "cSpell.words": [
+    "jdbc"
+  ],
+  "editor.defaultFormatter": "redhat.java",
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "java.format.settings.profile": "Eclipse [built-in]",
+  "java.format.settings.url": "./Professional-format.xml"
+}

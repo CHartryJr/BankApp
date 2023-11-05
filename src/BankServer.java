@@ -33,13 +33,13 @@ public class BankServer
     {
       ServerSocket serverSocket = new ServerSocket(5000);
       System.out.println("Server has started");
-      while (running) 
+      do
       {
         System.out.println("listening for connection");
         Socket clientSocketSession = serverSocket.accept();// will listen for client connection halts operation on main thread will stop until accepted
         new BankServer().newCommunication(clientSocketSession, index.incrementAndGet());
         System.out.println("A new connection has been made"); //debug only.
-      }
+      }while (running);
       serverSocket.close();
     }catch(Exception e)
     {
