@@ -19,4 +19,4 @@ Carl Hartry Jr.
 [GitHub](https://github.com/CHartryJr)
 
 Brady BlackStone
-[GitHub]()
+[GitHub](https://github.com/Brady-Blackstone)

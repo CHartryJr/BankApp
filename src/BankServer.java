@@ -70,13 +70,14 @@ private class Communication extends Thread
       Buffer = readTransaction();
       //handshake
 
-
+      writeTransaction("need query");
+      Buffer = readTransaction();//get query
       this.wait(3000);
-      Buffer = getResults(Buffer);//parse query
+      Buffer =getResults(Buffer);
       this.wait(1000);
-      writeTransaction(Buffer);//it out
+      writeTransaction(Buffer);//sent result out
       System.out.println(String.format("Competed Query From %s", threadName));
-      index.getAndDecrement();
+      index.decrementAndGet();
       clientSocket.close();
     } catch (Exception e) 
     {
