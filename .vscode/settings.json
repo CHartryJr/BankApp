@@ -7,10 +7,11 @@
     "lib/**/*.jar"
   ],
   "cSpell.words": [
+    "Initializable",
     "jdbc"
   ],
   "editor.defaultFormatter": "redhat.java",
   "java.configuration.updateBuildConfiguration": "automatic",
-  "java.format.settings.profile": "Eclipse [built-in]",
+  "java.format.settings.profile": "Professional-format",
   "java.format.settings.url": "./Professional-format.xml"
 }

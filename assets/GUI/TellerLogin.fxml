@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" stylesheets="@../Styles/Global.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" stylesheets="@../Styles/Global.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TellerEventController">
    <children>
       <HBox layoutX="8.0" layoutY="8.0" prefHeight="384.0" prefWidth="683.0">
          <children>
@@ -58,9 +58,9 @@
                         <Font name="System Bold Italic" size="14.0" />
                      </font>
                   </Label>
-                  <TextField id="textBox" layoutX="117.0" layoutY="255.0" promptText="Enter Password" />
-                  <TextField id="textBox" layoutX="117.0" layoutY="192.0" promptText="Enter Username" />
-                  <Button id="btn" layoutX="162.0" layoutY="298.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="69.0" text="Login">
+                  <TextField id="textBox" fx:id="tfUsername" layoutX="117.0" layoutY="192.0" promptText="Enter Username" />
+                  <TextField id="textBox" fx:id="tfPassword" layoutX="117.0" layoutY="255.0" promptText="Enter Password" />
+                  <Button id="btn" fx:id="btnLogin" layoutX="162.0" layoutY="298.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="69.0" text="Login">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>

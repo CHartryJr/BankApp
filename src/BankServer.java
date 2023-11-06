@@ -31,7 +31,7 @@ public class BankServer
   {
     try
     {
-      ServerSocket serverSocket = new ServerSocket(5000);
+      ServerSocket serverSocket = new ServerSocket(5001);
       System.out.println("Server has started");
       do
       {
@@ -66,8 +66,8 @@ private class Communication extends Thread
     {
       //since running a while loop will hold up client actions we will on run in and out messages
       threadName = String.format("%d from %s ", identifier, this.getName());
-      writeTransaction("Key"); // can send encryption key
-      Buffer = readTransaction();
+      // writeTransaction("Key"); // can send encryption key
+      // Buffer = readTransaction();
       //handshake
 
       writeTransaction("need query");

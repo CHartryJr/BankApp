@@ -9,6 +9,7 @@ LAUNCH_COMMAND=java -cp $(TARGET_DIR) --module-path $(LIBRARY_DIR) --add-modules
 
 all: clean build
 	@echo "Build is complete"
+
 build:
 	javac $(SOURCE_DIR)*.java -d $(TARGET_DIR) --module-path $(LIBRARY_DIR) --add-modules $(DEPENDENCIES)
 	@echo "Build Successful!"
