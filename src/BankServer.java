@@ -1,13 +1,10 @@
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.io.*;
+import java.net.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -17,21 +14,20 @@ public class BankServer
 {
   private static boolean running = true; //will be uses to shut down server.
   private static AtomicInteger index = new AtomicInteger(1);//used to keep a index on all threads
+  private final static String HOST = "localhost";
   
   /**
    * This method will be used to listen can create new communications for server.
    * @param s
    * @param identifier
    */
-  private void newCommunication(Socket s, int identifier)
-  {
-   new Communication(s,identifier).start();
-  }
+  
   public static void main(String[] args) 
   {
     try
     {
-      ServerSocket serverSocket = new ServerSocket(5001);
+      ServerSocket serverSocket = new ServerSocket(5001,0,InetAddress.getByName(HOST));//for testing
+     // ServerSocket serverSocket = new ServerSocket(5001);
       System.out.println("Server has started");
       do
       {
@@ -47,13 +43,17 @@ public class BankServer
     }
   }
 
+  private void newCommunication(Socket s, int identifier)
+  {
+   new Communication(s,identifier).start();
+  }
 /**
  * nested class that will host all communications. The communication data will be sql statements. 
  */
 private class Communication extends Thread
 {
   private Socket clientSocket;
-  private String threadName, Buffer;
+  private String threadName, buffer;
   private int identifier;
   private Communication(Socket clientSocket, int identifier)
   {
@@ -66,24 +66,31 @@ private class Communication extends Thread
     {
       //since running a while loop will hold up client actions we will on run in and out messages
       threadName = String.format("%d from %s ", identifier, this.getName());
-      // writeTransaction("Key"); // can send encryption key
-      // Buffer = readTransaction();
-      //handshake
+      writeTransaction("You are active send request");
+      do
+      {
+       buffer=readTransaction();
+       if(buffer.toLowerCase().equals("key"))
+       {
+        buffer = "exit";//will use until implemented
+       }
+       else if (buffer.toLowerCase().equals("query"))
+       {
+          writeTransaction("SELECT ");
+          buffer = readTransaction();
+          buffer = getResults(buffer);
+          writeTransaction(buffer);
+          buffer = readTransaction();
+       }
 
-      writeTransaction("need query");
-      Buffer = readTransaction();//get query
-      this.wait(3000);
-      Buffer =getResults(Buffer);
-      this.wait(1000);
-      writeTransaction(Buffer);//sent result out
-      System.out.println(String.format("Competed Query From %s", threadName));
-      index.decrementAndGet();
+      }while(!buffer.toLowerCase().equals("exit"));
       clientSocket.close();
     } catch (Exception e) 
     {
       try 
       {
         clientSocket.close();
+        e.printStackTrace();
         System.exit(1);
       } catch (IOException e1) 
       {
@@ -101,13 +108,9 @@ private class Communication extends Thread
     String data = null;
     try 
     {
-      Scanner input = new Scanner(clientSocket.getInputStream());
-      while(input.hasNextLine())
-      {
-        data += input.nextLine();
-      }
-      input.close();
-      return input.nextLine();
+      BufferedReader input = new BufferedReader(new InputStreamReader( clientSocket.getInputStream()));
+      data = input.readLine();
+      return data;
     } catch (Exception e) 
     {
       e.printStackTrace();
@@ -119,8 +122,10 @@ private class Communication extends Thread
   {
     try 
     {
-      PrintWriter output = new PrintWriter(clientSocket.getOutputStream());
+      BufferedWriter output = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
       output.write(data);
+      output.newLine();
+      output.flush();
     } catch (Exception e)
     {
       e.printStackTrace();
@@ -132,7 +137,9 @@ private class Communication extends Thread
       Connection con = null;
       try 
       {
-        con =DriverManager.getConnection("jdbc:sqlite:" + getClass().getResource("../assets/Data/Bank.db"));
+        String cd = System.getProperty("user.dir");
+          cd += "/assets/Data/Bank.db";
+        con =DriverManager.getConnection("jdbc:sqlite:" +cd);
       } catch (SQLException e) 
       {
         e.printStackTrace();

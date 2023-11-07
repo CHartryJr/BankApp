@@ -2,8 +2,6 @@ package controllers;
 import java.io.*;
 import java.net.*;
 import java.util.ResourceBundle;
-import java.util.Scanner;
-
 import org.junit.jupiter.params.shadow.com.univocity.parsers.common.record.Record;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -32,59 +30,54 @@ public class TellerEventController implements Initializable {
   @FXML
   TableColumn<Record, Integer> colID, accAmount, colAccount;
 
-  String ip = "127.0.0.1";// loop back until actual usage
-  final int PORT = 5001;
+  String buffer,host = "localhost";// loop back until actual usage
+  int port = 5001;
+  Socket sock;
  
 
   @Override
   public void initialize(URL location, ResourceBundle resources) 
   {
-    btnLogin.setOnAction(new EventHandler<ActionEvent>() {//login button ACTION
+    btnLogin.setOnAction(new EventHandler<ActionEvent>() 
+    {//login button ACTION
 
       @Override
       public void handle(ActionEvent arg0)
       {
         if(LogIn(tfUsername.getText(),tfPassword.getText()))
         {
+          textID.setText(tfUsername.getText());
          changeScene("CRUD.fxml");
-         textID.setText(tfUsername.getText());
         }
         else
         {
-
+        System.err.println("LOGIN FAILED");
         }
       }
-      
-    });
+    });//login button end
 
   }
   private boolean LogIn(String userName,String pwd)
   {
-    String result, query = "SELECT * NAME FROM TELLER WHERE TELLER.USER ='" +userName +"';";
-    result = requestData(query);
-    String tokens [] = result.split("|");
-    if (tokens[3].equals(pwd))
-      return true;
-    else
-      return false;
-  }
-
-/**
- * used to send and receive data from the server every action needs data so e
- * send and receive is in one function call.
- * @param data
- * @return Sting representation of database data.
- */
-  private String requestData(String data) 
-  {
-    String result =null;
     try
     {
-      Socket sock = new Socket(ip,PORT);
-        readData(sock);
-        writeData(data, sock);
-        result = readData(sock);
-
+      sock = new Socket(InetAddress.getByName(host),port);
+      System.out.println(readData());
+      buffer = "query";
+      writeData(buffer);
+      buffer = readData();
+      buffer += "* NAME FROM TELLER WHERE TELLER.USER ='" +userName +"';";
+      writeData(buffer);
+      buffer = readData();
+      String tokens [] = buffer.split("|");
+      if (tokens[3].equals(pwd))
+      {
+        buffer ="exit";
+        writeData(buffer);
+        buffer ="";
+        sock.close();
+        return true;
+      }
     }
     catch (UnknownHostException e)
     {
@@ -95,23 +88,22 @@ public class TellerEventController implements Initializable {
     {
       // TODO Auto-generated catch block
       e.printStackTrace();
-    }
-    
-    return result;
+    }catch(Exception e){}
+        buffer ="exit";
+        writeData(buffer);
+        buffer ="";
+     return false;
   }
 
-  private String readData(Socket sock) 
+  private String readData() 
   {
     String data = null;
     try 
     {
-      Scanner input = new Scanner(sock.getInputStream());
-      while(input.hasNextLine())
-      {
-        data += input.nextLine();
-      }
-      input.close();
-      return input.nextLine();
+      
+      BufferedReader input = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+      data = input.readLine();
+      return data;
     } catch (Exception e) 
     {
       e.printStackTrace();
@@ -119,12 +111,15 @@ public class TellerEventController implements Initializable {
     return data;
   }
 // method to write out messages
-  private void writeData(String data,Socket sock) 
+  private void writeData(String data) 
   {
     try 
     {
-      PrintWriter output = new PrintWriter(sock.getOutputStream());
+      
+      BufferedWriter output = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
       output.write(data);
+      output.newLine();
+      output.flush();
     } catch (Exception e)
     {
       e.printStackTrace();
@@ -150,6 +145,4 @@ public class TellerEventController implements Initializable {
       e.printStackTrace();
     }
     }
-
-
 }
