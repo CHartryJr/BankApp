@@ -142,23 +142,31 @@ private class Communication extends Thread
       e.printStackTrace();
     }
   }
-    private synchronized String getResults(String query)
+    private synchronized String getResults(String query)///fix parsing data
     {
-      Statement st;
-      ResultSet rs;
       String result = "";
-      try 
+      try( Statement st = con.createStatement(); ResultSet rs = st.executeQuery(query))
       {
-        st = con.createStatement();
-        rs = st.executeQuery(query);
         while (rs.next()) 
         {
-          result += rs.getString("") + "," + rs.getString(result);
+          String unToken ="";
+          int columnCount = rs.getMetaData().getColumnCount();
+          for (int i = 1; i <= columnCount; i++) 
+          {
+              String columnValue = rs.getString(i);
+              System.out.println("Column " + i + ": " + columnValue);
+              unToken += columnValue+"-";
+          }
+          result+=unToken+",";
         }
+        st.close();
+        rs.close();
+        con.close();
       } catch (SQLException e)
       {
         e.printStackTrace();
       }
+      
       return result;
     }
   }

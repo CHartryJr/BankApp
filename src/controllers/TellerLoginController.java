@@ -8,17 +8,17 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
-public class TellerEventController implements Initializable {
+public class TellerLoginController implements Initializable {
 
   @FXML
   Button btnInsert,btnDelete, btnUpdate,btnInspect,btnLogin,btnLogout;
-
   @FXML
   TextField tfName, tfAccount,tfPassword,tfUsername;
   @FXML
@@ -33,7 +33,7 @@ public class TellerEventController implements Initializable {
   String buffer,host = "localhost";// loop back until actual usage
   int port = 5001;
   Socket sock;
- 
+ String user, pwd;
 
   @Override
   public void initialize(URL location, ResourceBundle resources) 
@@ -44,9 +44,12 @@ public class TellerEventController implements Initializable {
       @Override
       public void handle(ActionEvent arg0)
       {
-        if(LogIn(tfUsername.getText(),tfPassword.getText()))
+        user =tfUsername.getText();
+        pwd = tfPassword.getText();
+        if(user != null && pwd !=null)
+        if(LogIn(user,pwd))
         {
-          textID.setText(tfUsername.getText());
+
          changeScene("CRUD.fxml");
         }
         else
@@ -66,11 +69,11 @@ public class TellerEventController implements Initializable {
       buffer = "query";
       writeData(buffer);
       buffer = readData();
-      buffer += "* LOWER(NAME) FROM TELLER WHERE TELLER.USER = '" +userName+"';";
+      buffer += "LOWER(USER),PIN FROM TELLER WHERE TELLER.USER = '" +userName.toLowerCase()+"';";
       writeData(buffer);
       buffer = readData();
-      String tokens [] = buffer.split("|");
-      if (tokens[3].equals(pwd))
+      String tokens [] = buffer.split("-");
+      if (tokens[1].equals(pwd))
       {
         buffer ="exit";
         writeData(buffer);
@@ -88,7 +91,14 @@ public class TellerEventController implements Initializable {
     {
       // TODO Auto-generated catch block
       e.printStackTrace();
-    }catch(Exception e){}
+    }catch(Exception e)
+    {
+        buffer ="exit";
+        writeData(buffer);
+        buffer ="";
+       e.printStackTrace();
+       return false;
+    }
         buffer ="exit";
         writeData(buffer);
         buffer ="";
@@ -125,24 +135,26 @@ public class TellerEventController implements Initializable {
       e.printStackTrace();
     }
   }
+
     private void changeScene(String FXMLFileName)
     {
       String currentDirectory = System.getProperty("user.dir");
-    currentDirectory += "/assets/GUI/"+FXMLFileName;
-    try
-    {
-      FXMLLoader root = FXMLLoader.load(new File(currentDirectory).toURI().toURL());
-      root.load();
-    }
-    catch (MalformedURLException e)
-    {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    catch (IOException e)
-    {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
+      currentDirectory += "/assets/GUI/"+FXMLFileName;
+      Parent root = null;
+      try
+      {
+       root = FXMLLoader.load(new File(currentDirectory).toURI().toURL());
+        
+        TellerLoginController tc = new TellerLoginController();
+      
+      }
+      catch (MalformedURLException e)
+      {
+        e.printStackTrace();
+      }
+      catch (IOException e)
+      {
+        e.printStackTrace();
+      }
     }
 }
