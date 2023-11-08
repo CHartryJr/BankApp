@@ -10,7 +10,7 @@
             "request": "launch",
             "mainClass": "BankServer",
             "projectName": "BankApp_583e9d8",
-            "vmArgs": "--module-path ./lib/ --add-modules javafx.media,javafx.swing,javafx.fxml,javafx.controls,javafx.base,javafx.graphics"
+            "vmArgs": "-cp ./lib/:sqlite-jdbc-3.7.2.jar --module-path ./lib/ --add-modules javafx.media,javafx.swing,javafx.fxml,javafx.controls,javafx.base,javafx.graphics"
         },
         {
             "type": "java",
