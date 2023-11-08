@@ -66,7 +66,7 @@ public class TellerEventController implements Initializable {
       buffer = "query";
       writeData(buffer);
       buffer = readData();
-      buffer += "* NAME FROM TELLER WHERE TELLER.USER ='" +userName +"';";
+      buffer += "* LOWER(NAME) FROM TELLER WHERE TELLER.USER = '" +userName+"';";
       writeData(buffer);
       buffer = readData();
       String tokens [] = buffer.split("|");

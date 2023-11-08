@@ -23,6 +23,17 @@ public class BankServer
   {
     try
     {
+      Connection con = null;
+      try 
+      {
+        String cd = System.getProperty("user.dir");
+          cd += "/assets/Data/Bank.db";
+        con = DriverManager.getConnection("jdbc:sqlite:" +cd);
+      } catch (SQLException e) 
+      {
+        e.printStackTrace();
+      }
+      System.out.println("DataBase is now up");
       ServerSocket serverSocket = new ServerSocket(5001,0,InetAddress.getByName(HOST));//for testing
      // ServerSocket serverSocket = new ServerSocket(5001);
       System.out.println("Server has started");
@@ -30,7 +41,7 @@ public class BankServer
       {
         System.out.println("listening for connection");
         Socket clientSocketSession = serverSocket.accept();// will listen for client connection halts operation on main thread will stop until accepted
-        new BankServer().newCommunication(clientSocketSession, index.incrementAndGet());
+        new BankServer().newCommunication(clientSocketSession, index.incrementAndGet(),con);
         System.out.println("A new connection has been made"); //debug only.
       }while (running);
       serverSocket.close();
@@ -40,10 +51,11 @@ public class BankServer
     }
   }
 
-  private void newCommunication(Socket s, int identifier)
+  private void newCommunication(Socket s, int identifier,Connection con)
   {
-   new Communication(s,identifier).start();
+   new Communication(s,identifier,con).start();
   }
+  
 /**
  * nested class that will host all communications. The communication data will be sql statements. 
  */
@@ -52,10 +64,12 @@ private class Communication extends Thread
   private Socket clientSocket;
   private String threadName, buffer;
   private int identifier;
-  private Communication(Socket clientSocket, int identifier)
+  Connection con;
+  private Communication(Socket clientSocket, int identifier, Connection con)
   {
     this.clientSocket = clientSocket;
     this.identifier = identifier;
+    this.con = con;
   }
   public void run()// action done during thread
   {
@@ -128,26 +142,9 @@ private class Communication extends Thread
       e.printStackTrace();
     }
   }
-  // returns a db connection
-    private Connection getConnection() 
-    {
-      Connection con = null;
-      try 
-      {
-        String cd = System.getProperty("user.dir");
-          cd += "/assets/Data/Bank.db";
-        con =DriverManager.getConnection("jdbc:sqlite:" +cd);
-      } catch (SQLException e) 
-      {
-        e.printStackTrace();
-      }
-      return con;
-    }
-
     private synchronized String getResults(String query)
     {
-      Connection con = getConnection();
-      java.sql.Statement st;
+      Statement st;
       ResultSet rs;
       String result = "";
       try 
