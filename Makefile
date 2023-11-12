@@ -3,7 +3,7 @@ SOURCE_DIR="./src/"
 TARGET_DIR="./bin/"
 LIBRARY_DIR="./lib/"
 MODULES="javafx.media,javafx.swing,javafx.fxml,javafx.controls,javafx.base,javafx.graphics"
-CLASSES=";slf4j-api-1.7.36;sqlite-jdbc-3.43.2.2;junit-4.13.2-javadoc.jar;hamcrest-core-1.3.jar"
+CLASSES=";slf4j-api-1.7.36;sqlite-jdbc-3.43.2.2;"
 
 # Run command
 LAUNCH_COMMAND=java -cp $(TARGET_DIR) --module-path $(LIBRARY_DIR) --add-modules $(MODULES)
