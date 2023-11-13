@@ -21,7 +21,7 @@ public class TellerLoginController implements Initializable {
 
   
   @FXML
-  private Button btnLogin,btnLogout;
+  private Button btnLogin;
   @FXML
   private TextField tfPassword,tfUsername;
   @FXML
@@ -122,7 +122,7 @@ public class TellerLoginController implements Initializable {
         buffer ="exit";
         writeData(buffer);
         buffer ="";
-        failedLbl.setText("No Connectivity");
+        failedLbl.setText("login Failed");
      return false;
   }
 
