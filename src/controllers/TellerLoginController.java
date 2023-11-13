@@ -12,8 +12,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
@@ -21,11 +21,11 @@ public class TellerLoginController implements Initializable {
 
   
   @FXML
-  Button btnLogin,btnLogout;
+  private Button btnLogin,btnLogout;
   @FXML
-  TextField tfPassword,tfUsername;
+  private TextField tfPassword,tfUsername;
   @FXML
-   Text txtFailed;
+  private Label failedLbl;
   private Stage st;
   private String user,pwd,buffer,host = "localhost";// loop back until actual usage
   private int port = 5001;
@@ -40,16 +40,18 @@ public class TellerLoginController implements Initializable {
       @Override
       public void handle(ActionEvent arg0)
       {
-        user =tfUsername.getText();
+        user = tfUsername.getText();
         pwd = tfPassword.getText();
         if(user != null && pwd !=null)
-        if(LogIn(user,pwd))
         {
-         switchScene(arg0);
+          if(LogIn(user,pwd))
+          {
+            switchScene(arg0);
+          }
         }
         else
         {
-          txtFailed.setText("Login failed try again");
+          failedLbl.setText("Critical Error");
         }
       }
     });//login button end
@@ -99,10 +101,17 @@ public class TellerLoginController implements Initializable {
     {
       e.printStackTrace();
     }
-    catch (IOException e)
+    catch ( ConnectException  e)
+    {
+      failedLbl.setText("No Connectivity");
+      return false;
+      
+    }
+    catch(IOException e)
     {
       e.printStackTrace();
-    }catch(Exception e)
+    }
+    catch(Exception e)
     {
         buffer ="exit";
         writeData(buffer);
@@ -113,6 +122,7 @@ public class TellerLoginController implements Initializable {
         buffer ="exit";
         writeData(buffer);
         buffer ="";
+        failedLbl.setText("No Connectivity");
      return false;
   }
 

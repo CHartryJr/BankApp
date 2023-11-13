@@ -65,6 +65,7 @@
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Button>
+                  <Label fx:id="failedLbl" layoutX="146.0" layoutY="346.0" prefHeight="17.0" prefWidth="146.0" textFill="RED" />
                </children></AnchorPane>
          </children>
       </HBox>
