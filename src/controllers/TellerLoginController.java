@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
@@ -23,7 +24,8 @@ public class TellerLoginController implements Initializable {
   Button btnLogin,btnLogout;
   @FXML
   TextField tfPassword,tfUsername;
-  private Scene sc; 
+  @FXML
+   Text txtFailed;
   private Stage st;
   private String user,pwd,buffer,host = "localhost";// loop back until actual usage
   private int port = 5001;
@@ -47,35 +49,29 @@ public class TellerLoginController implements Initializable {
         }
         else
         {
-        System.err.println("LOGIN FAILED");
+          txtFailed.setText("Login failed try again");
         }
       }
     });//login button end
 
   }
-  private void switchScene(ActionEvent event)
-  { 
+  private void switchScene(ActionEvent event) {
     String currentDirectory = System.getProperty("user.dir");
     currentDirectory += "/assets/GUI/CRUD.fxml";
-    try
-    {
-      Parent root = FXMLLoader.load(new File(currentDirectory).toURI().toURL());
-      st = (Stage)((Node)event.getSource()).getScene().getWindow();
-      sc = new Scene(root);
-      st.getScene();
-      st.show();
-    }
-    catch (MalformedURLException e)
-    {
-      // TODO Auto-generated catch block
+    try {
+        Parent root = FXMLLoader.load(new File(currentDirectory).toURI().toURL());
+        st = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene sc = new Scene(root);
+        st.setScene(sc); // Use setScene to set the new scene on the stage
+        st.show();
+    } catch (MalformedURLException e) {
+        e.printStackTrace();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }catch(Exception e){
       e.printStackTrace();
     }
-    catch (IOException e)
-    {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-  }
+}
 
   private boolean LogIn(String userName,String pwd)
   {
