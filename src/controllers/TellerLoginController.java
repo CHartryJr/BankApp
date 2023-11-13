@@ -145,7 +145,5 @@ public class TellerLoginController implements Initializable {
     {
       e.printStackTrace();
     }
-  }
-
-    
+  }  
 }

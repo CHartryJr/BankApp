@@ -31,5 +31,6 @@ public class CRUDController implements Initializable
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'initialize'");
     }
+    private 
     
 }

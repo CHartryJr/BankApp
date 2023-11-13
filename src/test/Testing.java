@@ -1,19 +1,17 @@
-import BankServer;
+package test;
 
-package testing;
+import org.junit.Before;
+import org.junit.Test;
 
 public class Testing 
 {
-   
-
-   @Test
+   @Before
     public static void startServer()
     {
-       BankServer.main(null);
     }
-    
+
+    @Test
     public void TellerLogin()
-    {
-        
+    { 
     }
 }
