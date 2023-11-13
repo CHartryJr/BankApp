@@ -119,7 +119,7 @@ private class Communication extends Thread
     String data = null;
     try 
     {
-      BufferedReader input = new BufferedReader(new InputStreamReader( clientSocket.getInputStream()));
+      BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
       data = input.readLine();
       return data;
     } catch (Exception e) 

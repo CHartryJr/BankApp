@@ -11,7 +11,8 @@ import javafx.stage.Stage;
 public class OnlineBank extends Application {
 
   @Override
-  public void start(Stage primaryStage) throws Exception {
+  public void start(Stage primaryStage) throws Exception 
+  {
     String currentDirectory = System.getProperty("user.dir");
     currentDirectory += "/assets/GUI/Client-Home.fxml";
     Parent root = FXMLLoader.load(new File(currentDirectory).toURI().toURL());

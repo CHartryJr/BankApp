@@ -1,39 +1,33 @@
 package controllers;
+
 import java.io.*;
 import java.net.*;
 import java.util.ResourceBundle;
-import org.junit.jupiter.params.shadow.com.univocity.parsers.common.record.Record;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
 
 public class TellerLoginController implements Initializable {
 
+  
   @FXML
-  Button btnInsert,btnDelete, btnUpdate,btnInspect,btnLogin,btnLogout;
+  Button btnLogin,btnLogout;
   @FXML
-  TextField tfName, tfAccount,tfPassword,tfUsername;
-  @FXML
-  Text textID;
-  @FXML
-  TableView<Record> data;
-  @FXML
-  TableColumn<Record, String> colName;
-  @FXML
-  TableColumn<Record, Integer> colID, accAmount, colAccount;
-
-  String buffer,host = "localhost";// loop back until actual usage
-  int port = 5001;
-  Socket sock;
- String user, pwd;
+  TextField tfPassword,tfUsername;
+  private Scene sc; 
+  private Stage st;
+  private String user,pwd,buffer,host = "localhost";// loop back until actual usage
+  private int port = 5001;
+  private Socket sock;
 
   @Override
   public void initialize(URL location, ResourceBundle resources) 
@@ -49,8 +43,7 @@ public class TellerLoginController implements Initializable {
         if(user != null && pwd !=null)
         if(LogIn(user,pwd))
         {
-
-         changeScene("CRUD.fxml");
+         switchScene(arg0);
         }
         else
         {
@@ -60,6 +53,30 @@ public class TellerLoginController implements Initializable {
     });//login button end
 
   }
+  private void switchScene(ActionEvent event)
+  { 
+    String currentDirectory = System.getProperty("user.dir");
+    currentDirectory += "/assets/GUI/CRUD.fxml";
+    try
+    {
+      Parent root = FXMLLoader.load(new File(currentDirectory).toURI().toURL());
+      st = (Stage)((Node)event.getSource()).getScene().getWindow();
+      sc = new Scene(root);
+      st.getScene();
+      st.show();
+    }
+    catch (MalformedURLException e)
+    {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    catch (IOException e)
+    {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+  }
+
   private boolean LogIn(String userName,String pwd)
   {
     try
@@ -84,12 +101,10 @@ public class TellerLoginController implements Initializable {
     }
     catch (UnknownHostException e)
     {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
     catch (IOException e)
     {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }catch(Exception e)
     {
@@ -136,25 +151,5 @@ public class TellerLoginController implements Initializable {
     }
   }
 
-    private void changeScene(String FXMLFileName)
-    {
-      String currentDirectory = System.getProperty("user.dir");
-      currentDirectory += "/assets/GUI/"+FXMLFileName;
-      Parent root = null;
-      try
-      {
-       root = FXMLLoader.load(new File(currentDirectory).toURI().toURL());
-        
-        TellerLoginController tc = new TellerLoginController();
-      
-      }
-      catch (MalformedURLException e)
-      {
-        e.printStackTrace();
-      }
-      catch (IOException e)
-      {
-        e.printStackTrace();
-      }
-    }
+    
 }

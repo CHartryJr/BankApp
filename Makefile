@@ -2,17 +2,22 @@
 SOURCE_DIR="./src/"
 TARGET_DIR="./bin/"
 LIBRARY_DIR="./lib/"
+CONTROLLERS="./src/controllers/"
 MODULES="javafx.media,javafx.swing,javafx.fxml,javafx.controls,javafx.base,javafx.graphics"
 CLASSES=";slf4j-api-1.7.36;sqlite-jdbc-3.43.2.2;"
 
 # Run command
 LAUNCH_COMMAND=java -cp $(TARGET_DIR) --module-path $(LIBRARY_DIR) --add-modules $(MODULES)
 
-all: clean build
+all: clean build build_controllers
 
 build:
 	@javac $(SOURCE_DIR)*.java -d $(TARGET_DIR) -cp $(LIBRARY_DIR)$(CLASSES) --module-path $(LIBRARY_DIR) --add-modules $(MODULES)
 	@echo "Build Successful!"
+
+build_controllers:
+	@javac $(CONTROLLERS)*.java -d $(TARGET_DIR) -cp $(LIBRARY_DIR)$(CLASSES) --module-path $(LIBRARY_DIR) --add-modules $(MODULES)
+	@echo "controllers were built!"
 
 clean:
 	@rm -rf $(TARGET_DIR)*
