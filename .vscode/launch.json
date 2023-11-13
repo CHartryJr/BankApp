@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "General Run",
+            "request": "launch",
+            "mainClass": "${file}",
+            "vmArgs": "-cp ./lib/:sqlite-jdbc-3.7.2.jar --module-path ./lib/ --add-modules javafx.media,javafx.swing,javafx.fxml,javafx.controls,javafx.base,javafx.graphics"
+        },
+        {
+            "type": "java",
             "name": "BankServer",
             "request": "launch",
             "mainClass": "BankServer",
