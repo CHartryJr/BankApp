@@ -1,122 +1,139 @@
-package utility.communicationnication;
+package utility.communication;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Server implements Communications,Runnable 
 {
-    private static AtomicInteger index = new AtomicInteger(1);
+    private static AtomicInteger index = new AtomicInteger(2);
     private static AtomicBoolean running = new AtomicBoolean(true);
+    private ServerSocket serverSocket; 
     private Socket clientSocket;
-    private String threadName, Buffer;
-    private int identifier;
+    // private String = "localhost";
+    private String hostname,buffer;
+    private int port,identifier;
+    
 
-    Server()
+    public Server()//listener stopper
     {
-        try
-    {
-      ServerSocket serverSocket = new ServerSocket(5000);
-      System.out.println("Server has started");
-      do
-      {
-        System.out.println("listening for connection");
-        Socket clientSocketSession = serverSocket.accept();// will listen for client connection halts operation on main thread will stop until accepted
-        new Server().(clientSocketSession, index.incrementAndGet());
-        System.out.println("A new connection has been made"); //debug only.
-      }while (running);
-      serverSocket.close();
-    }catch(Exception e)
-    {
-      e.printStackTrace();
+      identifier = 0;
     }
+    
+    private Server(int port, String hostname)//listener
+    {
+      identifier =1;
+      this.hostname = hostname;
+      this.port = port;
     }
+    
+    private Server(int identifier,Socket clientSocket)//client action thread
+    {
+      this.identifier = identifier;
+      this.clientSocket = clientSocket;
+    }  
+
+    public void startServer(int port, String hostname)
+    {
+      new Server(port )
+    }
+    public void stopServer(int port, String hostname)
+    {
+      running.set(false);
+    }
+
 
     @Override
     public void run()
     {
-        try 
-    {
-      //since running a while loop will hold up client actions we will on run in and out messages
-      threadName = String.format("%d from %s ", identifier);
-      writeTransaction("Key"); // can send encryption key
-      Buffer = readTransaction();
-      //handshake
-
-      writeTransaction("need query");
-      Buffer = readTransaction();//get query
-      this.wait(2000);
-      this.wait(2000);
-      writeTransaction(Buffer);//sent result out
-      System.out.println(String.format("Competed Query From %s", threadName));
-      index.decrementAndGet();
-      clientSocket.close();
-    } catch (Exception e) 
-    {
-      try 
+      if(identifier == 0)//starter
+       System.out.println("This thread is for activation or shuting down server only");
+      if(identifier == 1)//listener
       {
-        clientSocket.close();
-        System.exit(1);
-      } catch (IOException e1) 
-      {
-        System.out.println("Socket did not Close");
-        System.exit(1);
+          try
+        {
+          if(hostname == null)
+          serverSocket = new ServerSocket(port,0,InetAddress.getByName(hostname));//for testing
+          else
+          serverSocket = new ServerSocket(port,0,InetAddress.getByName(hostname));
+        // ServerSocket serverSocket = new ServerSocket(5001);
+          System.out.println("Server has started");
+          do
+          {
+            System.out.println("listening for connection");
+            Socket clientSocketSession = serverSocket.accept();// will listen for client connection halts operation on main thread will stop until accepted
+            new Server(index.incrementAndGet(),clientSocketSession).run();
+            System.out.println("A new connection has been made"); //debug only.
+          }while (running.get());
+          serverSocket.close();
+        }catch(Exception e)
+        {
+          e.printStackTrace();
+        }
       }
-    }
+      else//client action 
+      {
+        buffer ="";
+        try 
+        {
+          //since running a while loop will hold up client actions we will on run in and out messages
+          do
+          {
+          buffer=read();
+            System.out.println(buffer);
+            write("");
+          }while(!buffer.toLowerCase().equals("exit"));
+          clientSocket.close();
+        } catch (Exception e) 
+        {
+          try 
+          {
+            clientSocket.close();
+            e.printStackTrace();
+            System.exit(1);
+          } catch (IOException e1) 
+          {
+            System.out.println("Socket did not Close");
+            System.exit(1);
+          }
+        }
+      }
     }
 
     @Override
-    public String readTransaction()
+    public String read()
     {
-        String data = null;
+       String data = null;
     try 
     {
-      Scanner input = new Scanner(clientSocket.getInputStream());
-      while(input.hasNextLine())
-      {
-        data += input.nextLine();
-      }
-      input.close();
-      return input.nextLine();
-    } catch (Exception e) 
-    {
-      e.printStackTrace();
-    }
-    return data;);
-    }
-
-    @Override
-    public void writeTransaction(String data)
-    {
-        try 
-    {
-      PrintWriter output = new PrintWriter(clientSocket.getOutputStream());
-      output.write(data);
-    } catch (Exception e)
-    {
-      e.printStackTrace();
-    }
-  }
-  
-  // returns a db connection
-    private Connection getConnection() 
-    {
-      Connection con = null;
-      try 
-      {
-        con =DriverManager.getConnection("jdbc:sqlite:" + getClass().getResource("../assets/Data/Bank.db"));
-      } catch (SQLException e) 
+        BufferedReader input = new BufferedReader(new InputStreamReader( clientSocket.getInputStream()));
+        data = input.readLine();
+        return data;
+      } catch (Exception e) 
       {
         e.printStackTrace();
       }
-      return con;
+      return data;
     }
-    
+
+    @Override
+    public void write(String data)
+    {
+        try 
+      {
+        BufferedWriter output = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
+        output.write(data);
+        output.newLine();
+        output.flush();
+      } catch (Exception e)
+      {
+        e.printStackTrace();
+      }
+    }
 }
