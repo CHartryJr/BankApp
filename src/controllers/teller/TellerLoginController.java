@@ -3,6 +3,7 @@ package controllers.teller;
 import java.io.*;
 import java.net.*;
 import java.util.ResourceBundle;
+import controllers.clientCommunication;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -17,9 +18,9 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 
-public class TellerLoginController implements Initializable {
 
-  
+public class TellerLoginController extends clientCommunication implements Initializable  {
+
   @FXML
   private Button btnLogin;
   @FXML
@@ -27,36 +28,9 @@ public class TellerLoginController implements Initializable {
   @FXML
   private Label failedLbl;
   private Stage st;
-  private String user,pwd,buffer,host = "localhost";// loop back until actual usage
-  private int port = 5001;
+  private String user,pwd,buffer;// loop back until actual usage
   private Socket sock;
 
-  @Override
-  public void initialize(URL location, ResourceBundle resources) 
-  {
-    btnLogin.setOnAction(new EventHandler<ActionEvent>() 
-    {//login button ACTION
-
-      @Override
-      public void handle(ActionEvent arg0)
-      {
-        user = tfUsername.getText();
-        pwd = tfPassword.getText();
-        if(user != null && pwd !=null)
-        {
-          if(LogIn(user,pwd))
-          {
-            switchScene(arg0);
-          }
-        }
-        else
-        {
-          failedLbl.setText("Critical Error");
-        }
-      }
-    });//login button end
-  }
-  
   private void switchScene(ActionEvent event) {
     String currentDirectory = System.getProperty("user.dir");
     currentDirectory += "/assets/GUI/CRUD.fxml";
@@ -79,7 +53,7 @@ public class TellerLoginController implements Initializable {
   {
     try
     {
-      sock = new Socket(InetAddress.getByName(host),port);
+      connect();
       System.out.println(readData());
       buffer = "SELECT LOWER(USER),PIN FROM TELLER WHERE TELLER.USER = '" +userName.toLowerCase()+"';";
       writeData(buffer);
@@ -123,34 +97,34 @@ public class TellerLoginController implements Initializable {
      return false;
   }
 
-  private String readData() 
+
+
+  /*
+   * treat this method as the main file for your gui
+   */
+  @Override
+  public void initialize(URL location, ResourceBundle resources) 
   {
-    String data = null;
-    try 
-    {
-      
-      BufferedReader input = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-      data = input.readLine();
-      return data;
-    } catch (Exception e) 
-    {
-      e.printStackTrace();
-    }
-    return data;
+    btnLogin.setOnAction(new EventHandler<ActionEvent>() 
+    {//login button ACTION
+
+      @Override
+      public void handle(ActionEvent arg0)
+      {
+        user = tfUsername.getText();
+        pwd = tfPassword.getText();
+        if(user != null && pwd !=null)
+        {
+          if(LogIn(user,pwd))
+          {
+            switchScene(arg0);
+          }
+        }
+        else
+        {
+          failedLbl.setText("Critical Error");
+        }
+      }
+    });//login button end
   }
-// method to write out messages
-  private void writeData(String data) 
-  {
-    try 
-    {
-      
-      BufferedWriter output = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
-      output.write(data);
-      output.newLine();
-      output.flush();
-    } catch (Exception e)
-    {
-      e.printStackTrace();
-    }
-  }  
-}
+}//EOF

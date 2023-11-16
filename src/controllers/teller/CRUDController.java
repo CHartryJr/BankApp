@@ -14,39 +14,40 @@ import javafx.scene.text.Text;
 
 public class CRUDController implements Initializable
 {
-   @FXML
-    private Button btnLogout;
-
-    @FXML
-    private Button btnSearch;
-
-    @FXML
-    private TableColumn<?, ?> colAccount;
-
-    @FXML
-    private TableColumn<?, ?> colAmount;
-
-    @FXML
-    private TableColumn<?, ?> colDate;
-
-    @FXML
-    private TableColumn<?, ?> colName;
-
-    @FXML
-    private ChoiceBox<?> sbSearch;
-
     @FXML
     private Text textID;
-
     @FXML
     private TextField tfSearch;
-
+    @FXML
+    private Button btnLogout, btnSearch;
+     @FXML
+    private ChoiceBox<String> sbSearch;
     @FXML
     private TableView<?> tvTable;
+    @FXML
+    private TableColumn<?, ?> colAccount;
+    @FXML
+    private TableColumn<?, ?> colAmount;
+    @FXML
+    private TableColumn<?, ?> colDate,colName;
+
+    private String[] fields = {"All","Name","Account#"};
+   
+   
+    
+
+   
+
+
+
+
+
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        
+        sbSearch.setValue("Search By");
+        sbSearch.getItems().addAll(fields);
     }
 }

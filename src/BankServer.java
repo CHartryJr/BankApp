@@ -99,7 +99,18 @@ private class Communication extends Thread
       }while(buffer != null & !buffer.toLowerCase().equals("exit"));
       System.out.println("Service completed");
       clientSocket.close();
-    } 
+    } catch(NullPointerException e)
+    {
+      System.out.println("Host Disconnected");
+    try
+    {
+      clientSocket.close();
+    }
+    catch (IOException e1)
+    {
+      e1.printStackTrace();
+    }
+    }
     catch (Exception e) 
     {
       try 
