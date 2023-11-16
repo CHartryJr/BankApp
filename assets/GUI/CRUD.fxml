@@ -15,7 +15,7 @@
    <children>
       <AnchorPane layoutX="270.0" layoutY="9.0" prefHeight="342.0" prefWidth="444.0">
          <children>
-            <TableView id="infotable" fx:id="TableVeiw" prefHeight="270.0" prefWidth="444.0">
+            <TableView id="infotable" fx:id="tvTable" prefHeight="270.0" prefWidth="444.0">
               <columns>
                 <TableColumn id="column" fx:id="colName" prefWidth="104.0" text="Name" />
                   <TableColumn id="column" fx:id="colAccount" prefWidth="108.0" text="Account #" />
