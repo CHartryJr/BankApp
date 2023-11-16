@@ -1,4 +1,4 @@
-package controllers;
+package controllers.teller;
 
 import java.io.*;
 import java.net.*;
@@ -55,8 +55,8 @@ public class TellerLoginController implements Initializable {
         }
       }
     });//login button end
-
   }
+  
   private void switchScene(ActionEvent event) {
     String currentDirectory = System.getProperty("user.dir");
     currentDirectory += "/assets/GUI/CRUD.fxml";
@@ -81,10 +81,7 @@ public class TellerLoginController implements Initializable {
     {
       sock = new Socket(InetAddress.getByName(host),port);
       System.out.println(readData());
-      buffer = "query";
-      writeData(buffer);
-      buffer = readData();
-      buffer += "LOWER(USER),PIN FROM TELLER WHERE TELLER.USER = '" +userName.toLowerCase()+"';";
+      buffer = "SELECT LOWER(USER),PIN FROM TELLER WHERE TELLER.USER = '" +userName.toLowerCase()+"';";
       writeData(buffer);
       buffer = readData();
       String tokens [] = buffer.split("-");

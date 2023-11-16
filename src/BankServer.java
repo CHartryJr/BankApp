@@ -3,6 +3,8 @@ import java.io.*;
 import java.net.*;
 import java.sql.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * This program wil be used as a communication hub and will be the engine for query based operations
@@ -12,12 +14,7 @@ public class BankServer
   private static boolean running = true; //will be uses to shut down server.
   private static AtomicInteger index = new AtomicInteger(1);//used to keep a index on all threads
   private final static String HOST = "localhost";
-  
-  /**
-   * This method will be used to listen can create new communications for server.
-   * @param s
-   * @param identifier
-   */
+  private static Lock lock =  new ReentrantLock();
   
   public static void main(String[] args) 
   {
@@ -27,9 +24,10 @@ public class BankServer
       try 
       {
         String cd = System.getProperty("user.dir");
-          cd += "/assets/Data/Bank.db";
+        cd += "/assets/Data/Bank.db";
         con = DriverManager.getConnection("jdbc:sqlite:" +cd);
-      } catch (SQLException e) 
+      }
+       catch (SQLException e) 
       {
         e.printStackTrace();
       }
@@ -45,12 +43,20 @@ public class BankServer
         System.out.println("A new connection has been made"); //debug only.
       }while (running);
       serverSocket.close();
-    }catch(Exception e)
+      con.close();
+    }
+    catch(Exception e)
     {
       e.printStackTrace();
     }
   }
-
+/**
+ * 
+ * @param s
+ * @param identifier
+ * @param con
+ *  will call a new communication per client 
+ */
   private void newCommunication(Socket s, int identifier,Connection con)
   {
    new Communication(s,identifier,con).start();
@@ -64,13 +70,16 @@ private class Communication extends Thread
   private Socket clientSocket;
   private String threadName, buffer;
   private int identifier;
+  
   Connection con;
+
   private Communication(Socket clientSocket, int identifier, Connection con)
   {
     this.clientSocket = clientSocket;
     this.identifier = identifier;
     this.con = con;
   }
+
   public void run()// action done during thread
   {
     try 
@@ -80,30 +89,26 @@ private class Communication extends Thread
       writeTransaction("You are active send request");
       do
       {
-       buffer=readTransaction();
-       if(buffer.toLowerCase().equals("key"))
-       {
-        buffer = "exit";//will use until implemented
-       }
-       else if (buffer.toLowerCase().equals("query"))
-       {
-          writeTransaction("SELECT ");
           buffer = readTransaction();
+          lock.lock();
           buffer = getResults(buffer);
+          Thread.sleep(2000);
+          lock.unlock();
           writeTransaction(buffer);
           buffer = readTransaction();
-       }
-
-      }while(!buffer.toLowerCase().equals("exit"));
+      }while(buffer != null & !buffer.toLowerCase().equals("exit"));
+      System.out.println("Service completed");
       clientSocket.close();
-    } catch (Exception e) 
+    } 
+    catch (Exception e) 
     {
       try 
       {
         clientSocket.close();
         e.printStackTrace();
         System.exit(1);
-      } catch (IOException e1) 
+      } 
+      catch (IOException e1) 
       {
         System.out.println("Socket did not Close");
         System.exit(1);
@@ -122,13 +127,14 @@ private class Communication extends Thread
       BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
       data = input.readLine();
       return data;
-    } catch (Exception e) 
+    } 
+    catch (Exception e) 
     {
       e.printStackTrace();
     }
     return data;
   }
-// method to write out messages
+  // method to write out messages
   private void writeTransaction(String data) 
   {
     try 
@@ -137,12 +143,13 @@ private class Communication extends Thread
       output.write(data);
       output.newLine();
       output.flush();
-    } catch (Exception e)
+    }
+     catch (Exception e)
     {
       e.printStackTrace();
     }
   }
-    private synchronized String getResults(String query)///fix parsing data
+    private String getResults(String query)///fix parsing data
     {
       String result = "";
       try( Statement st = con.createStatement(); ResultSet rs = st.executeQuery(query))
@@ -161,12 +168,11 @@ private class Communication extends Thread
         }
         st.close();
         rs.close();
-        con.close();
-      } catch (SQLException e)
+      } 
+      catch (SQLException e)
       {
         e.printStackTrace();
       }
-      
       return result;
     }
   }
