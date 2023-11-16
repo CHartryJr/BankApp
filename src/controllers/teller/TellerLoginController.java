@@ -18,7 +18,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 
-
 public class TellerLoginController extends clientCommunication implements Initializable  {
 
   @FXML
@@ -29,7 +28,6 @@ public class TellerLoginController extends clientCommunication implements Initia
   private Label failedLbl;
   private Stage st;
   private String user,pwd,buffer;// loop back until actual usage
-  private Socket sock;
 
   private void switchScene(ActionEvent event) {
     String currentDirectory = System.getProperty("user.dir");
@@ -64,23 +62,8 @@ public class TellerLoginController extends clientCommunication implements Initia
         buffer ="exit";
         writeData(buffer);
         buffer ="";
-        sock.close();
         return true;
       }
-    }
-    catch (UnknownHostException e)
-    {
-      e.printStackTrace();
-    }
-    catch ( ConnectException  e)
-    {
-      failedLbl.setText("No Connectivity");
-      return false;
-      
-    }
-    catch(IOException e)
-    {
-      e.printStackTrace();
     }
     catch(Exception e)
     {
@@ -96,8 +79,6 @@ public class TellerLoginController extends clientCommunication implements Initia
         failedLbl.setText("login Failed");
      return false;
   }
-
-
 
   /*
    * treat this method as the main file for your gui
