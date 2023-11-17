@@ -76,7 +76,7 @@ private class Communication implements Runnable
   private Communication(Socket clientSocket, int identifier, Connection con)
   {
     this.clientSocket = clientSocket;
-    this.identifier = identifier;
+    this.identifier = identifier-1;
     this.con = con;
   }
  /*
@@ -92,38 +92,32 @@ private class Communication implements Runnable
           buffer = readTransaction();
           lock.lock();
           buffer = getResults(buffer);
-          Thread.sleep(2000);
+          Thread.sleep( 1000);
           lock.unlock();
           writeTransaction(buffer);
           buffer = readTransaction();
       }while(buffer != null & !buffer.toLowerCase().equals("exit"));
       System.out.println("Service completed");
+      index.decrementAndGet();
       clientSocket.close();
-    } catch(NullPointerException e)
+    } 
+    catch(NullPointerException e)
     {
       System.out.println("Host Disconnected");
-    try
-    {
-      clientSocket.close();
-    }
-    catch (IOException e1)
-    {
-      e1.printStackTrace();
-    }
+      try
+      {
+        index.decrementAndGet();
+        clientSocket.close();
+      }
+      catch (IOException e1)
+      {
+        e1.printStackTrace();
+      }
     }
     catch (Exception e) 
     {
-      try 
-      {
-        clientSocket.close();
-        e.printStackTrace();
-        System.exit(1);
-      } 
-      catch (IOException e1) 
-      {
-        System.out.println("Socket did not Close");
-        System.exit(1);
-      }
+     e.printStackTrace();
+     System.exit(1);
     }
   }
   /**

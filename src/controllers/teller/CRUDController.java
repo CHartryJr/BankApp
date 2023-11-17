@@ -2,8 +2,9 @@ package controllers.teller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import controllers.clientCommunication;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,6 +13,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 
 public class CRUDController extends clientCommunication implements Initializable
@@ -27,11 +29,9 @@ public class CRUDController extends clientCommunication implements Initializable
     @FXML
     private TableView<Client> tvTable;
     @FXML
-    private TableColumn<Client, ?> colAccount;
+    private TableColumn<Client,Integer> colAccount;
     @FXML
-    private TableColumn<Client, ?> colAmount;
-    @FXML
-    private TableColumn<Client, ?> colDate,colName;
+    private TableColumn<Client,String> colDate,colName;
     private String buffer;
     private String[] fields = {"FirstName","LastName","Account"};
    
@@ -41,22 +41,39 @@ public class CRUDController extends clientCommunication implements Initializable
         connect();
         System.out.println(readData());
         String value = tfSearch.getText();
-        buffer = switch(sbSearch.getValue().toLowerCase()) 
+        buffer = switch(sbSearch.getValue().toLowerCase()) //FIX
         {
-            case "firstname" -> "SELECT AH.FNAME||' '||AH.LNAME AS NAME,AH.DATE,BA.ID FROM ACCOUNT_HOLDER AS AH JOIN BANK_ACCOUNT AS BA ON BA.OWNER = AH.ID WHERE AH.FNAME ="+value.toLowerCase()+"';" ;
-            case "lastname" -> "SELECT AH.FNAME||' '||AH.LNAME AS NAME,AH.DATE,BA.ID FROM ACCOUNT_HOLDER AS AH JOIN BANK_ACCOUNT AS BA ON BA.OWNER = AH.ID WHERE AH.LNAME ="+value.toLowerCase()+"';" ;
-            case "account" -> "SELECT AH.FNAME||' '||AH.LNAME AS NAME,AH.DATE,BA.ID FROM ACCOUNT_HOLDER AS AH JOIN BANK_ACCOUNT AS BA ON BA.OWNER = AH.ID WHERE BA.ID ="+value.toLowerCase()+"';" ;
+            case "firstname" -> "SELECT AH.FNAME||' '||AH.LNAME AS NAME,AH. DATE,BA.ID FROM ACCOUNT_HOLDER AS AH JOIN BANK_ACCOUNT AS BA ON BA.OWNER = AH.ID WHERE AH.FNAME ='"+value.toLowerCase()+"';" ;
+            case "lastname" -> "SELECT AH.FNAME||' '||AH.LNAME AS NAME,AH. DATE,BA.ID FROM ACCOUNT_HOLDER AS AH JOIN BANK_ACCOUNT AS BA ON BA.OWNER = AH.ID WHERE AH.LNAME ='"+value.toLowerCase()+"';" ;
+            case "account" -> "SELECT AH.FNAME||' '||AH.LNAME AS NAME,AH. DATE,BA.ID FROM ACCOUNT_HOLDER AS AH JOIN BANK_ACCOUNT AS BA ON BA.OWNER = AH.ID WHERE BA.ID ='"+value.toLowerCase()+"';" ;
             default -> null;     
         };
         writeData(buffer);
         loadData(readData());
         writeData("exit");
-
     } 
    
     private void loadData(String data)
     {
-
+        if( data == null | data.equals("") )
+        return;
+        ObservableList<Client> clientList = FXCollections.observableArrayList();
+        String []result;
+        for(String row : data.split(","))
+        {
+            if(!row.isEmpty())
+            {
+            result = row.split("-");
+            clientList.add(new Client(result[0], result[1],Integer.parseInt(result[3])));
+            }
+            else
+            {
+                break;
+            }
+        }
+        colAccount.setCellValueFactory(new PropertyValueFactory<Client,Integer>("account"));
+        colDate.setCellValueFactory(new PropertyValueFactory<Client,String>("date"));
+        colName.setCellValueFactory(new PropertyValueFactory<Client,String>("name"));
     }
 
 
@@ -74,8 +91,7 @@ public class CRUDController extends clientCommunication implements Initializable
     }
 
 
-     public record Client()
+     public record Client(String name, String date, Integer account)
     {
-
     }
 }
