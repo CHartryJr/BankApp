@@ -81,14 +81,13 @@ public class TellerLoginController extends clientCommunication implements Initia
   }
 
   /*
-   * treat this method as the main file for your gui
+   * treat this method as the main file for gui
    */
   @Override
   public void initialize(URL location, ResourceBundle resources) 
   {
     btnLogin.setOnAction(new EventHandler<ActionEvent>() 
     {//login button ACTION
-
       @Override
       public void handle(ActionEvent arg0)
       {

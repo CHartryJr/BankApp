@@ -18,7 +18,7 @@ build:
 build_controllers:
 	@javac $(CONTROLLERS)teller/*.java $(CONTROLLERS)clientCommunication.java -d $(TARGET_DIR) -cp $(LIBRARY_DIR)$(CLASSES) --module-path $(LIBRARY_DIR) --add-modules $(MODULES)
 	@javac $(CONTROLLERS)client/*.java $(CONTROLLERS)clientCommunication.java -d $(TARGET_DIR) -cp $(LIBRARY_DIR)$(CLASSES) --module-path $(LIBRARY_DIR) --add-modules $(MODULES)
-	@echo "controllers were built!"
+	@echo "Utilities are done!"
 
 clean:
 	@rm -rf $(TARGET_DIR)*

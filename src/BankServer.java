@@ -59,16 +59,16 @@ public class BankServer
  */
   private void newCommunication(Socket s, int identifier,Connection con)
   {
-   new Communication(s,identifier,con).start();
+   new Communication(s,identifier,con).run();
   }
   
 /**
  * nested class that will host all communications. The communication data will be sql statements. 
  */
-private class Communication extends Thread
+private class Communication implements Runnable
 {
   private Socket clientSocket;
-  private String threadName, buffer;
+  String buffer;
   private int identifier;
   
   Connection con;
@@ -79,14 +79,14 @@ private class Communication extends Thread
     this.identifier = identifier;
     this.con = con;
   }
-
+ /*
+  * read then write pattern only. The job of the communications class is to send ResultSets in string form back from queries given by clients
+  */
   public void run()// action done during thread
   {
     try 
     {
-      //since running a while loop will hold up client actions we will on run in and out messages
-      threadName = String.format("%d from %s ", identifier, this.getName());
-      writeTransaction("You are active send request");
+      writeTransaction(String.format(" You are Thread%d in the Que.I am ready for your requests ",identifier));
       do
       {
           buffer = readTransaction();
