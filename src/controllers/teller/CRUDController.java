@@ -43,9 +43,9 @@ public class CRUDController extends clientCommunication implements Initializable
         String value = tfSearch.getText();
         buffer = switch(sbSearch.getValue().toLowerCase()) //FIX
         {
-            case "firstname" -> "SELECT AH.FNAME||' '||AH.LNAME AS NAME,AH. DATE,BA.ID FROM ACCOUNT_HOLDER AS AH JOIN BANK_ACCOUNT AS BA ON BA.OWNER = AH.ID WHERE AH.FNAME ='"+value.toLowerCase()+"';" ;
-            case "lastname" -> "SELECT AH.FNAME||' '||AH.LNAME AS NAME,AH. DATE,BA.ID FROM ACCOUNT_HOLDER AS AH JOIN BANK_ACCOUNT AS BA ON BA.OWNER = AH.ID WHERE AH.LNAME ='"+value.toLowerCase()+"';" ;
-            case "account" -> "SELECT AH.FNAME||' '||AH.LNAME AS NAME,AH. DATE,BA.ID FROM ACCOUNT_HOLDER AS AH JOIN BANK_ACCOUNT AS BA ON BA.OWNER = AH.ID WHERE BA.ID ='"+value.toLowerCase()+"';" ;
+            case "firstname" -> "SELECT FNAME||' '||LNAME AS NAME,DATE,ACCOUNTNUM FROM CUSTOMER_DATA WHERE FNAME ='"+value.toLowerCase()+"';" ;
+            case "lastname" -> "SELECT FNAME||' '||LNAME AS NAME,DATE,ACCOUNTNUM  FROM CUSTOMER_DATA  WHERE LNAME ='"+value.toLowerCase()+"';" ;
+            case "account" -> "SELECT FNAME||' '||LNAME AS NAME,DATE,ACCOUNTNUM  FROM CUSTOMER_DATA  WHERE WHERE ACCOUNTNUM ='"+value.toLowerCase()+"';" ;
             default -> null;     
         };
         writeData(buffer);
@@ -75,12 +75,6 @@ public class CRUDController extends clientCommunication implements Initializable
         colDate.setCellValueFactory(new PropertyValueFactory<Client,String>("date"));
         colName.setCellValueFactory(new PropertyValueFactory<Client,String>("name"));
     }
-
-
-
-
-
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
