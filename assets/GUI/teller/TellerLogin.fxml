@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" stylesheets="@../Styles/Global.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.teller.TellerLoginController">
+<AnchorPane id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" stylesheets="@../../Styles/Global.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.teller.TellerLoginController">
    <children>
       <HBox layoutX="8.0" layoutY="8.0" prefHeight="384.0" prefWidth="683.0">
          <children>
@@ -18,7 +18,7 @@
                <children>
                   <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="25.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../Images/GCSU.PNG" />
+                        <Image url="@../../Images/GCSU.PNG" />
                      </image>
                   </ImageView>
                   <Label layoutX="68.0" layoutY="192.0" text="(478)699-9999">
@@ -45,7 +45,7 @@
                <children>
                   <ImageView fitHeight="101.0" fitWidth="99.0" layoutX="157.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../Images/Lock.PNG" />
+                        <Image url="@../../Images/Lock.PNG" />
                      </image>
                   </ImageView>
                   <Label layoutX="117.0" layoutY="238.0" text="Password">

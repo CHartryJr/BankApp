@@ -10,7 +10,7 @@ public class BankManager extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
     String currentDirectory = System.getProperty("user.dir");
-    currentDirectory += "/assets/GUI/TellerLogin.fxml";
+    currentDirectory += "/assets/GUI/teller/TellerLogin.fxml";
     Parent root = FXMLLoader.load(new File(currentDirectory).toURI().toURL());
     String css = System.getProperty("user.dir");
     css += "/assets/Styles/Global.css";

@@ -1,8 +1,9 @@
 package controllers.teller;
 
+import java.net.ConnectException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import controllers.clientCommunication;
+import controllers.GUIOperation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,12 +17,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.text.Text;
 
-public class CRUDController extends clientCommunication implements Initializable
+public class CRUDController extends GUIOperation implements Initializable
 {
-    @FXML
-    private Text textID;
+    
     @FXML
     private TextField tfSearch;
     @FXML
@@ -36,7 +35,7 @@ public class CRUDController extends clientCommunication implements Initializable
     private TableColumn<Client,String> colDate,colName;
     private String buffer;
     private String[] fields = {"FirstName","LastName","Account"};
-   Alert alert;
+    Alert alert;
    
    private void loadClients(ActionEvent e)
    {
@@ -64,17 +63,25 @@ public class CRUDController extends clientCommunication implements Initializable
             alert.show();
             return;
         }
-        connect();
-        System.out.println(readData());
-        writeData(buffer);
-        Boolean received = loadData(readData());
-        if(!received)
+        try
         {
-            alert = new Alert(AlertType.INFORMATION);
-            alert.setContentText("No content found");
-            alert.show();
+            connect();
+            System.out.println(readData());
+            writeData(buffer);
+            Boolean received = loadData(readData());
+            if(!received)
+            {
+                alert = new Alert(AlertType.INFORMATION);
+                alert.setContentText("No content found");
+                alert.show();
+            }
+            writeData("exit");
         }
-        writeData("exit");
+        catch (ConnectException e1)
+        {
+            e1.printStackTrace();
+        }
+        
     } 
    
     private boolean loadData(String data)
@@ -104,11 +111,7 @@ public class CRUDController extends clientCommunication implements Initializable
         tvTable.setItems(clientList);
         return true;
     }
-    
-    protected void setLoggedInName(String name)
-    {
-        textID.setText(name);
-    }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
@@ -118,12 +121,11 @@ public class CRUDController extends clientCommunication implements Initializable
         btnSearch.setOnAction(this::loadClients);
     }
 
-     
     protected class Client
     {
         protected String name,date;
         protected Integer account;  
-            public  Client(String name, String date, Integer account)
+        public  Client(String name, String date, Integer account)
         {
             this.account = account;
             this.date = date;

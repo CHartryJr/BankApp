@@ -1,24 +1,21 @@
 package controllers.teller;
 
-import java.io.*;
 import java.net.*;
 import java.util.ResourceBundle;
-import controllers.clientCommunication;
+import controllers.GUIOperation;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
+import javafx.scene.control.Alert.AlertType;
 
 
-public class TellerLoginController extends clientCommunication implements Initializable  {
+
+public class TellerLoginController extends GUIOperation implements Initializable  {
 
   @FXML
   private Button btnLogin;
@@ -26,29 +23,9 @@ public class TellerLoginController extends clientCommunication implements Initia
   private TextField tfPassword,tfUsername;
   @FXML
   private Label failedLbl;
-  private Stage st;
   private String user,pwd,buffer;// loop back until actual usage
-
-  private void switchScene(ActionEvent event) {
-    String currentDirectory = System.getProperty("user.dir");
-    currentDirectory += "/assets/GUI/CRUD.fxml";
-    try {
-        FXMLLoader loader = new FXMLLoader(new File(currentDirectory).toURI().toURL());
-        Parent root = loader.load();
-        CRUDController cd = loader.getController();
-        cd.setLoggedInName(user.toUpperCase());
-        st = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene sc = new Scene(root);
-        st.setScene(sc); // Use setScene to set the new scene on the stage
-        st.show();
-    } catch (MalformedURLException e) {
-        e.printStackTrace();
-    } catch (IOException e) {
-        e.printStackTrace();
-    }catch(Exception e){
-      e.printStackTrace();
-    }
-}
+  Alert alert;
+ 
 
   private boolean LogIn(String userName,String pwd)
   {
@@ -68,18 +45,27 @@ public class TellerLoginController extends clientCommunication implements Initia
         return true;
       }
     }
+    catch(ConnectException ce)
+    {
+      alert = new Alert(AlertType.WARNING);
+      alert.setContentText("No connection Available check connectivity");
+      alert.show();
+    }
     catch(Exception e)
     {
         buffer ="exit";
-        writeData(buffer);
+        try
+        {
+          writeData(buffer);
+        }
+        catch (ConnectException e1)
+        {
+          e1.printStackTrace();
+        }
         buffer ="";
        e.printStackTrace();
        return false;
     }
-        buffer ="exit";
-        writeData(buffer);
-        buffer ="";
-        failedLbl.setText("login Failed");
      return false;
   }
 
@@ -100,7 +86,7 @@ public class TellerLoginController extends clientCommunication implements Initia
         {
           if(LogIn(user,pwd))
           {
-            switchScene(arg0);
+            switchScene(arg0,"teller","CRUD.fxml",user);
           }
         }
         else
