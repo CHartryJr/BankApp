@@ -16,7 +16,7 @@
    <children>
       <AnchorPane id="infotable" layoutX="14.0" layoutY="15.0" prefHeight="210.0" prefWidth="349.0">
          <children>
-            <ImageView fitHeight="47.0" fitWidth="147.0" layoutX="6.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="47.0" fitWidth="147.0" layoutX="13.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Images/GCSU.PNG" />
                </image>
@@ -78,13 +78,14 @@
                   <Text fx:id="txtMemberDate" layoutX="10.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="##/##/####" wrappingWidth="152.0" />
                </children>
             </VBox>
+            <AnchorPane id="main" layoutX="4.0" layoutY="52.0" prefHeight="9.0" prefWidth="355.0" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="385.0" layoutY="15.0" prefHeight="296.0" prefWidth="340.0">
          <children>
             <TableView id="infotable" layoutX="-2.0" prefHeight="215.0" prefWidth="330.0">
               <columns>
-                  <TableColumn id="column" prefWidth="325.0" text="Transactions">
+                  <TableColumn id="column" prefWidth="327.0" text="Transactions">
                      <columns>
                       <TableColumn id="column" fx:id="colDate" prefWidth="168.0" text="Date" />
                       <TableColumn id="column" fx:id="ColAmount" prefWidth="157.0" text="Amount" />
