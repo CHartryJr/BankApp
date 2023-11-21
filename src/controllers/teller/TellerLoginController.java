@@ -33,7 +33,10 @@ public class TellerLoginController extends clientCommunication implements Initia
     String currentDirectory = System.getProperty("user.dir");
     currentDirectory += "/assets/GUI/CRUD.fxml";
     try {
-        Parent root = FXMLLoader.load(new File(currentDirectory).toURI().toURL());
+        FXMLLoader loader = new FXMLLoader(new File(currentDirectory).toURI().toURL());
+        Parent root = loader.load();
+        CRUDController cd = loader.getController();
+        cd.setLoggedInName(user.toUpperCase());
         st = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene sc = new Scene(root);
         st.setScene(sc); // Use setScene to set the new scene on the stage
@@ -53,7 +56,7 @@ public class TellerLoginController extends clientCommunication implements Initia
     {
       connect();
       System.out.println(readData());
-      buffer = "SELECT LOWER(USER),PIN FROM TELLER WHERE TELLER.USER = '" +userName.toLowerCase()+"';";
+      buffer = "SELECT LOWER(USER),PIN FROM TELLER WHERE LOWER(TELLER.USER) = '" +userName.toLowerCase()+"';";
       writeData(buffer);
       buffer = readData();
       String tokens [] = buffer.split("-");

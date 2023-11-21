@@ -8,11 +8,13 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 
@@ -34,37 +36,62 @@ public class CRUDController extends clientCommunication implements Initializable
     private TableColumn<Client,String> colDate,colName;
     private String buffer;
     private String[] fields = {"FirstName","LastName","Account"};
-   
+   Alert alert;
    
    private void loadClients(ActionEvent e)
    {
-        connect();
-        System.out.println(readData());
         String value = tfSearch.getText();
-        buffer = switch(sbSearch.getValue().toLowerCase()) //FIX
+        if(value.isEmpty())
         {
-            case "firstname" -> "SELECT FNAME||' '||LNAME AS NAME,DATE,ACCOUNTNUM FROM CUSTOMER_DATA WHERE FNAME ='"+value.toLowerCase()+"';" ;
-            case "lastname" -> "SELECT FNAME||' '||LNAME AS NAME,DATE,ACCOUNTNUM  FROM CUSTOMER_DATA  WHERE LNAME ='"+value.toLowerCase()+"';" ;
-            case "account" -> "SELECT FNAME||' '||LNAME AS NAME,DATE,ACCOUNTNUM  FROM CUSTOMER_DATA  WHERE WHERE ACCOUNTNUM ='"+value.toLowerCase()+"';" ;
+            alert = new Alert(AlertType.INFORMATION);
+            alert.setContentText("Must have a value for Searching");
+            alert.show();
+            return;
+        }
+
+        buffer = switch(sbSearch.getValue().toLowerCase())
+        {
+            case "firstname" -> "SELECT FNAME||' '||LNAME AS NAME,DATE,ACC_NUM FROM CUSTOMER_DATA WHERE LOWER(FNAME) ='"+value.toLowerCase()+"';" ;
+            case "lastname" -> "SELECT FNAME||' '||LNAME AS NAME,DATE,ACC_NUM FROM CUSTOMER_DATA WHERE LOWER(LNAME) ='"+value.toLowerCase()+"';" ;
+            case "account" -> "SELECT FNAME||' '||LNAME AS NAME,DATE,ACC_NUM FROM CUSTOMER_DATA WHERE ACC_NUM ='"+value.toLowerCase()+"';" ;
             default -> null;     
         };
+
+         if(buffer == null)
+        {
+            alert = new Alert(AlertType.INFORMATION);
+            alert.setContentText("Use A Correct Search Field");
+            alert.show();
+            return;
+        }
+        connect();
+        System.out.println(readData());
         writeData(buffer);
-        loadData(readData());
+        Boolean received = loadData(readData());
+        if(!received)
+        {
+            alert = new Alert(AlertType.INFORMATION);
+            alert.setContentText("No content found");
+            alert.show();
+        }
         writeData("exit");
     } 
    
-    private void loadData(String data)
+    private boolean loadData(String data)
     {
         if( data == null | data.equals("") )
-        return;
+        return false;
         ObservableList<Client> clientList = FXCollections.observableArrayList();
         String []result;
+        Client c;
         for(String row : data.split(","))
         {
+            
             if(!row.isEmpty())
             {
             result = row.split("-");
-            clientList.add(new Client(result[0], result[1],Integer.parseInt(result[3])));
+            c = new Client(result[0], result[1],Integer.parseInt(result[2]));
+            clientList.add(c);
             }
             else
             {
@@ -74,6 +101,13 @@ public class CRUDController extends clientCommunication implements Initializable
         colAccount.setCellValueFactory(new PropertyValueFactory<Client,Integer>("account"));
         colDate.setCellValueFactory(new PropertyValueFactory<Client,String>("date"));
         colName.setCellValueFactory(new PropertyValueFactory<Client,String>("name"));
+        tvTable.setItems(clientList);
+        return true;
+    }
+    
+    protected void setLoggedInName(String name)
+    {
+        textID.setText(name);
     }
 
     @Override
@@ -84,8 +118,59 @@ public class CRUDController extends clientCommunication implements Initializable
         btnSearch.setOnAction(this::loadClients);
     }
 
-
-     public record Client(String name, String date, Integer account)
+     
+    protected class Client
     {
+        protected String name,date;
+        protected Integer account;  
+            public  Client(String name, String date, Integer account)
+        {
+            this.account = account;
+            this.date = date;
+            this.name  = name;
+        }
+            /**
+             * @return the name
+             */
+            public String getName()
+            {
+                return name;
+            }
+            /**
+             * @param name the name to set
+             */
+            public void setName(String name)
+            {
+                this.name = name;
+            }
+            /**
+             * @return the date
+             */
+            public String getDate()
+            {
+                return date;
+            }
+            /**
+             * @param date the date to set
+             */
+            public void setDate(String date)
+            {
+                this.date = date;
+            }
+            /**
+             * @return the account
+             */
+            public Integer getAccount()
+            {
+                return account;
+            }
+            /**
+             * @param account the account to set
+             */
+            public void setAccount(Integer account)
+            {
+                this.account = account;
+            }
+        
     }
 }

@@ -92,7 +92,7 @@ private class Communication implements Runnable
           buffer = readTransaction();
           lock.lock();
           buffer = getResults(buffer);
-          Thread.sleep( 1000);
+          Thread.sleep( 500);
           lock.unlock();
           writeTransaction(buffer);
           buffer = readTransaction();

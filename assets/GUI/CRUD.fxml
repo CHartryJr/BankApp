@@ -22,6 +22,11 @@
                   <TableColumn id="column" fx:id="colDate" prefWidth="159.0" text=" Date" />
               </columns>
             </TableView>
+            <ImageView fitHeight="55.0" fitWidth="60.0" layoutX="195.0" layoutY="281.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Images/logo.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
       <AnchorPane id="secondLoc" layoutX="7.0" layoutY="9.0" prefHeight="342.0" prefWidth="254.0">
