@@ -21,13 +21,13 @@ import javafx.fxml.Initializable;
 public class TellerInfoController extends GUIOperation implements Initializable
 {
     @FXML
-    private TableColumn<Transaction,Integer > ColAmount;
+    private TableColumn<Transaction,Integer > colAmount,colID;
     @FXML
-    private TableColumn<Transaction, String > colDate;
+    private TableColumn<Transaction, String > colDate,colType;
     @FXML
     private TextArea tfReason;
     @FXML
-    private Button btnDelete,btnDeleteAccount, btnExit;
+    private Button btnDelete,btnDeleteAccount,btnExit;
     @FXML
     private Text txtAccount,txtCheckings,txtMember,txtMemberDate,txtSavings;
     private String buffer,currentAccount;
@@ -35,31 +35,65 @@ public class TellerInfoController extends GUIOperation implements Initializable
     public void getInfo(String bankAccount)
     {
         currentAccount = bankAccount;
-       
         try
         {
          connect();
          readData();//empty buffer
-         buffer = String.format("SELECT CD.FNAME||' '||CD.LNAME AS NAME,CD.DATE AS MEMBER_DATE,BD.AMOUNT,BD.DATE AS ACC_DATE,BD.DESCIPTION FROM BANK_DATA AS BD JOIN CUSTOMER_DATA AS CD ON WHERE BD.ID  = '%s'",currentAccount);
+         buffer = String.format("SELECT CD.FNAME||' '||CD.LNAME AS NAME,CD.DATE AS MEMBER_DATE,BD.AMOUNT,BD.DESCRIPTION FROM BANK_DATA AS BD JOIN CUSTOMER_DATA AS CD ON bd.ID = CD.ACC_NUM WHERE BD.ID  = '%s';",currentAccount);
          writeData(buffer);
          Boolean received = loadData(readData());
             if(!received)
             {
                 alert = new Alert(AlertType.INFORMATION);
-                alert.setContentText("No content found");
+                alert.setContentText("No content found for member");
                 alert.show();
             }
-         writeData("exit");
-            
+            buffer  ="SELECT ID,AMOUNT,DATE FROM TRANSACTION_HISORY WHERE  ";
+        writeData(buffer);
+
+         writeData("exit"); 
         }
         catch (ConnectException e)
         {
         
         }
-
     }
 
-    private Boolean loadData(String data)//fix
+    /**
+     * Uses to load data onto client bank information on  info screen
+     */
+    private Boolean loadData(String data)
+    {
+        if( data == null | data.equals("") )
+            return false;
+        String []result;
+        txtAccount.setText(currentAccount);
+        for(String row : data.split(","))
+        {
+            if(!row.isEmpty())
+            {
+                result = row.split("-");
+                txtMember.setText(result[0]);
+                txtMemberDate.setText(result[0]);
+                if(result[3].toLowerCase().equals("savings"))
+                {
+                    txtSavings.setText(result[2]);
+                }
+                else
+                {
+                    txtCheckings.setText(result[2]);
+                }
+            }
+            else
+            {
+                break;
+            }
+
+        }
+        return true;
+    }
+
+    private Boolean loadTable(String data)
     {
         if( data == null | data.equals("") )
         return false;
@@ -92,7 +126,8 @@ public class TellerInfoController extends GUIOperation implements Initializable
        System.out.println("hello");
     }
 
-    protected class Transaction{
+    protected class Transaction
+    {
 
     }
 }
