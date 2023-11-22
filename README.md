@@ -19,10 +19,11 @@ you will activate the sever app and connect to it with the client app via ip and
 ## dependencies
 Java Develoment kit 21.0.1 [Site](https://www.oracle.com/java/technologies/downloads/)
 JavaFX  21.0.1 [Site](https://gluonhq.com/products/javafx/)
+Jdbc 3.43.22 [site]()
+sl4j 1.7.36 [site]()
 ## Contributing
 Carl Hartry Jr.
 [GitHub](https://github.com/CHartryJr)
 
 Brady BlackStone
 [GitHub](https://github.com/Brady-Blackstone)
-

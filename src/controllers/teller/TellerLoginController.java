@@ -14,7 +14,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 
 
-
+/**
+ * 
+ *  A GUI Operation.Used to operate Teller login
+ * @author Carl Hartry Jr.
+ */
 public class TellerLoginController extends GUIOperation implements Initializable  {
 
   @FXML
@@ -24,7 +28,6 @@ public class TellerLoginController extends GUIOperation implements Initializable
   @FXML
   private Label failedLbl;
   private String user,pwd,buffer;// loop back until actual usage
-  Alert alert;
  
 
   private boolean LogIn(String userName,String pwd)
@@ -47,9 +50,10 @@ public class TellerLoginController extends GUIOperation implements Initializable
     }
     catch(ConnectException ce)
     {
-      alert = new Alert(AlertType.WARNING);
+      alert = new Alert(AlertType.ERROR);
       alert.setContentText("No connection Available check connectivity");
       alert.show();
+      return false;
     }
     catch(Exception e)
     {
@@ -62,12 +66,13 @@ public class TellerLoginController extends GUIOperation implements Initializable
         {
           e1.printStackTrace();
         }
-        buffer ="";
        e.printStackTrace();
        return false;
     }
-     return false;
+    buffer ="";
+    return false;
   }
+
 
   /*
    * treat this method as the main file for gui
@@ -86,12 +91,14 @@ public class TellerLoginController extends GUIOperation implements Initializable
         {
           if(LogIn(user,pwd))
           {
-            switchScene(arg0,"teller","CRUD.fxml",user);
+            switchScene(arg0,"teller","TellerSearch.fxml",user);
           }
         }
         else
         {
-          failedLbl.setText("Critical Error");
+          alert = new Alert(AlertType.ERROR);
+          alert.setContentText("No connection available please check connectivity");
+          alert.show();
         }
       }
     });//login button end

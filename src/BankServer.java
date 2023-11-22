@@ -7,7 +7,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * This program wil be used as a communication hub and will be the engine for query based operations
+ * @apiNote This program wil be used as a communication hub and will be the engine for query based operations
+ * @author Carl Hartry jr
  */
 public class BankServer
 {
@@ -41,7 +42,7 @@ public class BankServer
         Socket clientSocketSession = serverSocket.accept();// will listen for client connection halts operation on main thread will stop until accepted
         new BankServer().newCommunication(clientSocketSession, index.incrementAndGet(),con);
         System.out.println("A new connection has been made"); //debug only.
-      }while (running);
+      }while (running);//bad practice will implement stop thread later
       serverSocket.close();
       con.close();
     }

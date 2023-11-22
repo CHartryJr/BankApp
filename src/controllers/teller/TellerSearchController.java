@@ -1,5 +1,6 @@
 package controllers.teller;
 
+import java.io.File;
 import java.net.ConnectException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -8,7 +9,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -17,8 +21,13 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
-
-public class CRUDController extends GUIOperation implements Initializable
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+/**
+ * This is a event driven class that will operate the CRUD Search portion of the program. The fmxl that it operatates on is CRUD.fxml
+ * @author Carl Hartry Jr.
+ */
+public class TellerSearchController extends GUIOperation implements Initializable
 {
     
     @FXML
@@ -35,8 +44,14 @@ public class CRUDController extends GUIOperation implements Initializable
     private TableColumn<Client,String> colDate,colName;
     private String buffer;
     private String[] fields = {"FirstName","LastName","Account"};
-    Alert alert;
-   
+    private boolean open  = false;
+    
+
+
+   /**
+    * used to load the client data gathered to The Table View 
+    * @param e
+    */
    private void loadClients(ActionEvent e)
    {
         String value = tfSearch.getText();
@@ -83,6 +98,8 @@ public class CRUDController extends GUIOperation implements Initializable
         }
         
     } 
+    
+   
    
     private boolean loadData(String data)
     {
@@ -111,7 +128,43 @@ public class CRUDController extends GUIOperation implements Initializable
         tvTable.setItems(clientList);
         return true;
     }
+    private void getInfoPage(MouseEvent m)
+    {
+        if(open)
+        {
+            alert = new Alert(AlertType.WARNING);
+            alert.setContentText("An Info Page Is Already Open");
+            alert.show();
+            return;
+        }
+        try
+        {
+        int index = tvTable.getSelectionModel().getSelectedIndex();
+        String currentDirectory = System.getProperty("user.dir");
+        currentDirectory += "/assets/GUI/teller/TellerInfo.fxml";
+        FXMLLoader loader = new FXMLLoader(new File(currentDirectory).toURI().toURL());
+        Parent Root1 = (Parent) loader.load();
+        TellerInfoController tc = loader.getController();
+        String account = colAccount.getCellData(index).toString();
+        tc.getInfo(account);
+        Stage Stage = new Stage();
+        Stage.setTitle("Information Page");
+        Stage.setScene(new Scene(Root1));
+        Stage.show();
+        }catch(Exception ie){
+            ie.printStackTrace();
+        }
+        
+    }
 
+    /**
+     * logout controller
+     * @param e
+     */
+     private void logout(ActionEvent e)
+    {
+        switchScene(e,"teller","TellerLogin.fxml","");
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
@@ -119,8 +172,13 @@ public class CRUDController extends GUIOperation implements Initializable
         sbSearch.setValue("Search Value");
         sbSearch.getItems().addAll(fields);
         btnSearch.setOnAction(this::loadClients);
+        btnLogout.setOnAction(this::logout);
+        tvTable.setOnMouseClicked(this::getInfoPage);
     }
 
+    /**
+     * Wrapper class used to represent client data
+     */
     protected class Client
     {
         protected String name,date;
@@ -131,48 +189,26 @@ public class CRUDController extends GUIOperation implements Initializable
             this.date = date;
             this.name  = name;
         }
-            /**
-             * @return the name
-             */
-            public String getName()
-            {
-                return name;
-            }
-            /**
-             * @param name the name to set
-             */
-            public void setName(String name)
-            {
-                this.name = name;
-            }
-            /**
-             * @return the date
-             */
-            public String getDate()
-            {
-                return date;
-            }
-            /**
-             * @param date the date to set
-             */
-            public void setDate(String date)
-            {
-                this.date = date;
-            }
-            /**
-             * @return the account
-             */
-            public Integer getAccount()
-            {
-                return account;
-            }
-            /**
-             * @param account the account to set
-             */
-            public void setAccount(Integer account)
-            {
-                this.account = account;
-            }
-        
+        /**
+         * @return the name
+         */
+        public String getName()
+        {
+            return name;
+        }
+        /**
+         * @return the date
+         */
+        public String getDate()
+        {
+            return date;
+        }
+        /**
+         * @return the account
+         */
+        public Integer getAccount()
+        {
+            return account;
+        }
     }
-}
+}//EOF

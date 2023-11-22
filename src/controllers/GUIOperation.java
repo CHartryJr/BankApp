@@ -8,11 +8,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
- * Class used to make a uniform button communications
+ *  A used to control GUI Operations. These operations consist of read write and scene transition
  */
 public class GUIOperation 
 {
@@ -21,8 +22,15 @@ public class GUIOperation
   private String currentUser,host = "localhost";// loop back until actual usage
   private int port = 5001;
   private Socket sock;
+  protected Alert alert;
   private boolean connected = false;
     
+   /**
+    * this will be used to read data provide from the server
+     * @implNote Must Use Connect before usage of this method
+     * @param data
+     * @throws ConnectException
+     */
    protected String readData() throws ConnectException
   {
     if(connected == false)
@@ -41,7 +49,12 @@ public class GUIOperation
     }
     return data;
   }
-
+    /**
+     * this will be used to write to the server
+     * @implNote Must Use Connect before usage of this method
+     * @param data
+     * @throws ConnectException
+     */
     protected void writeData(String data) throws ConnectException
   {
     if(connected == false)
@@ -86,8 +99,11 @@ public class GUIOperation
     try {
         FXMLLoader loader = new FXMLLoader(new File(currentDirectory).toURI().toURL());
         Parent root = loader.load();
-        GUIOperation cd = loader.getController();
-        cd.setLoggedInName(user.toUpperCase());
+        if(!user.isEmpty())
+        {
+          GUIOperation cd = loader.getController();
+          cd.setLoggedInName(user.toUpperCase());
+        }
         Stage st = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene sc = new Scene(root);
         st.setScene(sc); // Use setScene to set the new scene on the stage
@@ -98,7 +114,8 @@ public class GUIOperation
       e.printStackTrace();
     }
   }
-  protected  void setLoggedInName(String name)
+  
+  public void setLoggedInName(String name)
     {
         currentUser = name;
         textID.setText(name);
