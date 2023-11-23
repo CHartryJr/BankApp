@@ -44,10 +44,14 @@ public class TellerSearchController extends GUIOperation implements Initializabl
     private TableColumn<Client,String> colDate,colName;
     private String buffer;
     private String[] fields = {"FirstName","LastName","Account"};
-    private boolean open  = false;
+    private  boolean open  = false;
     
 
 
+    protected  void toggleOpen()
+    {
+        open = !open;
+    }
    /**
     * used to load the client data gathered to The Table View 
     * @param e
@@ -99,8 +103,6 @@ public class TellerSearchController extends GUIOperation implements Initializabl
         
     } 
     
-   
-   
     private boolean loadData(String data)
     {
         if( data == null | data.equals("") )
@@ -128,6 +130,7 @@ public class TellerSearchController extends GUIOperation implements Initializabl
         tvTable.setItems(clientList);
         return true;
     }
+
     private void getInfoPage(MouseEvent m)
     {
         if(open)
@@ -154,7 +157,7 @@ public class TellerSearchController extends GUIOperation implements Initializabl
         }catch(Exception ie){
             ie.printStackTrace();
         }
-        
+        toggleOpen();
     }
 
     /**

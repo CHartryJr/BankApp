@@ -41,7 +41,7 @@ public class BankServer
         System.out.println("listening for connection");
         Socket clientSocketSession = serverSocket.accept();// will listen for client connection halts operation on main thread will stop until accepted
         new BankServer().newCommunication(clientSocketSession, index.incrementAndGet(),con);
-        System.out.println("A new connection has been made"); //debug only.
+       
       }while (running);//bad practice will implement stop thread later
       serverSocket.close();
       con.close();
@@ -85,6 +85,7 @@ private class Communication implements Runnable
   */
   public void run()// action done during thread
   {
+    System.out.println("A new connection has been made"); //debug only.
     try 
     {
       writeTransaction(String.format(" You are Thread%d in the Que.I am ready for your requests ",identifier));
