@@ -89,16 +89,17 @@ private class Communication implements Runnable
     try 
     {
       writeTransaction(String.format(" You are Thread%d in the Que.I am ready for your requests ",identifier));
-      do
+      while(true)
       {
           buffer = readTransaction();
+          if(buffer == null | buffer.toLowerCase().equals("exit"))
+            break;
           lock.lock();
           buffer = getResults(buffer);
           Thread.sleep( 500);
           lock.unlock();
           writeTransaction(buffer);
-          buffer = readTransaction();
-      }while(buffer != null & !buffer.toLowerCase().equals("exit"));
+      }
       System.out.println("Service completed");
       index.decrementAndGet();
       clientSocket.close();
@@ -156,7 +157,7 @@ private class Communication implements Runnable
       e.printStackTrace();
     }
   }
-    private String getResults(String query)///fix parsing data
+    private String getResults(String query)
     {
       String result = "";
       try( Statement st = con.createStatement(); ResultSet rs = st.executeQuery(query))

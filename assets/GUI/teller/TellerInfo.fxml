@@ -83,14 +83,13 @@
       </AnchorPane>
       <AnchorPane layoutX="217.0" layoutY="14.0" prefHeight="296.0" prefWidth="269.0">
          <children>
-            <TableView id="infotable" prefHeight="215.0" prefWidth="265.0">
+            <TableView id="infotable" fx:id="tvTable" prefHeight="215.0" prefWidth="265.0">
               <columns>
-                  <TableColumn id="column" prefWidth="307.0" text="Transactions">
+                  <TableColumn id="column" fx:id="colTrans" prefWidth="262.0" text="Transactions">
                      <columns>
-                      <TableColumn id="column" fx:id="colID" prefWidth="31.0" text="#" />
-                        <TableColumn id="column" fx:id="colAmount1" prefWidth="78.0" text="Amount" />
-                      <TableColumn id="column" fx:id="colDate" prefWidth="73.0" text="Date" />
-                        <TableColumn id="column" fx:id="colType" text="From" />
+                        <TableColumn id="column" fx:id="colAmount" prefWidth="90.0" text="Amount" />
+                      <TableColumn id="column" fx:id="colDate" prefWidth="83.0" text="Date" />
+                        <TableColumn id="column" fx:id="colType" prefWidth="89.0" text="From" />
                      </columns>
                   </TableColumn>
               </columns>

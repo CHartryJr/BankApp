@@ -45,6 +45,7 @@ public class TellerSearchController extends GUIOperation implements Initializabl
     private String buffer;
     private String[] fields = {"FirstName","LastName","Account"};
     private  boolean open  = false;
+    ObservableList<Client> clientList;
     
 
 
@@ -105,9 +106,9 @@ public class TellerSearchController extends GUIOperation implements Initializabl
     
     private boolean loadData(String data)
     {
-        if( data == null | data.equals("") )
+        if( data == null )
         return false;
-        ObservableList<Client> clientList = FXCollections.observableArrayList();
+        clientList = FXCollections.observableArrayList();
         String []result;
         Client c;
         for(String row : data.split(","))
@@ -115,9 +116,9 @@ public class TellerSearchController extends GUIOperation implements Initializabl
             
             if(!row.isEmpty())
             {
-            result = row.split("-");
-            c = new Client(result[0], result[1],Integer.parseInt(result[2]));
-            clientList.add(c);
+                result = row.split("-");
+                c = new Client(result[0], result[1],Integer.parseInt(result[2]));
+                clientList.add(c);
             }
             else
             {
@@ -133,6 +134,8 @@ public class TellerSearchController extends GUIOperation implements Initializabl
 
     private void getInfoPage(MouseEvent m)
     {
+        if(clientList.isEmpty())
+            return;
         if(open)
         {
             alert = new Alert(AlertType.WARNING);
@@ -142,18 +145,19 @@ public class TellerSearchController extends GUIOperation implements Initializabl
         }
         try
         {
-        int index = tvTable.getSelectionModel().getSelectedIndex();
-        String currentDirectory = System.getProperty("user.dir");
-        currentDirectory += "/assets/GUI/teller/TellerInfo.fxml";
-        FXMLLoader loader = new FXMLLoader(new File(currentDirectory).toURI().toURL());
-        Parent Root1 = (Parent) loader.load();
-        TellerInfoController tc = loader.getController();
-        String account = colAccount.getCellData(index).toString();
-        tc.getInfo(account);
-        Stage Stage = new Stage();
-        Stage.setTitle("Information Page");
-        Stage.setScene(new Scene(Root1));
-        Stage.show();
+            int index = tvTable.getSelectionModel().getSelectedIndex();
+            String currentDirectory = System.getProperty("user.dir");
+            currentDirectory += "/assets/GUI/teller/TellerInfo.fxml";
+            FXMLLoader loader = new FXMLLoader(new File(currentDirectory).toURI().toURL());
+            Parent Root1 = (Parent) loader.load();
+            TellerInfoController tc = loader.getController();
+            String account = colAccount.getCellData(index).toString();
+            tc.getHomeReference(this);
+            tc.getInfo(account);
+            Stage Stage = new Stage();
+            Stage.setTitle("Information Page");
+            Stage.setScene(new Scene(Root1));
+            Stage.show();
         }catch(Exception ie){
             ie.printStackTrace();
         }
