@@ -70,10 +70,15 @@ public class TellerInfoController extends GUIOperation implements Initializable
         {
         
         }
+       
+    }
+    
+    protected void setExitOperation()
+    {
         Stage currentStage = (Stage) btnExit.getScene().getWindow();
         currentStage.setOnHiding(this::onClose);
     }
-    
+
     protected void getHomeReference(TellerSearchController tsc)
     {
          this.tsc = tsc;
@@ -135,7 +140,6 @@ public class TellerInfoController extends GUIOperation implements Initializable
             System.out.println(row);//debugging only
             if(!row.isEmpty())
             {
-                System.out.println(row);
                 result = row.split("-");
                 T = new Transaction(Float.parseFloat(result[0]),result[1],result[2]);
                 Transactions.add(T);

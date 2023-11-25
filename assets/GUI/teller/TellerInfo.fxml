@@ -85,11 +85,11 @@
          <children>
             <TableView id="infotable" fx:id="tvTable" prefHeight="215.0" prefWidth="265.0">
               <columns>
-                  <TableColumn id="column" fx:id="colTrans" prefWidth="262.0" text="Transactions">
+                  <TableColumn id="column" fx:id="colTrans" prefWidth="261.0" text="Transactions">
                      <columns>
-                        <TableColumn id="column" fx:id="colAmount" prefWidth="90.0" text="Amount" />
-                      <TableColumn id="column" fx:id="colDate" prefWidth="83.0" text="Date" />
-                        <TableColumn id="column" fx:id="colType" prefWidth="89.0" text="From" />
+                        <TableColumn id="column" fx:id="colAmount" prefWidth="87.0" text="Amount" />
+                      <TableColumn id="column" fx:id="colDate" prefWidth="87.0" text="Date" />
+                        <TableColumn id="column" fx:id="colType" prefWidth="87.0" text="From" />
                      </columns>
                   </TableColumn>
               </columns>

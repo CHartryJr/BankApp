@@ -157,7 +157,9 @@ public class TellerSearchController extends GUIOperation implements Initializabl
             Stage Stage = new Stage();
             Stage.setTitle("Information Page");
             Stage.setScene(new Scene(Root1));
+            tc.setExitOperation();
             Stage.show();
+            
         }catch(Exception ie){
             ie.printStackTrace();
         }
