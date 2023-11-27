@@ -99,14 +99,16 @@ public class TellerSearchController extends GUIOperation implements Initializabl
         }
         catch (ConnectException e1)
         {
-            e1.printStackTrace();
+            alert = new Alert(AlertType.ERROR);
+            alert.setContentText("No connection Available check connectivity");
+            alert.show();
         }
         
     } 
     
     private boolean loadData(String data)
     {
-        if( data == null )
+        if( data == null | data.isEmpty())
         return false;
         clientList = FXCollections.observableArrayList();
         String []result;
@@ -132,7 +134,7 @@ public class TellerSearchController extends GUIOperation implements Initializabl
         return true;
     }
 
-    private void getInfoPage(MouseEvent m)
+    private void setInfoPage(MouseEvent m)
     {
         if(clientList.isEmpty())
             return;
@@ -152,8 +154,8 @@ public class TellerSearchController extends GUIOperation implements Initializabl
             Parent Root1 = (Parent) loader.load();
             TellerInfoController tc = loader.getController();
             String account = colAccount.getCellData(index).toString();
-            tc.getHomeReference(this);
-            tc.getInfo(account);
+            tc.setHomeReference(this);
+            tc.setInfo(account);
             Stage Stage = new Stage();
             Stage.setTitle("Information Page");
             Stage.setScene(new Scene(Root1));
@@ -182,7 +184,7 @@ public class TellerSearchController extends GUIOperation implements Initializabl
         sbSearch.getItems().addAll(fields);
         btnSearch.setOnAction(this::loadClients);
         btnLogout.setOnAction(this::logout);
-        tvTable.setOnMouseClicked(this::getInfoPage);
+        tvTable.setOnMouseClicked(this::setInfoPage);
     }
 
     /**

@@ -13,7 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 
-
 /**
  * 
  *  A GUI Operation.Used to operate Teller login
@@ -32,6 +31,7 @@ public class TellerLoginController extends GUIOperation implements Initializable
 
   private boolean LogIn(String userName,String pwd)
   {
+    Boolean loggedIn = false;
     try
     {
       connect();
@@ -41,12 +41,10 @@ public class TellerLoginController extends GUIOperation implements Initializable
       buffer = readData();
       String tokens [] = buffer.split("-");
       if (tokens[1].equals(pwd))
-      {
-        buffer ="exit";
-        writeData(buffer);
-        buffer ="";
-        return true;
-      }
+        loggedIn = true;
+      buffer ="exit";
+      writeData(buffer);
+      buffer ="";
     }
     catch(ConnectException ce)
     {
@@ -55,24 +53,8 @@ public class TellerLoginController extends GUIOperation implements Initializable
       alert.show();
       return false;
     }
-    catch(Exception e)
-    {
-        buffer ="exit";
-        try
-        {
-          writeData(buffer);
-        }
-        catch (ConnectException e1)
-        {
-          e1.printStackTrace();
-        }
-       e.printStackTrace();
-       return false;
-    }
-    buffer ="";
-    return false;
+    return loggedIn;
   }
-
 
   /*
    * treat this method as the main file for gui
@@ -93,6 +75,13 @@ public class TellerLoginController extends GUIOperation implements Initializable
           {
             switchScene(arg0,"teller","TellerSearch.fxml",user);
           }
+          else
+          {
+            alert = new Alert(AlertType.INFORMATION);
+            alert.setContentText("You have entered the wrong credentials try again");
+            alert.show();
+          }
+          
         }
         else
         {

@@ -14,5 +14,4 @@ Icon
 # Recycle Bin used on file shares
 .Trash-*
 # remove class files
-*.class
-./bin/
+**/bin

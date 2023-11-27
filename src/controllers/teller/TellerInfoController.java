@@ -23,7 +23,7 @@ import javafx.fxml.Initializable;
 public class TellerInfoController extends GUIOperation implements Initializable
 {
     @FXML
-    private TableColumn<Transaction,Float > colAmount;
+    private TableColumn<Transaction,Float> colAmount;
     @FXML
     private TableColumn<Transaction, String > colDate,colType;
     @FXML
@@ -37,7 +37,7 @@ public class TellerInfoController extends GUIOperation implements Initializable
     private String buffer,currentAccount;
     private TellerSearchController tsc;
 
-    protected  void getInfo(String bankAccount)
+    protected  void setInfo(String bankAccount)
     {
         currentAccount = bankAccount;
         try
@@ -68,9 +68,10 @@ public class TellerInfoController extends GUIOperation implements Initializable
         }
         catch (ConnectException e)
         {
-        
+            alert = new Alert(AlertType.ERROR);
+            alert.setContentText("No connection Available check connectivity");
+            alert.show();
         }
-       
     }
     
     protected void setExitOperation()
@@ -79,7 +80,7 @@ public class TellerInfoController extends GUIOperation implements Initializable
         currentStage.setOnHiding(this::onClose);
     }
 
-    protected void getHomeReference(TellerSearchController tsc)
+    protected void setHomeReference(TellerSearchController tsc)
     {
          this.tsc = tsc;
     }
@@ -160,7 +161,6 @@ public class TellerInfoController extends GUIOperation implements Initializable
     public void initialize(URL location, ResourceBundle resources)
     {
         btnExit.setOnAction(this::exitScene);
-        
     }
 
     protected class Transaction
