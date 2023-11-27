@@ -96,7 +96,7 @@ private class Communication implements Runnable
             break;
           lock.lock();
           buffer = getResults(buffer);
-          Thread.sleep( 500);
+          Thread.sleep( 300);
           lock.unlock();
           writeTransaction(buffer);
       }
