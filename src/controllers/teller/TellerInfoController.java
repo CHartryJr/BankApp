@@ -25,7 +25,7 @@ public class TellerInfoController extends GUIOperation implements Initializable
     @FXML
     private TableColumn<Transaction,Float> colAmount;
     @FXML
-    private TableColumn<Transaction, String > colDate,colType;
+    private TableColumn<Transaction, String > colDate,colType,colOper;
     @FXML
     private TableView <Transaction> tvTable;
     @FXML
@@ -54,7 +54,7 @@ public class TellerInfoController extends GUIOperation implements Initializable
                 alert.show();
             } 
 
-            buffer = String.format("SELECT T.AMOUNT,T.DATE,ACC.TYPE FROM ALL_TRANS AS T JOIN (SELECT A.ID,TYPE.DESCRIPTION AS TYPE FROM ACCOUNT A JOIN ACCOUNT_TYPE AS TYPE ON A.TYPE = TYPE.ID ) AS ACC ON ACC.ID = T.A_ID WHERE T.B_ID = %s;",currentAccount);
+            buffer = String.format("SELECT T.AMOUNT,T.DATE,ACC.TYPE,T.DESCRIPTION FROM ALL_TRANS AS T JOIN (SELECT A.ID,TYPE.DESCRIPTION AS TYPE FROM ACCOUNT A JOIN ACCOUNT_TYPE AS TYPE ON A.TYPE = TYPE.ID ) AS ACC ON ACC.ID = T.A_ID WHERE T.B_ID = %s;",currentAccount);
             writeData(buffer);
             received = loadTable(readData());
             if(!received)
@@ -142,7 +142,7 @@ public class TellerInfoController extends GUIOperation implements Initializable
             if(!row.isEmpty())
             {
                 result = row.split("-");
-                T = new Transaction(Float.parseFloat(result[0]),result[1],result[2]);
+                T = new Transaction(Float.parseFloat(result[0]),result[1],result[2],result[3]);
                 Transactions.add(T);
             }
             else
@@ -153,6 +153,7 @@ public class TellerInfoController extends GUIOperation implements Initializable
         colAmount.setCellValueFactory(new PropertyValueFactory<Transaction,Float>("amount"));
         colDate.setCellValueFactory(new PropertyValueFactory<Transaction,String>("date"));
         colType.setCellValueFactory(new PropertyValueFactory<Transaction,String>("type"));
+        colOper.setCellValueFactory(new PropertyValueFactory<Transaction,String>("oper"));
         tvTable.setItems(Transactions);
         return true;
     }
@@ -166,13 +167,22 @@ public class TellerInfoController extends GUIOperation implements Initializable
     protected class Transaction
     {
         private Float amount;
-        private String date,type;
+        private String date,type,oper;
             
-        public Transaction(Float amount, String date, String type)
+        public Transaction(Float amount, String date, String type,String oper)
         {
             this.amount = amount;
             this.date = date;
             this.type = type;
+            this.oper = oper;
+        }
+
+        /**
+         * @return the oper
+         */
+        public String getOper()
+        {
+            return oper;
         }
 
         /**

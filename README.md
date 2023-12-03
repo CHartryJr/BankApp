@@ -17,10 +17,10 @@ The Makefile will be used to run each file. First in the terminal run the "make"
 ## Usage
 you will activate the sever app and connect to it with the client app via ip and port. The server app will allow the user to observe,monitor,and manipulate the database as necessary. The while client app will allow for user to view their data and initiate transactions. 
 ## dependencies
-Java Develoment kit 21.0.1 [Site](https://www.oracle.com/java/technologies/downloads/)
+Java Develoment kit 21.0.1 [Site](https://www.oracle.com/java/technologies/downloads/#java21)
 JavaFX  21.0.1 [Site](https://gluonhq.com/products/javafx/)
-Jdbc 3.43.22 [site]()
-sl4j 1.7.36 [site]()
+Jdbc 3.43.22 [site](https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc/3.43.2.2)
+sl4j 1.7.36 [site](https://mvnrepository.com/artifact/org.slf4j/slf4j-api)
 ## Contributing
 Carl Hartry Jr.
 [GitHub](https://github.com/CHartryJr)

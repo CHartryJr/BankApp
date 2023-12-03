@@ -16,7 +16,7 @@
             "name": "BankServer",
             "request": "launch",
             "mainClass": "BankServer",
-            "projectName": "BankApp_583e9d8",
+            "cwd": "${workspaceFolder}",
             "vmArgs": "-cp ./lib/:sqlite-jdbc-3.7.2.jar --module-path ./lib/ --add-modules javafx.media,javafx.swing,javafx.fxml,javafx.controls,javafx.base,javafx.graphics"
         },
         {
@@ -24,7 +24,7 @@
             "name": "BankManager",
             "request": "launch",
             "mainClass": "BankManager",
-            "projectName": "BankApp_583e9d8",
+            "cwd": "${workspaceFolder}",
             "vmArgs": "--module-path ./lib/ --add-modules javafx.media,javafx.swing,javafx.fxml,javafx.controls,javafx.base,javafx.graphics"
         },
         {
@@ -32,7 +32,7 @@
             "name": "OnlineBank",
             "request": "launch",
             "mainClass": "OnlineBank",
-            "projectName": "BankApp_583e9d8",
+            "cwd": "${workspaceFolder}",
             "vmArgs": "--module-path ./lib/ --add-modules javafx.media,javafx.swing,javafx.fxml,javafx.controls,javafx.base,javafx.graphics"
         }
     ]
