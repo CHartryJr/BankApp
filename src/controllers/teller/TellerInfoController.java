@@ -92,15 +92,16 @@ public class TellerInfoController extends GUIOperation implements Initializable
     {
         if( data == null )
             return false;
-        String []result;
+        String []result,date;
         txtAccount.setText(currentAccount);
         for(String row : data.split(","))
         {
             if(!row.isEmpty())
             {
                 result = row.split("-");
+                date = result[1].split(" ");
                 txtMember.setText(result[0]);
-                txtMemberDate.setText(result[1]);
+                txtMemberDate.setText(date[0]);
                 if(result[4].toLowerCase().equals("savings"))
                 {
                     txtSavings.setText(result[2]);
