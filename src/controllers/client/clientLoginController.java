@@ -1,5 +1,6 @@
 package controllers.client;
 
-public class clientLoginController {
+public class clientLoginController 
+{
     
 }

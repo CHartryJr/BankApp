@@ -14,7 +14,7 @@ public class OnlineBank extends Application {
   public void start(Stage primaryStage) throws Exception 
   {
     String currentDirectory = System.getProperty("user.dir");
-    currentDirectory += "/assets/GUI/Client-Home.fxml";
+    currentDirectory += "/assets/GUI/client/Client-Home.fxml";
     Parent root = FXMLLoader.load(new File(currentDirectory).toURI().toURL());
     primaryStage.setTitle("Welcome GCSU CREDIT UNION");
     primaryStage.setScene(new Scene(root, 600, 600));
