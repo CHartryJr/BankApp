@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 
 /**
  *  A used to control GUI Operations. These operations consist of read write and scene transition
+ * @author Carl Hartry Jr
  */
 public class GUIOperation 
 {

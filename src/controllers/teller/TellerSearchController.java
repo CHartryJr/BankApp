@@ -168,6 +168,10 @@ public class TellerSearchController extends GUIOperation implements Initializabl
         toggleOpen();
     }
 
+    protected void refreshPage()
+    {
+         clientList.clear();
+    }
     /**
      * logout controller
      * @param e

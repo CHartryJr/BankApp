@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -36,7 +37,7 @@ public class TellerInfoController extends GUIOperation implements Initializable
     private Text txtAccount,txtCheckings,txtMember,txtMemberDate,txtSavings;
     private String buffer,currentAccount;
     private TellerSearchController tsc;
-
+    
     protected  void setInfo(String bankAccount)
     {
         currentAccount = bankAccount;
@@ -85,6 +86,38 @@ public class TellerInfoController extends GUIOperation implements Initializable
          this.tsc = tsc;
     }
 
+    private void deleteUser(ActionEvent e)
+    {
+        alert = new Alert(AlertType.CONFIRMATION);
+        alert.setContentText("Did you confirm with Customer?");
+        boolean confirm =  alert.showAndWait().get() == ButtonType.OK ?true:false;
+        if(!confirm)
+            return;
+        alert.setContentText("Once this action is done The account will permanently deleted is this ok?");
+        confirm =  alert.showAndWait().get() == ButtonType.OK ?true:false;
+        if(!confirm)
+            return;
+       
+        try
+        {
+            connect();
+            readData();
+            buffer = String.format("BEGIN;\n" + //
+                    "SELECT MEMBERID INTO :MemberID FROM OWNS WHERE BANK_ACCOUNTID = %s;\n" +
+                    "DELETE FROM OWNS WHERE BANK_ACCOUNTID = %s;\n" +
+                    "DELETE FROM MEMBER WHERE ID = :MemberID;\n" + 
+                    "DELETE FROM BANK_ACCOUNT WHERE ID = %s;\n" + 
+                    "COMMIT;",txtAccount.getText());
+            writeData(buffer);
+            readData();
+            buffer = "exit";
+            writeData(buffer);
+            tsc.refreshPage();
+            exitScene(e);
+        }
+        catch(ConnectException ce)
+        {}
+    }
     /**
      * Uses to load data onto client bank information on  info screen
      */
@@ -163,6 +196,7 @@ public class TellerInfoController extends GUIOperation implements Initializable
     public void initialize(URL location, ResourceBundle resources)
     {
         btnExit.setOnAction(this::exitScene);
+        btnDeleteAccount.setOnAction(this::deleteUser);
     }
 
     protected class Transaction
