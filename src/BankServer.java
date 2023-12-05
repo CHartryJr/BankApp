@@ -12,39 +12,24 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class BankServer
 {
-  private static boolean running = true; //will be uses to shut down server.
   private static AtomicInteger index = new AtomicInteger(1);//used to keep a index on all threads
   private final static String HOST = "localhost";
   private static Lock lock =  new ReentrantLock();
-  
+  private Connection con = null;
   public static void main(String[] args) 
   {
     try
     {
-      Connection con = null;
-      try 
-      {
-        String cd = System.getProperty("user.dir");
-        cd += "/assets/Data/Bank.db";
-        con = DriverManager.getConnection("jdbc:sqlite:" +cd);
-      }
-       catch (SQLException e) 
-      {
-        e.printStackTrace();
-      }
-      System.out.println("DataBase is now up");
       ServerSocket serverSocket = new ServerSocket(5001,0,InetAddress.getByName(HOST));//for testing
      // ServerSocket serverSocket = new ServerSocket(5001);
       System.out.println("Server has started");
-      do
+      while (true)
       {
         System.out.println("listening for connection");
         Socket clientSocketSession = serverSocket.accept();// will listen for client connection halts operation on main thread will stop until accepted
-        new BankServer().newCommunication(clientSocketSession, index.incrementAndGet(),con);
-       
-      }while (running);//bad practice will implement stop thread later
-      serverSocket.close();
-      con.close();
+        new BankServer().newCommunication(clientSocketSession, index.incrementAndGet());
+      }
+      //serverSocket.close();//bad practice will implement stop thread later
     }
     catch(Exception e)
     {
@@ -58,8 +43,18 @@ public class BankServer
  * @param con
  *  will call a new communication per client 
  */
-  private void newCommunication(Socket s, int identifier,Connection con)
+  private void newCommunication(Socket s, int identifier)
   {
+    try 
+      {
+        String cd = System.getProperty("user.dir");
+        cd += "/assets/Data/Bank.db";
+        con = DriverManager.getConnection("jdbc:sqlite:" +cd);
+      }
+       catch (SQLException e) 
+      {
+        e.printStackTrace();
+      }
    new Communication(s,identifier,con).run();
   }
   
@@ -69,10 +64,9 @@ public class BankServer
 private class Communication implements Runnable
 {
   private Socket clientSocket;
-  String buffer;
+  private String buffer;
   private int identifier;
-  
-  Connection con;
+  private Connection con;
 
   private Communication(Socket clientSocket, int identifier, Connection con)
   {
@@ -95,7 +89,7 @@ private class Communication implements Runnable
           if(buffer == null | buffer.toLowerCase().equals("exit"))
             break;
           lock.lock();
-          buffer = getResults(buffer);
+          buffer =  buffer.indexOf("BEGIN;") == -1 ?getResults(buffer) : updateDB(buffer);
           Thread.sleep( 300);
           lock.unlock();
           writeTransaction(buffer);
@@ -103,6 +97,7 @@ private class Communication implements Runnable
       System.out.println("Service completed");
       index.decrementAndGet();
       clientSocket.close();
+      con.close();
     } 
     catch(NullPointerException e)
     {
@@ -157,6 +152,7 @@ private class Communication implements Runnable
       e.printStackTrace();
     }
   }
+
     private String getResults(String query)
     {
       String result = "";
@@ -183,5 +179,58 @@ private class Communication implements Runnable
       }
       return result;
     }
+   
+    private String updateDB(String transaction) 
+    {
+      String result = "";
+      String [] queries = transaction.split("-");
+      int updateCount = 0;
+      try 
+      {
+          con.setAutoCommit(false);
+  
+          for (int i =1;i < queries.length; i++)
+          {
+              try (PreparedStatement pStmt = con.prepareStatement(queries[i]))
+              {
+                updateCount += pStmt.executeUpdate();
+              } 
+              catch (SQLException statementException) 
+              {
+                con.rollback();
+                result += "Error executing statement: " + queries[i] + "\n";
+                statementException.printStackTrace();
+              }
+          }
+          result = "Computed " + updateCount +"queries";
+          con.commit();
+      } 
+      catch (SQLException e) 
+      {
+          try 
+          {
+              con.rollback();
+              e.printStackTrace();
+              System.err.println("Error during transaction execution");
+          } catch (SQLException rollbackException) 
+          {
+              rollbackException.printStackTrace();
+          }
+      } 
+      finally 
+      {
+          try 
+          {
+              con.setAutoCommit(true);
+          } catch (SQLException autoCommitException) 
+          {
+              autoCommitException.printStackTrace();
+          }
+      }
+  
+      return result;
+  }
+  
+
   }
 }

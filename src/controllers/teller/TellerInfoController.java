@@ -89,11 +89,11 @@ public class TellerInfoController extends GUIOperation implements Initializable
     private void deleteUser(ActionEvent e)
     {
         alert = new Alert(AlertType.CONFIRMATION);
-        alert.setContentText("Did you confirm with Customer?");
+        alert.setContentText("Confirm with customer about deletion");
         boolean confirm =  alert.showAndWait().get() == ButtonType.OK ?true:false;
         if(!confirm)
             return;
-        alert.setContentText("Once this action is done The account will permanently deleted is this ok?");
+        alert.setContentText("Once this action is done \nThe account  will permanently deleted is this ok?");
         confirm =  alert.showAndWait().get() == ButtonType.OK ?true:false;
         if(!confirm)
             return;
@@ -102,14 +102,15 @@ public class TellerInfoController extends GUIOperation implements Initializable
         {
             connect();
             readData();
-            buffer = String.format("BEGIN;\n" + //
-                    "SELECT MEMBERID INTO :MemberID FROM OWNS WHERE BANK_ACCOUNTID = %s;\n" +
-                    "DELETE FROM OWNS WHERE BANK_ACCOUNTID = %s;\n" +
-                    "DELETE FROM MEMBER WHERE ID = :MemberID;\n" + 
-                    "DELETE FROM BANK_ACCOUNT WHERE ID = %s;\n" + 
-                    "COMMIT;",txtAccount.getText());
+            buffer = String.format("BEGIN;-" + //since transaction fails i will make my own transaction
+                    "DELETE FROM MEMBER WHERE ID  = (SELECT ID FROM CUSTOMER_DATA WHERE ACC_NUM = %1$s);-" +
+                    "DELETE FROM ACCOUNT WHERE ID IN (SELECT TYPE FROM ASSOCIATED WHERE BANK_ACCOUNTID = %1$s);-" +
+                    "DELETE FROM BANK_ACCOUNT  WHERE ID  = %1$s;-" + 
+                    "DELETE FROM OWNS  WHERE BANK_ACCOUNTID =  %1$s;-" + 
+                    "DELETE FROM ASSOCIATED  WHERE BANK_ACCOUNTID =  %1$s;-" + 
+                    "DELETE FROM BANK_ACCOUNT WHERE ID = %1$s;",txtAccount.getText());
             writeData(buffer);
-            readData();
+            System.out.println(readData());
             buffer = "exit";
             writeData(buffer);
             tsc.refreshPage();
