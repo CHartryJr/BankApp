@@ -1,4 +1,5 @@
 -- SQLite
+PRAGMA foreign_keys = ON;-- ensure forein key contraints
 --Independent Data
 CREATE TABLE IF NOT EXISTS MEMBER(
     ID INTEGER  PRIMARY KEY AUTOINCREMENT,
