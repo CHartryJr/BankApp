@@ -7,16 +7,16 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 
-
-<AnchorPane id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="392.0" stylesheets="@../../Styles/Global.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.client.clientLoginController">
+<Pane id="main" prefHeight="500.0" prefWidth="500.0" stylesheets="@../../Styles/Global.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.client.clientLoginController">
    <children>
-      <AnchorPane layoutX="96.0" layoutY="66.0" prefHeight="304.0" prefWidth="200.0">
+      <AnchorPane layoutX="193.0" layoutY="120.0" prefHeight="304.0" prefWidth="200.0">
          <children>
-            <ToggleButton id="btn" fx:id="btnCAcct" layoutX="42.0" layoutY="273.0" mnemonicParsing="false" onAction="#switchToCreate" prefHeight="28.0" prefWidth="116.0" text="create account" />
-            <Button id="btn" fx:id="btnLogin" layoutX="77.0" layoutY="231.0" mnemonicParsing="false" onAction="#login" text="login" />
-            <PasswordField id="textBox" fx:id="tfPassword" layoutX="20.0" layoutY="186.0" promptText="enter password" />
-            <TextField id="textBox" fx:id="tfUsername" layoutX="19.0" layoutY="133.0" promptText="enter username" />
+            <ToggleButton id="btn" fx:id="btnCAcct" layoutX="42.0" layoutY="276.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="116.0" text="create account" />
+            <Button id="btn" fx:id="btnLogin" layoutX="77.0" layoutY="230.0" mnemonicParsing="false" text="login" />
+            <PasswordField id="textBox" fx:id="tfPassword" layoutX="19.0" layoutY="185.0" promptText="enter password" />
+            <TextField id="textBox" fx:id="tfUsername" layoutX="19.0" layoutY="138.0" promptText="enter username" />
             <ImageView fitHeight="108.0" fitWidth="116.0" layoutX="42.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Images/GCSU.PNG" />
@@ -25,4 +25,4 @@
          </children>
       </AnchorPane>
    </children>
-</AnchorPane>
+</Pane>
