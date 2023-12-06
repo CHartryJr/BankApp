@@ -26,7 +26,7 @@ public class TellerInfoController extends GUIOperation implements Initializable
     @FXML
     private TableColumn<Transaction,Float> colAmount;
     @FXML
-    private TableColumn<Transaction, String > colDate,colType,colOper;
+    private TableColumn<Transaction, String > colDate,colType,colOper,colID;
     @FXML
     private TableView <Transaction> tvTable;
     @FXML
@@ -37,6 +37,7 @@ public class TellerInfoController extends GUIOperation implements Initializable
     private Text txtAccount,txtCheckings,txtMember,txtMemberDate,txtSavings;
     private String buffer,currentAccount;
     private TellerSearchController tsc;
+    private ObservableList<Transaction> transactions;
     
     protected  void setInfo(String bankAccount)
     {
@@ -55,7 +56,7 @@ public class TellerInfoController extends GUIOperation implements Initializable
                 alert.show();
             } 
 
-            buffer = String.format("SELECT T.AMOUNT,T.DATE,ACC.TYPE,T.DESCRIPTION FROM ALL_TRANS AS T JOIN (SELECT A.ID,TYPE.DESCRIPTION AS TYPE FROM ACCOUNT A JOIN ACCOUNT_TYPE AS TYPE ON A.TYPE = TYPE.ID ) AS ACC ON ACC.ID = T.A_ID WHERE T.B_ID = %s;",currentAccount);
+            buffer = String.format("SELECT T.A_ID,T.AMOUNT,T.DATE,ACC.TYPE,T.DESCRIPTION FROM ALL_TRANS AS T JOIN (SELECT A.ID,TYPE.DESCRIPTION AS TYPE FROM ACCOUNT A JOIN ACCOUNT_TYPE AS TYPE ON A.TYPE = TYPE.ID ) AS ACC ON ACC.ID = T.A_ID WHERE T.B_ID = %s;",currentAccount);
             writeData(buffer);
             received = loadTable(readData());
             if(!received)
@@ -84,6 +85,11 @@ public class TellerInfoController extends GUIOperation implements Initializable
     protected void setHomeReference(TellerSearchController tsc)
     {
          this.tsc = tsc;
+    }
+
+    private void refreshPage()
+    {
+        setInfo(txtAccount.getText());
     }
 
     private void deleteUser(ActionEvent e)
@@ -117,7 +123,27 @@ public class TellerInfoController extends GUIOperation implements Initializable
             exitScene(e);
         }
         catch(ConnectException ce)
-        {}
+        {
+
+        }
+    }
+
+    private void undoTransaction(ActionEvent e)
+    {
+        buffer = tfReason.getText();
+        if(transactions.isEmpty() | buffer == null)
+            return;
+        int index = tvTable.getSelectionModel().getSelectedIndex();
+        String accountType = colType.getCellData(index).toLowerCase();
+        if(accountType.equals("transfer"))
+        {
+             buffer = String.format("BEGIN;-" + //since transaction fails i will make my own transaction
+                    "INSERT INTO TRANSACTION_MODIFIED VALUES(DESCRIPTION,TRANSID,TELLERID)" +
+                    "DELETE FROM ACCOUNT WHERE ID IN (SELECT TYPE FROM ASSOCIATED WHERE BANK_ACCOUNTID = %1$s);-");
+/// NEEED FIXING
+        }
+
+        refreshPage();
     }
     /**
      * Uses to load data onto client bank information on  info screen
@@ -168,7 +194,7 @@ public class TellerInfoController extends GUIOperation implements Initializable
     {
         if( data == null | data.equals("") )
         return false;
-        ObservableList<Transaction> Transactions = FXCollections.observableArrayList();
+        transactions = FXCollections.observableArrayList();
         String []result;
         Transaction T;
         for(String row : data.split(","))
@@ -177,19 +203,20 @@ public class TellerInfoController extends GUIOperation implements Initializable
             if(!row.isEmpty())
             {
                 result = row.split("-");
-                T = new Transaction(Float.parseFloat(result[0]),result[1],result[2],result[3]);
-                Transactions.add(T);
+                T = new Transaction(result[0],Float.parseFloat(result[1]),result[2],result[3],result[4]);
+                transactions.add(T);
             }
             else
             {
                 break;
             }
         }
+        colID.setCellValueFactory(new PropertyValueFactory<Transaction,String>("id"));
         colAmount.setCellValueFactory(new PropertyValueFactory<Transaction,Float>("amount"));
         colDate.setCellValueFactory(new PropertyValueFactory<Transaction,String>("date"));
         colType.setCellValueFactory(new PropertyValueFactory<Transaction,String>("type"));
         colOper.setCellValueFactory(new PropertyValueFactory<Transaction,String>("oper"));
-        tvTable.setItems(Transactions);
+        tvTable.setItems(transactions);
         return true;
     }
 
@@ -198,15 +225,17 @@ public class TellerInfoController extends GUIOperation implements Initializable
     {
         btnExit.setOnAction(this::exitScene);
         btnDeleteAccount.setOnAction(this::deleteUser);
+        btnDelete.setOnAction(this::undoTransaction);
     }
 
     protected class Transaction
     {
         private Float amount;
-        private String date,type,oper;
+        private String date,type,oper,id;
             
-        public Transaction(Float amount, String date, String type,String oper)
+        public Transaction(String id, Float amount, String date, String type,String oper)
         {
+            this.id = id;
             this.amount = amount;
             this.date = date;
             this.type = type;
@@ -244,5 +273,14 @@ public class TellerInfoController extends GUIOperation implements Initializable
         {
             return type;
         }
+
+        /**
+         * @return the id
+         */
+        public String getId()
+        {
+            return id;
+        }
+        
     }
 }

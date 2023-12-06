@@ -8,7 +8,8 @@ import javafx.stage.Stage;
 /**
  * This class will act as the client
  */
-public class OnlineBank extends Application {
+public class OnlineBank extends Application 
+{
 
   @Override
   public void start(Stage primaryStage) throws Exception 
@@ -21,7 +22,8 @@ public class OnlineBank extends Application {
     primaryStage.show();
   }
 
-  public static void main(String[] args) {
+  public static void main(String[] args) 
+  {
     launch(args);
   }
 }

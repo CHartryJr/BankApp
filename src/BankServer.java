@@ -227,10 +227,7 @@ private class Communication implements Runnable
               autoCommitException.printStackTrace();
           }
       }
-  
       return result;
   }
-  
-
   }
 }

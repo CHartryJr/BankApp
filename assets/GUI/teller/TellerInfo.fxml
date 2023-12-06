@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<Pane id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="327.0" prefWidth="603.0" stylesheets="@../../Styles/Global.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.teller.TellerInfoController">
+<Pane id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="327.0" prefWidth="680.0" stylesheets="@../../Styles/Global.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.teller.TellerInfoController">
    <children>
       <AnchorPane id="infotable" layoutX="8.0" layoutY="8.0" prefHeight="215.0" prefWidth="191.0">
          <children>
@@ -83,11 +83,12 @@
       </AnchorPane>
       <AnchorPane layoutX="208.0" layoutY="8.0" prefHeight="296.0" prefWidth="370.0">
          <children>
-            <TableView id="infotable" fx:id="tvTable" prefHeight="215.0" prefWidth="378.0">
+            <TableView id="infotable" fx:id="tvTable" prefHeight="215.0" prefWidth="465.0">
               <columns>
-                  <TableColumn id="column" fx:id="colTrans" prefWidth="375.0" text="Transactions">
+                  <TableColumn id="column" fx:id="colTrans" prefWidth="463.0" text="Transactions">
                      <columns>
-                        <TableColumn id="column" fx:id="colAmount" prefWidth="86.0" text="Amount" />
+                        <TableColumn id="column" fx:id="colID" prefWidth="53.0" text="ID" />
+                        <TableColumn id="column" fx:id="colAmount" prefWidth="119.0" text="Amount" />
                         <TableColumn id="column" fx:id="colType" prefWidth="88.0" text="From" />
                         <TableColumn id="column" fx:id="colOper" prefWidth="70.0" text="Operation" />
                       <TableColumn id="column" fx:id="colDate" prefWidth="130.0" text="Date" />
@@ -95,8 +96,8 @@
                   </TableColumn>
               </columns>
             </TableView>
-            <Button id="btn" fx:id="btnDelete" layoutX="167.0" layoutY="269.0" mnemonicParsing="false" text="DELETE" />
-            <TextArea id="textBox" fx:id="tfReason" layoutX="67.0" layoutY="222.0" prefHeight="27.0" prefWidth="265.0" promptText="Reason for modification" />
+            <Button id="btn" fx:id="btnDelete" layoutX="200.0" layoutY="269.0" mnemonicParsing="false" text="DELETE" />
+            <TextArea id="textBox" fx:id="tfReason" layoutX="89.0" layoutY="221.0" prefHeight="27.0" prefWidth="265.0" promptText="Reason for modification" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="14.0" layoutY="229.0" prefHeight="95.0" prefWidth="194.0">

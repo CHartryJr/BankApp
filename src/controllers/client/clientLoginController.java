@@ -8,10 +8,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Alert.AlertType;
-
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import controllers.GUIOperation;
 
 public class clientLoginController extends GUIOperation implements Initializable 
@@ -59,7 +57,6 @@ public class clientLoginController extends GUIOperation implements Initializable
         String tokens[] = results.split("-");
         System.out.println(tokens);
     }
-
   
     void switchToCreate(ActionEvent event)
     {
