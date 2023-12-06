@@ -154,6 +154,7 @@ public class TellerSearchController extends GUIOperation implements Initializabl
             Parent Root1 = (Parent) loader.load();
             TellerInfoController tc = loader.getController();
             String account = colAccount.getCellData(index).toString();
+            tc.setCurrentUser(this.currentUser);
             tc.setHomeReference(this);
             tc.setInfo(account);
             Stage Stage = new Stage();

@@ -39,6 +39,12 @@ public class TellerInfoController extends GUIOperation implements Initializable
     private TellerSearchController tsc;
     private ObservableList<Transaction> transactions;
     
+
+    protected void setCurrentUser(String user)
+    {
+        this.currentUser = user;
+    }
+
     protected  void setInfo(String bankAccount)
     {
         currentAccount = bankAccount;
@@ -46,7 +52,7 @@ public class TellerInfoController extends GUIOperation implements Initializable
         {
             connect();
             readData();//empty buffer
-            buffer = String.format("SELECT CD.FNAME||' '||CD.LNAME AS NAME,CD.DATE AS MEMBER_DATE,BD.AMOUNT,BD.DATE AS ACC_DATE,BD.DESCRIPTION FROM BANK_DATA AS BD JOIN CUSTOMER_DATA AS CD ON BD.ID = CD.ACC_NUM WHERE BD.ID  = '%s';",currentAccount);
+            buffer = String.format("SELECT CD.FNAME||' '||CD.LNAME AS NAME,CD.DATE AS MEMBER_DATE,BD.AMOUNT,BD.DATE AS ACC_DATE,BD.DESCRIPTION FROM BANK_DATA AS BD JOIN CUSTOMER_DATA AS CD ON BD.ID = CD.ACC_NUM WHERE BD.ID  = %s LIMIT 20;",currentAccount);
             writeData(buffer);
             Boolean received = loadData(readData());
             if(!received)
@@ -56,7 +62,7 @@ public class TellerInfoController extends GUIOperation implements Initializable
                 alert.show();
             } 
 
-            buffer = String.format("SELECT T.A_ID,T.AMOUNT,T.DATE,ACC.TYPE,T.DESCRIPTION FROM ALL_TRANS AS T JOIN (SELECT A.ID,TYPE.DESCRIPTION AS TYPE FROM ACCOUNT A JOIN ACCOUNT_TYPE AS TYPE ON A.TYPE = TYPE.ID ) AS ACC ON ACC.ID = T.A_ID WHERE T.B_ID = %s;",currentAccount);
+            buffer = String.format("SELECT T.ID,T.AMOUNT,T.DATE,ACC.TYPE,T.DESCRIPTION,T.A_ID,T.EFFECTED_ACC FROM ALL_TRANS AS T JOIN (SELECT A.ID,TYPE.DESCRIPTION AS TYPE FROM ACCOUNT A JOIN ACCOUNT_TYPE AS TYPE ON A.TYPE = TYPE.ID ) AS ACC ON ACC.ID = T.A_ID WHERE T.B_ID = %s LIMIT 20;",currentAccount);
             writeData(buffer);
             received = loadTable(readData());
             if(!received)
@@ -109,11 +115,11 @@ public class TellerInfoController extends GUIOperation implements Initializable
             connect();
             readData();
             buffer = String.format("BEGIN;-" + //since transaction fails i will make my own transaction
-                    "DELETE FROM MEMBER WHERE ID  = (SELECT ID FROM CUSTOMER_DATA WHERE ACC_NUM = %1$s);-" +
-                    "DELETE FROM ACCOUNT WHERE ID IN (SELECT TYPE FROM ASSOCIATED WHERE BANK_ACCOUNTID = %1$s);-" +
-                    "DELETE FROM BANK_ACCOUNT  WHERE ID  = %1$s;-" + 
-                    "DELETE FROM OWNS  WHERE BANK_ACCOUNTID =  %1$s;-" + 
-                    "DELETE FROM ASSOCIATED  WHERE BANK_ACCOUNTID =  %1$s;-" + 
+                    "DELETE FROM MEMBER WHERE ID  = (SELECT ID FROM CUSTOMER_DATA WHERE ACC_NUM = %1$s);^" +
+                    "DELETE FROM ACCOUNT WHERE ID IN (SELECT TYPE FROM ASSOCIATED WHERE BANK_ACCOUNTID = %1$s);^" +
+                    "DELETE FROM BANK_ACCOUNT  WHERE ID  = %1$s;^" + 
+                    "DELETE FROM OWNS  WHERE BANK_ACCOUNTID =  %1$s;^" + 
+                    "DELETE FROM ASSOCIATED  WHERE BANK_ACCOUNTID =  %1$s;^" + 
                     "DELETE FROM BANK_ACCOUNT WHERE ID = %1$s;",txtAccount.getText());
             writeData(buffer);
             System.out.println(readData());
@@ -130,19 +136,23 @@ public class TellerInfoController extends GUIOperation implements Initializable
 
     private void undoTransaction(ActionEvent e)
     {
-        buffer = tfReason.getText();
+        buffer ="";
         if(transactions.isEmpty() | buffer == null)
             return;
+        String  accountType,descrip,effAcc,amount;
         int index = tvTable.getSelectionModel().getSelectedIndex();
-        String accountType = colType.getCellData(index).toLowerCase();
-        if(accountType.equals("transfer"))
-        {
-             buffer = String.format("BEGIN;-" + //since transaction fails i will make my own transaction
-                    "INSERT INTO TRANSACTION_MODIFIED VALUES(DESCRIPTION,TRANSID,TELLERID)" +
-                    "DELETE FROM ACCOUNT WHERE ID IN (SELECT TYPE FROM ASSOCIATED WHERE BANK_ACCOUNTID = %1$s);-");
-/// NEEED FIXING
-        }
+        Transaction interest = transactions.get(index-1);
 
+        accountType =interest.getType();
+        descrip = "Transaction"+txtAccount.getText()+interest.getTransAcc()+"->"+interest.getId()+ " has been edited by "+currentUser+"for:\n"+ tfReason.getText();
+        effAcc = transactions.get(index-1).getEffAcc();
+        amount =""+interest.getAmount();
+        if(accountType.equals("transfer"))
+        {    
+             buffer = String.format("BEGIN;-" +
+                    "INSERT INTO TRANSACTION_MODIFIED (DESCRIPTION,AMOUNT,TELLERID,ACCOUNTID) VALUES(%1$s,%4$s,%1$s,%1$s);^" +
+                    "DELETE FROM ACCOUNT WHERE ID IN (SELECT TYPE FROM ASSOCIATED WHERE BANK_ACCOUNTID = %1$s);",descrip,colAmount.getCellData(index).toString(),currentUser,colID.getText());
+        }
         refreshPage();
     }
     /**
@@ -199,12 +209,11 @@ public class TellerInfoController extends GUIOperation implements Initializable
         Transaction T;
         for(String row : data.split(","))
         {
-            System.out.println(row);//debugging only
             if(!row.isEmpty())
             {
                 result = row.split("-");
-                T = new Transaction(result[0],Float.parseFloat(result[1]),result[2],result[3],result[4]);
-                transactions.add(T);
+                T = new Transaction(result[0],Float.parseFloat(result[1]),result[2],result[3],result[4],result[5],result[6]);
+                transactions.add(T); 
             }
             else
             {
@@ -231,10 +240,12 @@ public class TellerInfoController extends GUIOperation implements Initializable
     protected class Transaction
     {
         private Float amount;
-        private String date,type,oper,id;
+        private String date,type,oper,id,transAcc,effAcc;
             
-        public Transaction(String id, Float amount, String date, String type,String oper)
+        public Transaction(String id, Float amount, String date, String type,String oper,String transAcc,String effAcc)
         {
+            this.effAcc = effAcc;
+            this.transAcc = transAcc;
             this.id = id;
             this.amount = amount;
             this.date = date;
@@ -280,6 +291,22 @@ public class TellerInfoController extends GUIOperation implements Initializable
         public String getId()
         {
             return id;
+        }
+
+        /**
+         * @return the transAcc
+         */
+        public String getTransAcc()
+        {
+            return transAcc;
+        }
+
+        /**
+         * @return the effAcc
+         */
+        public String getEffAcc()
+        {
+            return effAcc;
         }
         
     }

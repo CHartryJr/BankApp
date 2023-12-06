@@ -183,7 +183,7 @@ private class Communication implements Runnable
     private String updateDB(String transaction) 
     {
       String result = "";
-      String [] queries = transaction.split("-");
+      String [] queries = transaction.split("^");
       int updateCount = 0;
       try 
       {

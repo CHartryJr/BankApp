@@ -20,7 +20,7 @@ public class GUIOperation
 {
   @FXML
   private Text textID;
-  private String currentUser,host = "localhost";// loop back until actual usage
+  protected String currentUser,host = "localhost";// loop back until actual usage
   private int port = 5001;
   private Socket sock;
   protected Alert alert;
