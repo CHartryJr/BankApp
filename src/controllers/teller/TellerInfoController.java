@@ -136,16 +136,32 @@ public class TellerInfoController extends GUIOperation implements Initializable
         }
     }
 
+    /**
+     * will be used to undo client transactions 
+     * @param e
+     */
     private void undoTransaction(ActionEvent e)
     {
-        buffer ="";
-        if(transactions.isEmpty() |tfReason.getText() == null)
+        alert = new Alert(AlertType.CONFIRMATION);
+        alert.setContentText("Are you ok with this current action?");
+        boolean confirm =  alert.showAndWait().get() == ButtonType.OK ?true:false;
+        if(!confirm)
             return;
+
+        buffer ="";
+        if(transactions.isEmpty() |tfReason.getText() == null){
+            alert = new Alert(AlertType.INFORMATION);
+            alert.setContentText("Must have values to edit\n and a reason to edit them!");
+            alert.show();
+            return;
+        }
+
         String  accountType,descrip,effAcc,amount;
         int index = tvTable.getSelectionModel().getSelectedIndex();
         Transaction interest = transactions.get(index);
         accountType =interest.getType();
-        descrip = "Transaction"+txtAccount.getText()+interest.getTransAcc()+"->"+interest.getId()+ " has been edited by "+currentUser+"for:"+ tfReason.getText();
+        descrip = "Transaction:"+txtAccount.getText()+interest.getTransAcc()+interest.getId()+ " has been edited by "+currentUser+" Reason:"+ tfReason.getText();
+        descrip = descrip.replace("\n", " ");
         effAcc = transactions.get(index).getEffAcc();
         amount =""+interest.getAmount();
 
@@ -153,11 +169,11 @@ public class TellerInfoController extends GUIOperation implements Initializable
         {    
             buffer = String.format("BEGIN;~" +
                 "INSERT INTO TRANSACTION_MODIFIED (DESCRIPTION,AMOUNT,TELLERID,ACCOUNTID,DATE) VALUES('%1$s','%2$s','%3$s','%4$s','%6$s');~" +
-                "INSERT INTO TRANSACTION_MODIFIED (DESCRIPTION,AMOUNT,TELLERID,ACCOUNTID) VALUES('%1$s','-%2$s','%3$s','%5$s','%6$s');",descrip.replace("\n"," "),amount,currentUser,interest.getTransAcc(),interest.getEffAcc(),getCurrentDateTime());
+                "INSERT INTO TRANSACTION_MODIFIED (DESCRIPTION,AMOUNT,TELLERID,ACCOUNTID,DATE) VALUES('%1$s','-%2$s','%3$s','%5$s','%6$s');",descrip,amount,currentUser,interest.getTransAcc(),interest.getEffAcc(),getCurrentDateTime());
         }
         else
         {
-            buffer = String.format("BEGIN;~INSERT INTO TRANSACTION_MODIFIED (DESCRIPTION,AMOUNT,TELLERID,ACCOUNTID) VALUES('%1$s','%2$s','%3$s','%4$s','%5$s');",descrip,amount,currentUser,interest.getTransAcc(),getCurrentDateTime());
+            buffer = String.format("BEGIN;~INSERT INTO TRANSACTION_MODIFIED (DESCRIPTION,AMOUNT,TELLERID,ACCOUNTID,DATE) VALUES('%1$s','%2$s','%3$s','%4$s','%5$s');",descrip,amount,currentUser,interest.getTransAcc(),getCurrentDateTime());
         }
         try 
         {

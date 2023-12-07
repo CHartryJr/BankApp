@@ -28,11 +28,8 @@ public class GUIOperation
   protected Alert alert;
   private boolean connected = false;
   private LocalDateTime currentDateTime;
-  private DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+  private DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:SS");
     
-
-
-
   protected String  getCurrentDateTime()
   {
     currentDateTime = LocalDateTime.now();
@@ -76,7 +73,6 @@ public class GUIOperation
      
     try 
     {
-      
       BufferedWriter output = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
       output.write(data);
       output.newLine();

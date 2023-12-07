@@ -31,6 +31,8 @@ public class TellerLoginController extends GUIOperation implements Initializable
 
   private boolean LogIn(String userName,String pwd)
   {
+    if(userName.isEmpty() | pwd.isEmpty())
+      return false;
     Boolean loggedIn = false;
     try
     {
@@ -39,6 +41,9 @@ public class TellerLoginController extends GUIOperation implements Initializable
       buffer = "SELECT LOWER(USER),PIN FROM TELLER WHERE LOWER(TELLER.USER) = '" +userName.toLowerCase()+"';";
       writeData(buffer);
       buffer = readData();
+      if(buffer.isEmpty())
+        return false;
+
       String tokens [] = buffer.split("~");
       if (tokens[1].equals(pwd))
         loggedIn = true;
