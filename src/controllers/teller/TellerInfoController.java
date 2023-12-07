@@ -21,6 +21,8 @@ import javafx.scene.text.Text;
 import controllers.GUIOperation;
 import javafx.fxml.Initializable;
 
+
+
 public class TellerInfoController extends GUIOperation implements Initializable
 {
     @FXML
@@ -114,12 +116,12 @@ public class TellerInfoController extends GUIOperation implements Initializable
         {
             connect();
             readData();
-            buffer = String.format("BEGIN;-" + //since transaction fails i will make my own transaction
-                    "DELETE FROM MEMBER WHERE ID  = (SELECT ID FROM CUSTOMER_DATA WHERE ACC_NUM = %1$s);^" +
-                    "DELETE FROM ACCOUNT WHERE ID IN (SELECT TYPE FROM ASSOCIATED WHERE BANK_ACCOUNTID = %1$s);^" +
-                    "DELETE FROM BANK_ACCOUNT  WHERE ID  = %1$s;^" + 
-                    "DELETE FROM OWNS  WHERE BANK_ACCOUNTID =  %1$s;^" + 
-                    "DELETE FROM ASSOCIATED  WHERE BANK_ACCOUNTID =  %1$s;^" + 
+            buffer = String.format("BEGIN;~" + //since transaction fails i will make my own transaction
+                    "DELETE FROM MEMBER WHERE ID  = (SELECT ID FROM CUSTOMER_DATA WHERE ACC_NUM = %1$s);`~" +
+                    "DELETE FROM ACCOUNT WHERE ID IN (SELECT TYPE FROM ASSOCIATED WHERE BANK_ACCOUNTID = %1$s);~" +
+                    "DELETE FROM BANK_ACCOUNT  WHERE ID  = %1$s;~" + 
+                    "DELETE FROM OWNS  WHERE BANK_ACCOUNTID =  %1$s;~" + 
+                    "DELETE FROM ASSOCIATED  WHERE BANK_ACCOUNTID =  %1$s;~" + 
                     "DELETE FROM BANK_ACCOUNT WHERE ID = %1$s;",txtAccount.getText());
             writeData(buffer);
             System.out.println(readData());
@@ -137,23 +139,39 @@ public class TellerInfoController extends GUIOperation implements Initializable
     private void undoTransaction(ActionEvent e)
     {
         buffer ="";
-        if(transactions.isEmpty() | buffer == null)
+        if(transactions.isEmpty() |tfReason.getText() == null)
             return;
         String  accountType,descrip,effAcc,amount;
         int index = tvTable.getSelectionModel().getSelectedIndex();
-        Transaction interest = transactions.get(index-1);
-
+        Transaction interest = transactions.get(index);
         accountType =interest.getType();
-        descrip = "Transaction"+txtAccount.getText()+interest.getTransAcc()+"->"+interest.getId()+ " has been edited by "+currentUser+"for:\n"+ tfReason.getText();
-        effAcc = transactions.get(index-1).getEffAcc();
+        descrip = "Transaction"+txtAccount.getText()+interest.getTransAcc()+"->"+interest.getId()+ " has been edited by "+currentUser+"for:"+ tfReason.getText();
+        effAcc = transactions.get(index).getEffAcc();
         amount =""+interest.getAmount();
+
         if(accountType.equals("transfer"))
         {    
-             buffer = String.format("BEGIN;-" +
-                    "INSERT INTO TRANSACTION_MODIFIED (DESCRIPTION,AMOUNT,TELLERID,ACCOUNTID) VALUES(%1$s,%4$s,%1$s,%1$s);^" +
-                    "DELETE FROM ACCOUNT WHERE ID IN (SELECT TYPE FROM ASSOCIATED WHERE BANK_ACCOUNTID = %1$s);",descrip,colAmount.getCellData(index).toString(),currentUser,colID.getText());
+            buffer = String.format("BEGIN;~" +
+                "INSERT INTO TRANSACTION_MODIFIED (DESCRIPTION,AMOUNT,TELLERID,ACCOUNTID,DATE) VALUES('%1$s','%2$s','%3$s','%4$s','%6$s');~" +
+                "INSERT INTO TRANSACTION_MODIFIED (DESCRIPTION,AMOUNT,TELLERID,ACCOUNTID) VALUES('%1$s','-%2$s','%3$s','%5$s','%6$s');",descrip.replace("\n"," "),amount,currentUser,interest.getTransAcc(),interest.getEffAcc(),getCurrentDateTime());
         }
-        refreshPage();
+        else
+        {
+            buffer = String.format("BEGIN;~INSERT INTO TRANSACTION_MODIFIED (DESCRIPTION,AMOUNT,TELLERID,ACCOUNTID) VALUES('%1$s','%2$s','%3$s','%4$s','%5$s');",descrip,amount,currentUser,interest.getTransAcc(),getCurrentDateTime());
+        }
+        try 
+        {
+            connect();
+            readData();
+            writeData(buffer);
+            readData();
+            writeData("exit");
+        } 
+        catch (Exception ex) 
+        {
+           ex.printStackTrace();
+        }
+        refreshPage();  
     }
     /**
      * Uses to load data onto client bank information on  info screen
@@ -168,7 +186,7 @@ public class TellerInfoController extends GUIOperation implements Initializable
         {
             if(!row.isEmpty())
             {
-                result = row.split("-");
+                result = row.split("~");
                 date = result[1].split(" ");
                 txtMember.setText(result[0]);
                 txtMemberDate.setText(date[0]);
@@ -211,7 +229,7 @@ public class TellerInfoController extends GUIOperation implements Initializable
         {
             if(!row.isEmpty())
             {
-                result = row.split("-");
+                result = row.split("~");
                 T = new Transaction(result[0],Float.parseFloat(result[1]),result[2],result[3],result[4],result[5],result[6]);
                 transactions.add(T); 
             }

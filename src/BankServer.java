@@ -166,7 +166,7 @@ private class Communication implements Runnable
           {
               String columnValue = rs.getString(i);
               System.out.println("Column " + i + ": " + columnValue);
-              unToken += columnValue+"-";
+              unToken += columnValue+"~";
           }
           result+=unToken+",";
         }
@@ -183,7 +183,7 @@ private class Communication implements Runnable
     private String updateDB(String transaction) 
     {
       String result = "";
-      String [] queries = transaction.split("^");
+      String [] queries = transaction.split("~");
       int updateCount = 0;
       try 
       {
@@ -202,7 +202,7 @@ private class Communication implements Runnable
                 statementException.printStackTrace();
               }
           }
-          result = "Computed " + updateCount +"queries";
+          result += "Computed " + updateCount +"queries";
           con.commit();
       } 
       catch (SQLException e) 

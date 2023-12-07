@@ -118,7 +118,7 @@ public class TellerSearchController extends GUIOperation implements Initializabl
             
             if(!row.isEmpty())
             {
-                result = row.split("-");
+                result = row.split("~");
                 c = new Client(result[0], result[1],Integer.parseInt(result[2]));
                 clientList.add(c);
             }

@@ -39,7 +39,7 @@ public class TellerLoginController extends GUIOperation implements Initializable
       buffer = "SELECT LOWER(USER),PIN FROM TELLER WHERE LOWER(TELLER.USER) = '" +userName.toLowerCase()+"';";
       writeData(buffer);
       buffer = readData();
-      String tokens [] = buffer.split("-");
+      String tokens [] = buffer.split("~");
       if (tokens[1].equals(pwd))
         loggedIn = true;
       buffer ="exit";

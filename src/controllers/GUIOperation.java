@@ -11,6 +11,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  *  A used to control GUI Operations. These operations consist of read write and scene transition
@@ -25,7 +27,18 @@ public class GUIOperation
   private Socket sock;
   protected Alert alert;
   private boolean connected = false;
+  private LocalDateTime currentDateTime;
+  private DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     
+
+
+
+  protected String  getCurrentDateTime()
+  {
+    currentDateTime = LocalDateTime.now();
+    return currentDateTime.format(dateFormat);
+  } 
+
    /**
     * this will be used to read data provide from the server
      * @implNote Must Use Connect before usage of this method
