@@ -62,14 +62,14 @@ public class clientLoginController extends GUIOperation implements Initializable
         String tokens[] = results.split("~");
         if (tokens[1].equals(passwd))
         {
-            switchScene(event, "client", "Client-Info.fxml", currentUser);
+            switchScene(event, "client", "Client-Info.fxml", tokens[3]);
         }
     }
   
     void switchToCreate(ActionEvent event)
     {
         System.out.println("Hello, World!");
-        switchScene(event, "client", "Client-Create.fxml", currentUser);
+        switchScene(event, "client", "Client-Create.fxml", "-");
     }
 
     // main 

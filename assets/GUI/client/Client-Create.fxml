@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
+
+<Pane id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="500.0" stylesheets="@../../Styles/Global.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.client.clientCreateController">
+   <children>
+      <AnchorPane prefHeight="500.0" prefWidth="500.0">
+         <children>
+            <Text fx:id="textID" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <TextField id="textBox" fx:id="tfFNAME" layoutX="42.0" layoutY="180.0" promptText="enter first name" />
+            <TextField id="textBox" fx:id="tfUser" layoutX="300.0" layoutY="180.0" promptText="enter username" />
+            <TextField id="textBox" fx:id="tfLNAME" layoutX="42.0" layoutY="250.0" promptText="enter last name" />
+            <TextField id="textBox" fx:id="tfAddr" layoutX="42.0" layoutY="316.0" promptText="enter address" />
+            <TextField id="textBox" fx:id="tfPIN1" layoutX="300.0" layoutY="250.0" promptText="enter PIN" />
+            <TextField id="textBox" fx:id="tfPIN2" layoutX="300.0" layoutY="316.0" promptText="confirm PIN" />
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="163.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Images/GCSU.PNG" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="112.0" fitWidth="151.0" layoutX="174.0" layoutY="427.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Images/GCSU_prime.png" />
+               </image>
+            </ImageView>
+            <Button id="btn" fx:id="btnCancel" layoutX="174.0" layoutY="369.0" mnemonicParsing="false" text="cancel" />
+            <Button id="btn" fx:id="btnSubmit" layoutX="271.0" layoutY="369.0" mnemonicParsing="false" text="submit" />
+         </children>
+      </AnchorPane>
+   </children>
+</Pane>

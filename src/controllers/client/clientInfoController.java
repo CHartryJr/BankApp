@@ -29,12 +29,12 @@ public class clientInfoController extends GUIOperation implements Initializable
     @FXML
     private TableView<?> tvTable;
     @FXML
-    private Text txtAcct, txtChecking, txtMem, txtMemDate, txtSaving;
+    private Text txtAcct, txtChecking, txtMemDate, txtSaving;
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        throw new UnsupportedOperationException("Unimplemented method 'initialize'");
+        System.out.println("handle");
     }
 
 }

@@ -24,7 +24,7 @@
                      <children>
                         <ChoiceBox fx:id="cbTranType" layoutX="31.0" layoutY="68.0" prefWidth="150.0" />
                         <TextField id="textBox" fx:id="tfAmount" layoutX="19.0" layoutY="125.0" prefHeight="28.0" prefWidth="175.0" promptText="enter amount" />
-                        <Button id="btn" fx:id="btnSubmit" layoutX="77.0" layoutY="170.0" mnemonicParsing="false" text="Submit" />
+                        <Button id="btn" fx:id="btnSubmit" layoutX="77.0" layoutY="170.0" mnemonicParsing="false" text="submit" />
                         <TextField id="textBox" fx:id="tfAcct" layoutX="221.0" layoutY="125.0" promptText="enter account" />
                         <Text layoutX="166.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New Transactions">
                            <font>
@@ -41,61 +41,61 @@
                   </AnchorPane>
                   <AnchorPane id="secondLoc" layoutX="14.0" layoutY="26.0" prefHeight="221.0" prefWidth="202.0">
                      <children>
-                        <VBox layoutX="1.0" layoutY="78.0" prefHeight="143.0" prefWidth="100.0">
+                        <VBox layoutX="1.0" layoutY="78.0" prefHeight="143.0" prefWidth="89.0">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Member :">
                                  <VBox.margin>
-                                    <Insets left="10.0" top="10.0" />
+                                    <Insets left="8.0" top="10.0" />
                                  </VBox.margin>
                               </Text>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Account # :">
                                  <VBox.margin>
-                                    <Insets left="10.0" top="5.0" />
+                                    <Insets left="8.0" top="5.0" />
                                  </VBox.margin>
                               </Text>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Savings :">
                                  <VBox.margin>
-                                    <Insets left="10.0" top="5.0" />
+                                    <Insets left="8.0" top="5.0" />
                                  </VBox.margin>
                               </Text>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Checkings :">
                                  <VBox.margin>
-                                    <Insets left="10.0" top="5.0" />
+                                    <Insets left="8.0" top="5.0" />
                                  </VBox.margin>
                               </Text>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Member Date:">
                                  <VBox.margin>
-                                    <Insets left="10.0" top="5.0" />
+                                    <Insets left="8.0" top="5.0" />
                                  </VBox.margin>
                               </Text>
                            </children>
                         </VBox>
                         <AnchorPane id="main" layoutX="6.0" layoutY="57.0" prefHeight="8.0" prefWidth="200.0" />
-                        <VBox layoutX="109.0" layoutY="78.0" prefHeight="143.0" prefWidth="100.0">
+                        <VBox layoutX="90.0" layoutY="78.0" prefHeight="143.0" prefWidth="126.0">
                            <children>
-                              <Text fx:id="txtMem" strokeType="OUTSIDE" strokeWidth="0.0" text="John Doe">
+                              <Text fx:id="textID" strokeType="OUTSIDE" strokeWidth="0.0" text="John Doe">
                                  <VBox.margin>
-                                    <Insets left="10.0" top="10.0" />
+                                    <Insets top="10.0" />
                                  </VBox.margin>
                               </Text>
                               <Text fx:id="txtAcct" strokeType="OUTSIDE" strokeWidth="0.0" text="###">
                                  <VBox.margin>
-                                    <Insets left="10.0" top="5.0" />
+                                    <Insets top="5.0" />
                                  </VBox.margin>
                               </Text>
                               <Text fx:id="txtSaving" strokeType="OUTSIDE" strokeWidth="0.0" text="####">
                                  <VBox.margin>
-                                    <Insets left="10.0" top="5.0" />
+                                    <Insets top="5.0" />
                                  </VBox.margin>
                               </Text>
                               <Text fx:id="txtChecking" strokeType="OUTSIDE" strokeWidth="0.0" text="####">
                                  <VBox.margin>
-                                    <Insets left="10.0" top="5.0" />
+                                    <Insets top="5.0" />
                                  </VBox.margin>
                               </Text>
                               <Text fx:id="txtMemDate" strokeType="OUTSIDE" strokeWidth="0.0" text="##/##/####">
                                  <VBox.margin>
-                                    <Insets left="10.0" top="5.0" />
+                                    <Insets top="5.0" />
                                  </VBox.margin>
                               </Text>
                            </children>
