@@ -39,28 +39,37 @@ public class clientLoginController extends GUIOperation implements Initializable
         {
             connect();
             System.out.println(readData());
-            buffer = String.format("SELECT USERNAME, PIN, ID FROM BANK_ACCOUNT WHERE BANK_ACCOUNT.USERNAME = '%s';", usr);
+            buffer = String.format("SELECT USERNAME, PIN, BA.ID, CD.FNAME ||' '|| CD.LNAME AS NAME " +
+                                   "FROM BANK_ACCOUNT AS BA JOIN CUSTOMER_DATA AS CD ON BA.ID = CD.ACC_NUM " +
+                                   "WHERE BA.USERNAME = '%s';", usr);
             writeData(buffer);
             results = readData();
             writeData("exit");
             if (results.isEmpty())
             {
+                alert = new Alert(AlertType.INFORMATION);
+                alert.setContentText("No data was found");
+                alert.show();
                 return;
             }
         } catch (Exception e)
         {
             alert = new Alert(AlertType.ERROR);
-            alert.setContentText("No connection available: check connectivity");
+            alert.setContentText("No connection available: Check connectivity");
             alert.show();
             e.printStackTrace();
         }
-        String tokens[] = results.split("-");
-        System.out.println(tokens);
+        String tokens[] = results.split("~");
+        if (tokens[1].equals(passwd))
+        {
+            switchScene(event, "client", "Client-Info.fxml", currentUser);
+        }
     }
   
     void switchToCreate(ActionEvent event)
     {
         System.out.println("Hello, World!");
+        switchScene(event, "client", "Client-Create.fxml", currentUser);
     }
 
     // main 

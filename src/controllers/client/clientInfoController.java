@@ -7,27 +7,34 @@ import controllers.GUIOperation;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 
-public class clientInfoController extends GUIOperation implements Initializable 
+public class clientInfoController extends GUIOperation implements Initializable
 {
+
     @FXML
-    private Button btnCheckings;
+    private Button btnCheckings, btnSavings, btnSubmit;
     @FXML
-    private Button btnSavings;
+    private ChoiceBox<?> cbTranType;
     @FXML
-    private TableColumn<?, ?> colDate;
+    private TableColumn<?, ?> colAmount;
     @FXML
-    private TableColumn<?, ?> totalAmount;
+    private TableColumn<?, ?> colID, colFrom, colDate, colOperation;
     @FXML
-    private TableColumn<?, ?> totalOper;
+    private TextField tfAcct, tfAmount;
     @FXML
     private TableView<?> tvTable;
+    @FXML
+    private Text txtAcct, txtChecking, txtMem, txtMemDate, txtSaving;
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
         throw new UnsupportedOperationException("Unimplemented method 'initialize'");
     }
+
 }
