@@ -6,19 +6,17 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Text?>
 
-<Pane id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="500.0" stylesheets="@../../Styles/Global.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.client.clientCreateController">
+<Pane id="secondLoc" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="500.0" stylesheets="@../../Styles/Global.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.client.clientCreateController">
    <children>
-      <AnchorPane prefHeight="500.0" prefWidth="500.0">
+      <AnchorPane id="main" layoutX="15.0" layoutY="11.0" prefHeight="449.0" prefWidth="470.0">
          <children>
-            <Text fx:id="textID" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
             <TextField id="textBox" fx:id="tfFNAME" layoutX="42.0" layoutY="180.0" promptText="enter first name" />
-            <TextField id="textBox" fx:id="tfUser" layoutX="300.0" layoutY="180.0" promptText="enter username" />
+            <TextField id="textBox" fx:id="tfUSER" layoutX="271.0" layoutY="180.0" promptText="enter username" />
             <TextField id="textBox" fx:id="tfLNAME" layoutX="42.0" layoutY="250.0" promptText="enter last name" />
-            <TextField id="textBox" fx:id="tfAddr" layoutX="42.0" layoutY="316.0" promptText="enter address" />
-            <TextField id="textBox" fx:id="tfPIN1" layoutX="300.0" layoutY="250.0" promptText="enter PIN" />
-            <TextField id="textBox" fx:id="tfPIN2" layoutX="300.0" layoutY="316.0" promptText="confirm PIN" />
+            <TextField id="textBox" fx:id="tfADDR" layoutX="42.0" layoutY="316.0" promptText="enter address" />
+            <TextField id="textBox" fx:id="tfPIN1" layoutX="271.0" layoutY="250.0" promptText="enter PIN" />
+            <TextField id="textBox" fx:id="tfPIN2" layoutX="271.0" layoutY="316.0" promptText="confirm PIN" />
             <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="163.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Images/GCSU.PNG" />

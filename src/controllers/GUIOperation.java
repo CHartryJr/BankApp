@@ -125,6 +125,25 @@ public class GUIOperation
     }
   }
   
+  protected  void switchScene(ActionEvent event,String type,String gui) 
+  {
+    String currentDirectory = System.getProperty("user.dir");
+    currentDirectory += String.format("/assets/GUI/%1$s/%2$s",type,gui);
+    try {
+        FXMLLoader loader = new FXMLLoader(new File(currentDirectory).toURI().toURL());
+        Parent root = loader.load();
+        GUIOperation cd = loader.getController();        
+        Stage st = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene sc = new Scene(root);
+        st.setScene(sc); // Use setScene to set the new scene on the stage
+        st.show();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }catch(Exception e){
+      e.printStackTrace();
+    }
+  }
+  
   public void setLoggedInName(String name)
     {
         currentUser = name;

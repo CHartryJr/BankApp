@@ -18,7 +18,7 @@ public class OnlineBank extends Application
     currentDirectory += "/assets/GUI/client/Client-Home.fxml";
     Parent root = FXMLLoader.load(new File(currentDirectory).toURI().toURL());
     primaryStage.setTitle("Welcome GCSU CREDIT UNION");
-    primaryStage.setScene(new Scene(root, 600, 600));
+    primaryStage.setScene(new Scene(root));
     primaryStage.show();
   }
 

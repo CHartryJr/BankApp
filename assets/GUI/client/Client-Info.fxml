@@ -14,11 +14,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" stylesheets="@../../Styles/Global.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.client.clientInfoController">
+<Pane id="secondLoc" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" stylesheets="@../../Styles/Global.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.client.clientInfoController">
    <children>
-      <VBox layoutX="6.0" prefHeight="550.0" prefWidth="800.0">
+      <VBox id="main" layoutX="10.0" layoutY="11.0" prefHeight="529.0" prefWidth="780.0">
          <children>
-            <AnchorPane prefHeight="275.0" prefWidth="800.0">
+            <AnchorPane prefHeight="275.0" prefWidth="798.0">
                <children>
                   <AnchorPane id="secondLoc" layoutX="275.0" layoutY="27.0" prefHeight="221.0" prefWidth="482.0">
                      <children>
@@ -108,7 +108,7 @@
                      </children>
                   </AnchorPane>
                </children></AnchorPane>
-            <AnchorPane prefHeight="275.0" prefWidth="800.0">
+            <AnchorPane prefHeight="267.0" prefWidth="778.0">
                <children>
                   <TableView id="infotable" fx:id="tvTable" layoutX="218.0" layoutY="38.0" prefHeight="200.0" prefWidth="541.0">
                     <columns>
