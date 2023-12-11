@@ -108,7 +108,7 @@ public class clientInfoController extends GUIOperation implements Initializable
                     break;
                 }
             }
-          setDiplay();
+          setDISPLAY();
         }
         catch(Exception e)
         {
@@ -128,7 +128,7 @@ public class clientInfoController extends GUIOperation implements Initializable
        
     }
  
-    private void setDiplay()
+    private void setDISPLAY()
     {
         
         colFrom.setText("Transactions From " + currentDisplay);
@@ -151,7 +151,7 @@ public class clientInfoController extends GUIOperation implements Initializable
     {
         currentDisplay ="Checkings";
         fromAccount.clear();
-        setDiplay();
+        setDISPLAY();
     }
 
     // display savings info
@@ -159,7 +159,7 @@ public class clientInfoController extends GUIOperation implements Initializable
     {
         currentDisplay ="Savings";
         fromAccount.clear();
-        setDiplay();
+        setDISPLAY();
     }
 
     // submit changes (transfer, withdrawl, deposit) made to bank account
@@ -202,7 +202,7 @@ public class clientInfoController extends GUIOperation implements Initializable
         {
             if (cbTranType.getValue().toLowerCase().equals("deposit"))
             {
-                buffer = switch(tfTranTo.getText())
+                buffer = switch(tfTranTo.getText().toLowerCase())
                 {
                     case "savings" -> String.format("BEGIN;~" + 
                                                      "INSERT INTO TRANSACTION_HISTORY(ACCOUNTID,AMOUNT,DATE,TYPE,EFFECTED_ACC) " +
@@ -215,7 +215,7 @@ public class clientInfoController extends GUIOperation implements Initializable
             }// TRANSACTION_HISTORY  TRANSACTION_HISORY
             else
             {
-                buffer = switch(tfTranTo.getText())
+                buffer = switch(tfTranTo.getText().toLowerCase())
                 {
                     case "savings" -> String.format("BEGIN;~" + 
                                                      "INSERT INTO TRANSACTION_HISTORY(ACCOUNTID,AMOUNT,DATE,TYPE,EFFECTED_ACC)" +
@@ -243,6 +243,8 @@ public class clientInfoController extends GUIOperation implements Initializable
             e.printStackTrace();
         }
         refresh();
+        fromAccount.clear();
+        setDISPLAY();
     }
 
     // log out from current user back to the login screen

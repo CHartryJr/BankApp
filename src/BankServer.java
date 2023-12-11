@@ -79,7 +79,8 @@ private class Communication implements Runnable
   */
   public void run()// action done during thread
   {
-    System.out.println("A new connection has been made"); //debug only.
+    InetAddress clientIP = clientSocket.getInetAddress();
+    System.out.println("A new connection has been made from "+ clientIP.getHostAddress()); //debug only.
     try 
     {
       writeTransaction(String.format(" You are Thread%d in the Que.I am ready for your requests ",identifier));
@@ -165,7 +166,7 @@ private class Communication implements Runnable
           for (int i = 1; i <= columnCount; i++) 
           {
               String columnValue = rs.getString(i);
-              System.out.println("Column " + i + ": " + columnValue);
+              //System.out.println("Column " + i + ": " + columnValue);//debug only
               unToken += columnValue+"~";
           }
           result+=unToken+",";
