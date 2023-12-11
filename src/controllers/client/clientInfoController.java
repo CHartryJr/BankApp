@@ -24,7 +24,7 @@ public class clientInfoController extends GUIOperation implements Initializable
 {
 
     @FXML
-    private Button btnCheckings, btnSavings, btnSubmit, btnLogout;
+    private Button btnChecking, btnSavings, btnSubmit, btnLogout;
     @FXML
     private ChoiceBox<String> cbTranType, cbTranFrom, cbTranTo;
     @FXML
@@ -37,11 +37,11 @@ public class clientInfoController extends GUIOperation implements Initializable
     private TableView<Transaction> tvTable;
     @FXML
     private Text txtAcct, txtSaving, txtChecking, txtMemDate;
-    private String buffer, checkNum, saveNum,currentDisplay ="Checkings";
+    private String buffer, checkNum, saveNum,currentDisplay ="Checking";
     private ArrayList<Transaction> transactions;
     private ObservableList<Transaction> fromAccount  = FXCollections.observableArrayList();
     private String[] fields = {"Deposit","Withdrawal","Transfer"};
-    private String[] types = {"Savings", "Checkings"};
+    private String[] types = {"Savings", "Checking"};
 
     protected void refresh()
     {
@@ -148,9 +148,9 @@ public class clientInfoController extends GUIOperation implements Initializable
     }
 
     // display checking info
-    private void checkings(ActionEvent event)
+    private void checking(ActionEvent event)
     {
-        currentDisplay ="Checkings";
+        currentDisplay ="Checking";
         fromAccount.clear();
         setDISPLAY();
     }
@@ -208,7 +208,7 @@ public class clientInfoController extends GUIOperation implements Initializable
                     case "savings" -> String.format("BEGIN;~" + 
                                                      "INSERT INTO TRANSACTION_HISTORY(ACCOUNTID,AMOUNT,DATE,TYPE,EFFECTED_ACC) " +
                                                      "VALUES ('%1$s','%2$s','%3$s','%4$s','%1$s');", saveNum,tfAmount.getText(),getCurrentDateTime(),3,checkNum);
-                    case "checkings" -> String.format("BEGIN;~" + 
+                    case "checking" -> String.format("BEGIN;~" + 
                                                      "INSERT INTO TRANSACTION_HISTORY(ACCOUNTID,AMOUNT,DATE,TYPE,EFFECTED_ACC) " +
                                                      "VALUES ('%1$s','%2$s','%3$s','%4$s','%1$s');", checkNum,tfAmount.getText(),getCurrentDateTime(),3,saveNum);
                     default -> "";
@@ -221,7 +221,7 @@ public class clientInfoController extends GUIOperation implements Initializable
                     case "savings" -> String.format("BEGIN;~" + 
                                                      "INSERT INTO TRANSACTION_HISTORY(ACCOUNTID,AMOUNT,DATE,TYPE,EFFECTED_ACC)" +
                                                      " VALUES ('%1$s','-%2$s','%3$s','%4$s','%1$s');", saveNum,tfAmount.getText(),getCurrentDateTime(),2,checkNum);
-                    case "checkings" -> String.format("BEGIN;~" + 
+                    case "checking" -> String.format("BEGIN;~" + 
                                                      "INSERT INTO TRANSACTION_HISTORY(ACCOUNTID,AMOUNT,DATE,TYPE,EFFECTED_ACC) " +
                                                      "VALUES ('%1$s','-%2$s','%3$s','%4$s','%1$s');", checkNum,tfAmount.getText(),getCurrentDateTime(),2,saveNum);
                     default -> "";
@@ -274,7 +274,7 @@ public class clientInfoController extends GUIOperation implements Initializable
         cbTranFrom.getItems().addAll(types);
         cbTranTo.getItems().addAll(types);
         cbTranType.setOnAction(this::release);
-        btnCheckings.setOnAction(this::checkings);
+        btnChecking.setOnAction(this::checking);
         btnSavings.setOnAction(this::savings);
         btnSubmit.setOnAction(this::submit);
         btnLogout.setOnAction(this::logout);

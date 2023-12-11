@@ -114,7 +114,7 @@
                <children>
                   <TableView id="infotable" fx:id="tvTable" layoutX="218.0" layoutY="38.0" prefHeight="200.0" prefWidth="539.0">
                     <columns>
-                        <TableColumn id="column" fx:id="colFrom" prefWidth="545.0" text="Transactions From Checkings">
+                        <TableColumn id="column" fx:id="colFrom" prefWidth="545.0" text="Transactions From Checking">
                            <columns>
                               <TableColumn id="column" fx:id="colID" prefWidth="60.0" text="ID" />
                             <TableColumn id="column" fx:id="colAmount" prefWidth="168.0" text="Amount" />
@@ -124,7 +124,7 @@
                         </TableColumn>
                     </columns>
                   </TableView>
-                  <Button id="btn" fx:id="btnCheckings" layoutX="50.0" layoutY="110.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="101.0" text="Checkings" />
+                  <Button id="btn" fx:id="btnChecking" layoutX="50.0" layoutY="110.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="101.0" text="Checking" />
                   <Button id="btn" fx:id="btnSavings" layoutX="50.0" layoutY="52.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="101.0" text="Savings" />
                   <ImageView fitHeight="50.0" fitWidth="150.0" layoutX="26.0" layoutY="181.0" pickOnBounds="true" preserveRatio="true">
                      <image>
