@@ -34,7 +34,7 @@ public class TellerInfoController extends GUIOperation implements Initializable
     @FXML
     private TextArea tfReason;
     @FXML
-    private Button btnDelete,btnDeleteAccount,btnExit;
+    private Button btnDelete,btnDeleteAccount,btnExit,btnRefresh;
     @FXML
     private Text txtAccount,txtCheckings,txtMember,txtMemberDate,txtSavings;
     private String buffer,currentAccount;
@@ -189,6 +189,12 @@ public class TellerInfoController extends GUIOperation implements Initializable
         }
         refreshPage();  
     }
+
+    private void refreshEvent(ActionEvent e)
+    {
+         refreshPage();
+    }
+
     /**
      * Uses to load data onto client bank information on  info screen
      */
@@ -269,6 +275,7 @@ public class TellerInfoController extends GUIOperation implements Initializable
         btnExit.setOnAction(this::exitScene);
         btnDeleteAccount.setOnAction(this::deleteUser);
         btnDelete.setOnAction(this::undoTransaction);
+        btnRefresh.setOnAction(this::refreshEvent);
     }
 
     protected class Transaction

@@ -96,6 +96,7 @@
                   </TableColumn>
               </columns>
             </TableView>
+            <Button id="btn" fx:id="btnRefresh" layoutX="373.0" layoutY="228.0" mnemonicParsing="false" text="Refresh" />
             <Button id="btn" fx:id="btnDelete" layoutX="200.0" layoutY="269.0" mnemonicParsing="false" text="DELETE" />
             <TextArea id="textBox" fx:id="tfReason" layoutX="89.0" layoutY="221.0" prefHeight="27.0" prefWidth="265.0" promptText="Reason for modification" />
          </children>

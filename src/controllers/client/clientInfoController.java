@@ -37,7 +37,7 @@ public class clientInfoController extends GUIOperation implements Initializable
     private TableView<Transaction> tvTable;
     @FXML
     private Text txtAcct, txtSaving, txtChecking, txtMemDate;
-    private String buffer, checkNum, saveNum;
+    private String buffer, checkNum, saveNum,currentDisplay ="Checkings";
     private ArrayList<Transaction> transactions;
     private ObservableList<Transaction> fromAccount  = FXCollections.observableArrayList();
     private String[] fields = {"Deposit","Withdrawal","Transfer"};
@@ -108,7 +108,7 @@ public class clientInfoController extends GUIOperation implements Initializable
                     break;
                 }
             }
-          setDiplay("Checkings");
+          setDiplay();
         }
         catch(Exception e)
         {
@@ -128,13 +128,13 @@ public class clientInfoController extends GUIOperation implements Initializable
        
     }
  
-    private void setDiplay(String type)
+    private void setDiplay()
     {
         
-        colFrom.setText("Transactions From " + type);
+        colFrom.setText("Transactions From " + currentDisplay);
         for(Transaction t: transactions)
         {
-            if(t.getType().toLowerCase().equals(type.toLowerCase()))
+            if(t.getType().toLowerCase().equals(currentDisplay.toLowerCase()))
             {
                 fromAccount.add(t);
             }
@@ -149,15 +149,17 @@ public class clientInfoController extends GUIOperation implements Initializable
     // display checking info
     private void checkings(ActionEvent event)
     {
+        currentDisplay ="Checkings";
         fromAccount.clear();
-        setDiplay("Checkings");
+        setDiplay();
     }
 
     // display savings info
     private void savings(ActionEvent event)
     {
+        currentDisplay ="Savings";
         fromAccount.clear();
-        setDiplay("Savings");
+        setDiplay();
     }
 
     // submit changes (transfer, withdrawl, deposit) made to bank account
