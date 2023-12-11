@@ -19,8 +19,6 @@ import java.io.File;
 import java.io.IOException;
 import javafx.scene.Node;
 
-
-
 public class clientLoginController extends GUIOperation implements Initializable 
 {
     @FXML
@@ -80,13 +78,11 @@ public class clientLoginController extends GUIOperation implements Initializable
                 clientInfoController cic = loader.getController();
                 cic.setLoggedInName(tokens[3]);
                 // add setters and set
-
-
-
-
+               
                 Scene sc = new Scene(root);
                 Stage st = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 st.setScene(sc); // Use setScene to set the new scene on the stage
+                cic.refresh();
                 st.show();
                 
             }

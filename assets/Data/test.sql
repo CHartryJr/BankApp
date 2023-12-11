@@ -8,3 +8,4 @@
 --     (SELECT ID FROM BANK_ACCOUNT WHERE USERNAME = 'Tupae Man') AS B_ID,
 --     (SELECT ID FROM MEMBER WHERE FNAME = 'Donald' AND LNAME = 'Trump') AS M_ID;
 
+

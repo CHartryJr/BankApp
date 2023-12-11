@@ -14,7 +14,7 @@
       <AnchorPane id="main" layoutX="10.0" layoutY="8.0" prefHeight="303.0" prefWidth="301.0">
          <children>
             <Button id="btn" fx:id="btnCAcct" layoutX="100.0" layoutY="253.0" mnemonicParsing="false" text="create account" />
-            <Button id="btn" fx:id="btnLogin" layoutX="128.0" layoutY="212.0" mnemonicParsing="false" text="login" />
+            <Button id="btn" fx:id="btnLogin" layoutX="128.0" layoutY="212.0" mnemonicParsing="false" text="log in" />
             <PasswordField id="textBox" fx:id="tfPassword" layoutX="70.0" layoutY="171.0" promptText="enter password" />
             <TextField id="textBox" fx:id="tfUsername" layoutX="70.0" layoutY="123.0" promptText="enter username" />
             <ImageView fitHeight="108.0" fitWidth="116.0" layoutX="93.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">

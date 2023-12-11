@@ -22,10 +22,10 @@
                <children>
                   <AnchorPane id="secondLoc" layoutX="275.0" layoutY="27.0" prefHeight="221.0" prefWidth="482.0">
                      <children>
-                        <ChoiceBox fx:id="cbTranType" layoutX="31.0" layoutY="68.0" prefWidth="150.0" />
+                        <ChoiceBox fx:id="cbTranType" layoutX="21.0" layoutY="69.0" prefHeight="26.0" prefWidth="175.0" />
                         <TextField id="textBox" fx:id="tfAmount" layoutX="19.0" layoutY="125.0" prefHeight="28.0" prefWidth="175.0" promptText="enter amount" />
-                        <Button id="btn" fx:id="btnSubmit" layoutX="77.0" layoutY="170.0" mnemonicParsing="false" text="submit" />
-                        <TextField id="textBox" fx:id="tfAcct" layoutX="221.0" layoutY="125.0" promptText="enter account" />
+                        <Button id="btn" fx:id="btnSubmit" layoutX="277.0" layoutY="171.0" mnemonicParsing="false" text="submit" />
+                        <TextField id="textBox" fx:id="tfTranFrom" layoutX="226.0" layoutY="67.0" promptText="transfer from" />
                         <Text layoutX="166.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New Transactions">
                            <font>
                               <Font size="20.0" />
@@ -37,6 +37,8 @@
                            </image>
                         </ImageView>
                         <AnchorPane id="main" layoutX="6.0" layoutY="48.0" prefHeight="8.0" prefWidth="472.0" />
+                        <Button id="btn" fx:id="btnLogout" layoutX="76.0" layoutY="170.0" mnemonicParsing="false" text="log out" />
+                        <TextField id="textBox" fx:id="tfTranTo" layoutX="225.0" layoutY="126.0" promptText="trasnfer to" />
                      </children>
                   </AnchorPane>
                   <AnchorPane id="secondLoc" layoutX="14.0" layoutY="26.0" prefHeight="221.0" prefWidth="202.0">
@@ -110,15 +112,14 @@
                </children></AnchorPane>
             <AnchorPane prefHeight="267.0" prefWidth="778.0">
                <children>
-                  <TableView id="infotable" fx:id="tvTable" layoutX="218.0" layoutY="38.0" prefHeight="200.0" prefWidth="541.0">
+                  <TableView id="infotable" fx:id="tvTable" layoutX="218.0" layoutY="38.0" prefHeight="200.0" prefWidth="539.0">
                     <columns>
-                        <TableColumn id="column" prefWidth="540.0" text="Transactions">
+                        <TableColumn id="column" fx:id="colFrom" prefWidth="545.0" text="Transactions From Checkings">
                            <columns>
                               <TableColumn id="column" fx:id="colID" prefWidth="60.0" text="ID" />
-                            <TableColumn id="column" fx:id="colAmount" prefWidth="136.0" text="Amount" />
-                            <TableColumn id="column" fx:id="colFrom" minWidth="0.0" prefWidth="99.0" text="From" />
-                              <TableColumn id="column" fx:id="colOperation" prefWidth="99.0" text="Operation" />
-                              <TableColumn id="column" fx:id="colDate" prefWidth="143.0" text="Date" />
+                            <TableColumn id="column" fx:id="colAmount" prefWidth="168.0" text="Amount" />
+                              <TableColumn id="column" fx:id="colOperation" prefWidth="128.0" text="Operation" />
+                              <TableColumn id="column" fx:id="colDate" prefWidth="179.0" text="Date" />
                            </columns>
                         </TableColumn>
                     </columns>
