@@ -5,6 +5,7 @@ import java.sql.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.Random;
 
 /**
  * @apiNote This program wil be used as a communication hub and will be the engine for query based operations
@@ -67,6 +68,8 @@ private class Communication implements Runnable
   private String buffer;
   private int identifier;
   private Connection con;
+  private Random rand = new Random();
+  private int publicKey =  rand.nextInt();
 
   private Communication(Socket clientSocket, int identifier, Connection con)
   {
@@ -83,14 +86,15 @@ private class Communication implements Runnable
     System.out.println("A new connection has been made from "+ clientIP.getHostAddress()); //debug only.
     try 
     {
-      writeTransaction(String.format(" You are Thread%d in the Que.I am ready for your requests ",identifier));
+      writeTransaction("key:"+publicKey);
       while(true)
       {
-          buffer = readTransaction();
+          buffer = decryption(readTransaction());
           if(buffer == null | buffer.toLowerCase().equals("exit"))
             break;
           lock.lock();
           buffer =  buffer.indexOf("BEGIN;") == -1 ?getResults(buffer) : updateDB(buffer);
+          buffer = encryption(buffer);
           Thread.sleep( 300);
           lock.unlock();
           writeTransaction(buffer);
@@ -152,6 +156,32 @@ private class Communication implements Runnable
     {
       e.printStackTrace();
     }
+  }
+
+  private String  encryption(String data)
+  {
+    char[] inputChars = data.toCharArray();
+        char[] xoredChars = new char[inputChars.length];
+
+        for (int i = 0; i < inputChars.length; i++) {
+            // XOR each character with the key
+            xoredChars[i] = (char) (inputChars[i] ^ publicKey);
+        }
+
+        return new String(xoredChars);
+
+  }
+
+  private String  decryption(String data)
+  {
+     char[] inputChars = data.toCharArray();
+        char[] xoredChars = new char[inputChars.length];
+
+        for (int i = 0; i < inputChars.length; i++) {
+            // XOR each character with the key
+            xoredChars[i] = (char) (inputChars[i] ^ publicKey);
+        }
+        return new String(xoredChars);
   }
 
     private String getResults(String query)

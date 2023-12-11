@@ -29,6 +29,7 @@ public class GUIOperation
   private boolean connected = false;
   private LocalDateTime currentDateTime;
   private DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:SS");
+  private int publicKey;
     
   protected String  getCurrentDateTime()
   {
@@ -53,6 +54,15 @@ public class GUIOperation
       
       BufferedReader input = new BufferedReader(new InputStreamReader(sock.getInputStream()));
       data = input.readLine();
+      if(data.contains("key:"))
+      {
+         publicKey = Integer.parseInt(data.split(":")[1]);
+      }
+      else
+      {
+        data = decryption(data);
+      }
+
       return data;
     } catch (Exception e) 
     {
@@ -68,6 +78,7 @@ public class GUIOperation
      */
     protected void writeData(String data) throws ConnectException
   {
+    data = encryption(data);
     if(connected == false)
         throw new ConnectException("Can not write must use Connect Method first");
      
@@ -153,4 +164,30 @@ public class GUIOperation
     {
         return currentUser;
     }
+
+    private String  encryption(String data)
+  {
+    char[] inputChars = data.toCharArray();
+        char[] xoredChars = new char[inputChars.length];
+
+        for (int i = 0; i < inputChars.length; i++) {
+            // XOR each character with the key
+            xoredChars[i] = (char) (inputChars[i] ^ publicKey);
+        }
+
+        return new String(xoredChars);
+
+  }
+
+  private String  decryption(String data)
+  {
+     char[] inputChars = data.toCharArray();
+        char[] xoredChars = new char[inputChars.length];
+
+        for (int i = 0; i < inputChars.length; i++) {
+            // XOR each character with the key
+            xoredChars[i] = (char) (inputChars[i] ^ publicKey);
+        }
+        return new String(xoredChars);
+  }
 }
