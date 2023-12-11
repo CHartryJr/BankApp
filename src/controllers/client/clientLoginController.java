@@ -76,8 +76,6 @@ public class clientLoginController extends GUIOperation implements Initializable
                 Parent root = loader.load();
                 clientInfoController cic = loader.getController();
                 cic.setLoggedInName(tokens[3]);
-                // add setters and set
-               
                 Scene sc = new Scene(root);
                 Stage st = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 st.setScene(sc); // Use setScene to set the new scene on the stage
