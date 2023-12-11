@@ -25,7 +25,6 @@
                         <ChoiceBox fx:id="cbTranType" layoutX="21.0" layoutY="69.0" prefHeight="26.0" prefWidth="175.0" />
                         <TextField id="textBox" fx:id="tfAmount" layoutX="19.0" layoutY="125.0" prefHeight="28.0" prefWidth="175.0" promptText="enter amount" />
                         <Button id="btn" fx:id="btnSubmit" layoutX="277.0" layoutY="171.0" mnemonicParsing="false" text="submit" />
-                        <TextField id="textBox" fx:id="tfTranFrom" layoutX="226.0" layoutY="67.0" promptText="transfer from" />
                         <Text layoutX="166.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New Transactions">
                            <font>
                               <Font size="20.0" />
@@ -38,7 +37,8 @@
                         </ImageView>
                         <AnchorPane id="main" layoutX="6.0" layoutY="48.0" prefHeight="8.0" prefWidth="472.0" />
                         <Button id="btn" fx:id="btnLogout" layoutX="76.0" layoutY="170.0" mnemonicParsing="false" text="log out" />
-                        <TextField id="textBox" fx:id="tfTranTo" layoutX="225.0" layoutY="126.0" promptText="trasnfer to" />
+                        <ChoiceBox fx:id="cbTranFrom" layoutX="225.0" layoutY="69.0" prefHeight="26.0" prefWidth="162.0" />
+                        <ChoiceBox fx:id="cbTranTo" layoutX="225.0" layoutY="126.0" prefHeight="26.0" prefWidth="162.0" />
                      </children>
                   </AnchorPane>
                   <AnchorPane id="secondLoc" layoutX="14.0" layoutY="26.0" prefHeight="221.0" prefWidth="202.0">

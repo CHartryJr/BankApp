@@ -26,13 +26,13 @@ public class clientInfoController extends GUIOperation implements Initializable
     @FXML
     private Button btnCheckings, btnSavings, btnSubmit, btnLogout;
     @FXML
-    private ChoiceBox<String> cbTranType;
+    private ChoiceBox<String> cbTranType, cbTranFrom, cbTranTo;
     @FXML
     private TableColumn<Transaction, Float> colAmount;
     @FXML
     private TableColumn<Transaction, String> colFrom, colID, colDate, colOperation;
     @FXML
-    private TextField tfTranFrom, tfTranTo, tfAmount;
+    private TextField tfAmount;
     @FXML
     private TableView<Transaction> tvTable;
     @FXML
@@ -41,6 +41,7 @@ public class clientInfoController extends GUIOperation implements Initializable
     private ArrayList<Transaction> transactions;
     private ObservableList<Transaction> fromAccount  = FXCollections.observableArrayList();
     private String[] fields = {"Deposit","Withdrawal","Transfer"};
+    private String[] types = {"Savings", "Checkings"};
 
     protected void refresh()
     {
@@ -174,14 +175,14 @@ public class clientInfoController extends GUIOperation implements Initializable
         }
         if (cbTranType.getValue().toLowerCase().equals("transfer"))
         {
-            if (tfTranFrom.getText().isEmpty() || tfTranTo.getText().isEmpty() || tfTranFrom.getText().equals(tfTranTo.getText()))
+            if (cbTranFrom.getValue().isEmpty() || cbTranTo.getValue().isEmpty() || cbTranFrom.getValue().equals(cbTranTo.getValue()))
             {
                 alert = new Alert(AlertType.INFORMATION);
                 alert.setContentText("Must enter in an account name");
                 alert.show();
                 return;
             }
-                if (tfTranFrom.getText().toLowerCase().equals("savings"))
+                if (cbTranFrom.getValue().toLowerCase().equals("savings"))
                 {
                     buffer = String.format("BEGIN;~" + 
                                        "INSERT INTO TRANSACTION_HISTORY(ACCOUNTID,AMOUNT,DATE,TYPE,EFFECTED_ACC) " + 
@@ -202,7 +203,7 @@ public class clientInfoController extends GUIOperation implements Initializable
         {
             if (cbTranType.getValue().toLowerCase().equals("deposit"))
             {
-                buffer = switch(tfTranTo.getText().toLowerCase())
+                buffer = switch(cbTranTo.getValue().toLowerCase())
                 {
                     case "savings" -> String.format("BEGIN;~" + 
                                                      "INSERT INTO TRANSACTION_HISTORY(ACCOUNTID,AMOUNT,DATE,TYPE,EFFECTED_ACC) " +
@@ -215,7 +216,7 @@ public class clientInfoController extends GUIOperation implements Initializable
             }// TRANSACTION_HISTORY  TRANSACTION_HISORY
             else
             {
-                buffer = switch(tfTranTo.getText().toLowerCase())
+                buffer = switch(cbTranTo.getValue().toLowerCase())
                 {
                     case "savings" -> String.format("BEGIN;~" + 
                                                      "INSERT INTO TRANSACTION_HISTORY(ACCOUNTID,AMOUNT,DATE,TYPE,EFFECTED_ACC)" +
@@ -256,18 +257,22 @@ public class clientInfoController extends GUIOperation implements Initializable
     private void release(ActionEvent e)
     {
         if(cbTranType.getValue().equals("Transfer"))
-            tfTranFrom.setVisible(true);
+            cbTranFrom.setVisible(true);
         else
-            tfTranFrom.setVisible(false);
+            cbTranFrom.setVisible(false);
         
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        tfTranFrom.setVisible(false);
+        cbTranFrom.setVisible(false);
         cbTranType.setValue("Select Transaction Type");
+        cbTranFrom.setValue("Transfer From");
+        cbTranTo.setValue("Transfer To");
         cbTranType.getItems().addAll(fields);
+        cbTranFrom.getItems().addAll(types);
+        cbTranTo.getItems().addAll(types);
         cbTranType.setOnAction(this::release);
         btnCheckings.setOnAction(this::checkings);
         btnSavings.setOnAction(this::savings);
@@ -280,7 +285,7 @@ public class clientInfoController extends GUIOperation implements Initializable
         private Float amount;
         private String date,type,oper,id,transAcc,effAcc;
             
-        public Transaction(String id, Float amount, String date, String type,String oper,String transAcc,String effAcc)
+        public Transaction(String id, Float amount, String date, String type, String oper, String transAcc, String effAcc)
         {
             this.effAcc = effAcc;
             this.transAcc = transAcc;
