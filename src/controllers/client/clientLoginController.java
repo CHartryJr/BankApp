@@ -80,6 +80,7 @@ public class clientLoginController extends GUIOperation implements Initializable
                 Stage st = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 st.setScene(sc); // Use setScene to set the new scene on the stage
                 cic.refresh();
+                st.setTitle("GCSU Credit Union Information Page");
                 st.show();
                 
             }
