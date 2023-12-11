@@ -13,7 +13,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class BankServer
 {
   private static AtomicInteger index = new AtomicInteger(1);//used to keep a index on all threads
-  private final static String HOST = "localhost";
+  private final static String HOST = "10.90.27.235"; //"localhost";
   private static Lock lock =  new ReentrantLock();
   private Connection con = null;
   public static void main(String[] args) 
