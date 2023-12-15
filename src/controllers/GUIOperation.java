@@ -22,7 +22,7 @@ public class GUIOperation
 {
   @FXML
   private Text textID;
-  protected String currentUser,host ="10.90.36.34"; //"localhost";// loop back until actual usage
+  protected String currentUser,host ="10.90.133.121"; //"localhost";// loop back until actual usage
   private int port = 5001;
   private Socket sock;
   protected Alert alert;
