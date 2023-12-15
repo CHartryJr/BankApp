@@ -23,7 +23,9 @@ For the teller (make bank_manager), when the guy for the login pops up the user 
 ## dependencies
 Java Develoment kit 21.0.1 [Site](https://www.oracle.com/java/technologies/downloads/#java21)
 JavaFX  21.0.1 [Site](https://gluonhq.com/products/javafx/)
+
 Jdbc 3.43.22 [site](https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc/3.43.2.2)
+
 sl4j 1.7.36 [site](https://mvnrepository.com/artifact/org.slf4j/slf4j-api)
 ## Contributing
 Carl Hartry Jr.
