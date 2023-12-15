@@ -22,6 +22,7 @@ After the server (make bank_server) has started, the client and/or teller may be
 For the teller (make bank_manager), when the guy for the login pops up the user is prompt a login for Teller-side information. After logging in the user is then given a search information page. With the Information page you can search though the users of the application using the search criteria: Account, First Name, and Last Name. Once the results show in the information table, the user can click on the account of interest. Once clicked the information based on account of interest will show. The user will have 4 options to decide from. You can delete the entire account of interest by pressing “delete account” under the user meta data on the left side of the window, press “delete” after selecting a transaction to undo, refreshing the page by pressing refresh or exiting the page by pressing exit.
 ## dependencies
 Java Develoment kit 21.0.1 [Site](https://www.oracle.com/java/technologies/downloads/#java21)
+
 JavaFX  21.0.1 [Site](https://gluonhq.com/products/javafx/)
 
 Jdbc 3.43.22 [site](https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc/3.43.2.2)
